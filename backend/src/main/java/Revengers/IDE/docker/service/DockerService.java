@@ -70,14 +70,18 @@ public class DockerService {
                 .getId();
     }
 
+    
+    // 도커 연결 확인
     public void test() {
         dockerClient.pingCmd().exec();
     }
 
+    // 이미지 리스트 출력
     public List<Image> imageList() {
         return dockerClient.listImagesCmd().exec();
     }
 
+    // 컨테이너 리스트 출력
     public List<Container> containerList() {
         return dockerClient.listContainersCmd().exec();
     }
