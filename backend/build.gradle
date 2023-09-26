@@ -24,7 +24,10 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation group: 'com.github.docker-java', name: 'docker-java', version: '3.2.1'//도커 자바 API
+	implementation 'com.github.docker-java:docker-java:3.3.3'//도커 자바 API
+	implementation 'com.github.docker-java:docker-java-api:3.3.3'//도커 자바 API
+	implementation 'com.github.docker-java:docker-java-transport-httpclient5:3.3.3'
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
