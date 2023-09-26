@@ -81,6 +81,6 @@ public class DockerService {
         dockerClient.pullImageCmd("repository")
                 .withTag("alpine:git")
                 .exec(new PullImageResultCallback())
-                .awaitCompletion(30, TimeUnit.SECONDS ) ;
+                .awaitCompletion(30, TimeUnit.SECONDS );
     }
 }
