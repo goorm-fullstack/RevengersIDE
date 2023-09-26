@@ -73,13 +73,18 @@ public class DockerService {
         dockerClient.pingCmd().exec();
     }
 
-    public List<Container> imageList() {
+    public List<Image> imageList() {
+        return dockerClient.listImagesCmd().exec();
+    }
+
+    public List<Container> containerList() {
         return dockerClient.listContainersCmd().exec();
     }
 
+    // 테스트 성공
     public void pullDockerImage() throws InterruptedException {
-        dockerClient.pullImageCmd("repository")
-                .withTag("alpine:git")
+        dockerClient.pullImageCmd("alpine")
+                .withTag("latest")
                 .exec(new PullImageResultCallback())
                 .awaitCompletion(30, TimeUnit.SECONDS );
     }

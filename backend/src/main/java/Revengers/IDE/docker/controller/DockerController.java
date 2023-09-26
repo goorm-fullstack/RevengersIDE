@@ -31,8 +31,13 @@ public class DockerController {
     }
     
     @GetMapping("/list")
-    public List<Container> imageList() {
+    public List<Image> imageList() {
         return dockerService.imageList();
+    }
+
+    @GetMapping("/container")
+    public List<Container> containerList() {
+        return dockerService.containerList();
     }
     
     @GetMapping("/pull")

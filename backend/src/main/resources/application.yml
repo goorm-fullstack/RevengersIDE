@@ -2,3 +2,10 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     username: sa
+
+
+docker:
+  value:
+    email : ${email}
+    password : ${password}
+    username : ${username}

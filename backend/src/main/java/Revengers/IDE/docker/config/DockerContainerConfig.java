@@ -11,6 +11,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,9 +19,21 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class DockerContainerConfig {
 
+    @Value("${docker.value.email}")
+    private String email;
+
+    @Value("${docker.value.password}")
+    private String password;
+
+    @Value("${docker.value.username}")
+    private String username;
+
     @Bean
     public DockerClient dockerClient() {
         DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
+                .withRegistryEmail(email)
+                .withRegistryPassword(password)
+                .withRegistryUsername(username)
                 .withDockerHost("tcp://127.0.0.1:2375")
                 .withDockerTlsVerify(false)
                 .build();
