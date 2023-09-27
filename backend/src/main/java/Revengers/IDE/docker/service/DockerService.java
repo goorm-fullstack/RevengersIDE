@@ -59,32 +59,37 @@ public class DockerService {
     }
 
     // 자바 컨테이너 생성
+    // 현재는 테스트용 코드입니다.
+    // 도커 컨테이너 생성 확인
     private String createJavaContainer() {
-        String image = dockerClient.buildImageCmd()
-                .withDockerfile(new File("./Dockerfile"))
-                .withTag("alpine:git")
-                .exec(new BuildImageResultCallback())
-                .awaitImageId();
-
-        return image;
+        return dockerClient.createContainerCmd("alpine")
+                .withCmd("ps")
+                .withName("test")
+                .withHostName("whitetkim")
+                .exec()
+                .getId();
     }
 
+    
+    // 도커 연결 확인
     public void test() {
         dockerClient.pingCmd().exec();
     }
 
+    // 이미지 리스트 출력
     public List<Image> imageList() {
         return dockerClient.listImagesCmd().exec();
     }
 
+    // 컨테이너 리스트 출력
     public List<Container> containerList() {
         return dockerClient.listContainersCmd().exec();
     }
 
     // 테스트 성공
     public void pullDockerImage() throws InterruptedException {
-        dockerClient.pullImageCmd("alpine")
-                .withTag("latest")
+        dockerClient.pullImageCmd("alpine")//사용하려는 이미지 이름인듯
+                .withTag("latest")//버전같은 정보
                 .exec(new PullImageResultCallback())
                 .awaitCompletion(30, TimeUnit.SECONDS );
     }
