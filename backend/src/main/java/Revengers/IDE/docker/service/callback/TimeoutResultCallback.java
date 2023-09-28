@@ -4,6 +4,10 @@ import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.StreamType;
 
+/**
+ * 필요하지 않는 클래스가 될 것 같습니다.
+ * 나중에 지우거나 일단 참고용으로 남겨두겠습니다.
+ */
 public class TimeoutResultCallback extends ResultCallbackTemplate<TimeoutResultCallback, Frame> {
 
     public static final int startIndex = StreamType.STDOUT.name().length()+2;
