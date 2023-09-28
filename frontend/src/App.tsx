@@ -4,6 +4,10 @@ import { GlobalStyle } from './Style/GlobalStyle';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import Home from './Container/Home/Home';
+import Login from './Container/Login/Login';
+import AdminHome from './Admin/AdminHome/AdminHome';
+import AdminLogin from './Admin/AdminLogin/AdminLogin';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -12,7 +16,12 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <p>index</p>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+      </Routes>
     </BrowserRouter>
   );
 }
