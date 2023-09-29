@@ -27,5 +27,20 @@ export const Header = styled.div`
 
   .right {
     font-size: 0.9375rem;
+
+    .guest {
+      a::before {
+        width: 1px;
+        height: 10px;
+        content: '';
+        background: ${(props) => props.theme.borderColor};
+        display: inline-block;
+        margin: 0 12px;
+      }
+
+      a:first-child::before {
+        display: none;
+      }
+    }
   }
 `;

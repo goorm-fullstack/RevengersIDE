@@ -16,14 +16,17 @@ const Header = () => {
           </Link>
         </h1>
         <div>
-          {/* theme button: dark mode(default) */}
+          {/* theme button: dark mode(default), 디자인 수정 예정 */}
           <button type="button" onClick={toggleTheme} className={isLight ? 'dark' : 'light'}>
             {isLight ? 'Dark 🌚 ' : 'Light 🌝'}
           </button>
         </div>
       </div>
       <div className="right">
-        <Link to="/login">로그인</Link>
+        <div className="guest">
+          <Link to="/login">로그인</Link>
+          <Link to="/signup">회원가입</Link>
+        </div>
       </div>
     </S.Header>
   );

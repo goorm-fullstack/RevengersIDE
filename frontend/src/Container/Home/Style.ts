@@ -30,6 +30,8 @@ export const Home = styled.div`
         content: '▶';
         font-size: 0.7rem;
         margin-right: 6px;
+        vertical-align: text-top;
+        line-height: 1.25;
       }
     }
   }
