@@ -1,6 +1,12 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -14,11 +20,9 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
 	border: 0;
-	font-size: 100%;
 	font: inherit;
+	font-size: 100%;
 	vertical-align: baseline;
 }
 
@@ -27,8 +31,16 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 
+html, body {
+	width: 100%;
+}
+
 body {
+	font-family: 'Roboto', 'Noto Sans KR', 'Arial', 'Malgun Gothic', 'Dotum', sans-serif;
 	line-height: 1;
+	background-color: ${({ theme }: any) => theme.bgColor};
+	color: ${({ theme }: any) => theme.textColor};
+	font-size: 16px;
 }
 
 ol, ul {
@@ -48,5 +60,10 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
 }
 `;
