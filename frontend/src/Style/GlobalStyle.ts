@@ -38,8 +38,8 @@ html, body {
 body {
 	font-family: 'Roboto', 'Noto Sans KR', 'Arial', 'Malgun Gothic', 'Dotum', sans-serif;
 	line-height: 1;
-	background-color: ${({ theme }: any) => theme.bgColor};
-	color: ${({ theme }: any) => theme.textColor};
+	background-color: ${(props) => props.theme.bgColor};
+	color: ${(props) => props.theme.textColor};
 	font-size: 16px;
 }
 
@@ -65,5 +65,13 @@ table {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+button {
+	color: inherit;
+
+	&[type="button"] {
+		cursor: pointer;
+	}
 }
 `;
