@@ -1,7 +1,9 @@
 package Revengers.IDE.docker.service;
 
+import Revengers.IDE.docker.exception.CustomInterruptedException;
 import Revengers.IDE.docker.model.CodeResult;
 import Revengers.IDE.docker.model.Docker;
+import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.repository.DockerRepository;
 import Revengers.IDE.docker.service.callback.TimeoutResultCallback;
 import Revengers.IDE.docker.source.model.Source;
@@ -14,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -61,11 +60,20 @@ public class DockerService {
 
     // 파이썬 컨테이너 생성
     private String createPythonContainer() {
-        CreateContainerResponse container = dockerClient.createContainerCmd("python")
-                .withHostConfig(hostConfig)
-                .exec();
+        System.out.println("call 1 - python");
+        return dockerClient.createContainerCmd("python:3.10.13-bookworm")
+                .withName("python_"+UUID.randomUUID().toString())
+                .withHostName(username)
+                .withTty(true)
+                .exec()
+                .getId();
+    }
 
-        return container.getId();
+    // 실제로 컨테이너에서 소스 코드를 실행하는 로직
+    public CodeResult runAsPython(String containerId, Source source) {
+        System.out.println("call 2 - python");
+        dockerClient.startContainerCmd(containerId).exec();
+        return compilePython(containerId, source);
     }
 
     // 자바 컨테이너 생성
@@ -99,7 +107,6 @@ public class DockerService {
         ResultCallbackTemplate resultCallbackTemplate = new TimeoutResultCallback(standardOutputLogs, standardErrorLogs, exceptions);//필요없을거 같네
         try {
             // Java 소스 코드를 컨테이너 내부에 저장
-
             ExecCreateCmdResponse saveSourceResponse = dockerClient.execCreateCmd(containerId)
                     .withCmd(saveSourceCommand)
                     .exec();
@@ -150,8 +157,75 @@ public class DockerService {
             codeResult.setExceptions(exceptions.toString());
         } catch (InterruptedException e) {
             codeResult.setExceptions("Execution interrupted: " + e.getMessage());
-            throw new RuntimeException("일단 미리 예외를 만들어두자");//나중에 적절한 예외를 만들어서 사용합시다.
+            throw new CustomInterruptedException("인터럽트 예외 발생");
         }
+        return codeResult;
+    }
+
+    /**
+     * 입력받은 자바 소스 코드를 컨테이너에 저장하고, 이를 컴파일한 후에 실행하는 로직
+     */
+    private CodeResult compilePython(String containerId, Source source) {
+        CodeResult codeResult = new CodeResult();
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName()};// 파일 이동 명령
+        String[] runCommand = {"sh", "-c", "python3 /usr/src/" + source.getFileName()};// 컴파일 명령
+        StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
+        StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
+        StringBuilder exceptions = new StringBuilder();// 예외 출력
+        ResultCallbackTemplate resultCallbackTemplate = new TimeoutResultCallback(standardOutputLogs, standardErrorLogs, exceptions);//필요없을거 같네
+        try {
+            // Python 코드를 저장
+            ExecCreateCmdResponse saveSourceResponse = dockerClient.execCreateCmd(containerId)
+                    .withCmd(saveSourceCommand)
+                    .withAttachStdout(true)
+                    .withAttachStderr(true)
+                    .exec();
+            boolean sourceSaved = dockerClient.execStartCmd(saveSourceResponse.getId()).exec(resultCallbackTemplate).awaitCompletion(5, TimeUnit.SECONDS);
+
+            // Python 코드 실행 -> 파이썬은 스크립트 언어라서 따로 컴파일 과정이 없습니다. 참고
+            ExecCreateCmdResponse runResponse = dockerClient.execCreateCmd(containerId)
+                    .withAttachStdout(true)
+                    .withAttachStderr(true)
+                    .withAttachStdin(true) // stdin 활성화
+                    .withTty(true) // TTY 활성화
+                    .withCmd(runCommand)
+                    .exec();
+            boolean runSuccess = dockerClient.execStartCmd(runResponse.getId())
+                    .exec(new ResultCallback.Adapter<>() {  // 일단은 Deprecated된 인터페이스나 클래스를 사용하는 것은 좋지 않을 것 같습니다.
+                        /**
+                         * Object의 데이터 형식
+                         * StreamType() : 위에서 사용설정한 STDOUT, STDERR
+                         * 결과값은 바이트 단위로 출력된다. 바이트 값 -> 문자 값으로 변환 로직 추가
+                         */
+                        @Override
+                        public void onNext(Frame object) {
+                            //System.out.println(object);  //for example
+                            if(object.getStreamType().name().equals("STDOUT")) {
+                                byte[] data = object.getPayload();// 실행 출력값
+                                String output = new String(data, UTF_8);//변환
+                                standardOutputLogs.append(output);
+                            } else if(object.getStreamType().name().equals("STDERR")) {
+                                byte[] data = object.getPayload();// 에러 출력값
+                                String output = new String(data, UTF_8);//변환
+                                standardErrorLogs.append(output);
+                            }
+                        }
+                    })
+                    .awaitCompletion(60, TimeUnit.SECONDS);
+            System.out.println("call 5 - python");
+
+
+            if (!sourceSaved || !runSuccess) {
+                codeResult.setExceptions("Code execution failed.");
+            }
+            codeResult.setStandardOutput(standardOutputLogs.toString());
+            codeResult.setStandardError(standardErrorLogs.toString());
+            codeResult.setExceptions(exceptions.toString());
+        } catch (InterruptedException e) {
+            codeResult.setExceptions("Execution interrupted: " + e.getMessage());
+            throw new CustomInterruptedException("인터럽트 예외 발생");
+        }
+        System.out.println("call 6 - python");
         return codeResult;
     }
 
@@ -174,11 +248,40 @@ public class DockerService {
                 .exec();
     }
 
-    // 테스트 성공
-    public void pullDockerImage() throws InterruptedException {
-        dockerClient.pullImageCmd("openjdk")//사용하려는 이미지 이름인듯
-                .withTag("22-ea-16-jdk")//버전같은 정보
-                .exec(new PullImageResultCallback())
-                .awaitCompletion(30, TimeUnit.SECONDS );
+    // 사용자 요청에 맞는 이미지를 가져옵니다.
+    // 관리자 기능에 추가하여 더 다양한 기능을 추가할 수 있을듯?
+    public void pullDockerImage(RequestImage image) {
+        try {
+            dockerClient.pullImageCmd(image.getRepository())//사용하려는 이미지 이름인듯
+                    .withTag(image.getTage())//버전같은 정보
+                    .exec(new PullImageResultCallback())
+                    .awaitCompletion(30, TimeUnit.SECONDS );
+        } catch (InterruptedException e) {
+            throw new CustomInterruptedException("인터럽트 예외가 발생했습니다.");
+        }
+    }
+
+    // 자바 이미지 요청
+    public void pullDockerJavaImage() {
+        try {
+            dockerClient.pullImageCmd("openjdk")//사용하려는 이미지 이름인듯
+                    .withTag("22-ea-16-jdk")//버전같은 정보
+                    .exec(new PullImageResultCallback())
+                    .awaitCompletion(30, TimeUnit.SECONDS );
+        } catch (InterruptedException e) {
+            throw new CustomInterruptedException("인터럽트 예외가 발생했습니다.");
+        }
+    }
+
+    // 파이썬 이미지 가져오기
+    public void pullDockerPythonImage() throws InterruptedException {
+        try {
+            dockerClient.pullImageCmd("python")//사용하려는 이미지 이름인듯
+                    .withTag("3.10.13-bookworm")//버전같은 정보
+                    .exec(new PullImageResultCallback())
+                    .awaitCompletion(30, TimeUnit.SECONDS );
+        } catch (InterruptedException e) {
+            throw new CustomInterruptedException("인터럽트 예외가 발생했습니다.");
+        }
     }
 }
