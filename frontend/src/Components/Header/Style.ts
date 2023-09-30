@@ -13,17 +13,6 @@ export const Header = styled.header`
     // 로고 있는 영역
     display: flex;
 
-    h1 {
-      // 로고
-      font-size: 1.25rem;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 300;
-
-      strong {
-        font-weight: 600;
-      }
-    }
-
     .darkmodew {
       display: flex;
       align-items: center;
@@ -71,6 +60,14 @@ export const Header = styled.header`
 
   .right {
     font-size: 0.9375rem;
+
+    & > div {
+      display: none;
+    }
+
+    & > div[data-isactive='true'] {
+      display: block;
+    }
 
     .guest {
       // 로그인 안 했을 때

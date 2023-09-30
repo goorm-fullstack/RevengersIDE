@@ -13,8 +13,8 @@ export const Chat = styled.div`
     background-color: ${(props) => props.theme.bgPanel};
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
     padding: 0 20px;
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
 
     span {
       // 채팅 인원
