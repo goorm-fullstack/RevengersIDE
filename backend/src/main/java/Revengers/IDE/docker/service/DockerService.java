@@ -11,12 +11,11 @@ import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -32,10 +31,10 @@ public class DockerService {
     private final DockerRepository dockerRepository;
 
 
-    @Value("${username")
+    @Value("${username}")
     private String username;
 
-    public Docker createDockerImage(String options) {
+    public Docker createDockerImage(String options) throws IOException, InterruptedException {
         String containerId = createContainer(options);
         Docker docker = Docker.builder()
                 .containerId(containerId)
