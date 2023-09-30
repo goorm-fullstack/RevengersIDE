@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +36,7 @@ public class DockerService {
     @Value("${username}")
     private String username;
 
-    public Docker createDockerImage(String options) throws IOException, InterruptedException {
+    public Docker createDockerImage(String options) {
         String containerId = createContainer(options);
         Docker docker = Docker.builder()
                 .containerId(containerId)
@@ -46,7 +47,7 @@ public class DockerService {
 
 
     // 사용자가 선택한 언어로 컨테이너를 생성
-    private String createContainer(String options) throws InterruptedException, IOException {
+    private String createContainer(String options) {
         String containerId = "";//컨테이너 아이디
         switch (options) {
             case "java" :
@@ -100,8 +101,8 @@ public class DockerService {
      */
     private CodeResult compileJava(String containerId, Source source) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName()};// 파일 이동 명령
-        String[] compileCommand = {"sh", "-c", "javac /usr/src/" + source.getFileName()};// 컴파일 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName() + ".java"};// 파일 이동 명령
+        String[] compileCommand = {"sh", "-c", "javac /usr/src/" + source.getFileName() + ".java"};// 컴파일 명령
         String[] runCommand = {"sh", "-c","java /usr/src/" + source.getFileName()};// 실행 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
