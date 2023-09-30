@@ -26,5 +26,23 @@ export const Footer = styled.footer`
       fill: ${(props) => props.theme.textColor};
       width: 16px;
     }
+
+    &[data-isactive='true'] {
+      svg {
+        fill: ${(props) => props.theme.primary};
+      }
+    }
+  }
+
+  .right {
+    position: relative;
+  }
+
+  .chatcontainer {
+    display: none;
+
+    &[data-isactive='true'] {
+      display: block;
+    }
   }
 `;

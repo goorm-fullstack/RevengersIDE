@@ -15,10 +15,10 @@ const Header = () => {
             <strong>REVENGERS</strong> IDE
           </Link>
         </h1>
-        <div>
-          {/* theme button: dark mode(default), 디자인 수정 예정 */}
+        <div className="darkmodew">
+          {/* theme button: dark mode(default) */}
           <button type="button" onClick={toggleTheme} className={isLight ? 'dark' : 'light'}>
-            {isLight ? 'Dark 🌚 ' : 'Light 🌝'}
+            <span>{/** 해/달 아이콘 영역 */}</span>
           </button>
         </div>
       </div>

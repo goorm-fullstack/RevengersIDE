@@ -26,7 +26,9 @@ const Home = () => {
         </div>
         <div className="wrapper">
           <ul className="tab">
-            <li>터미널</li>
+            <li>
+              <h2>터미널</h2>
+            </li>
           </ul>
           <div className="terminal">{/** 터미널 영역 */}</div>
         </div>

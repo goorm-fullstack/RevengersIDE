@@ -74,4 +74,8 @@ button {
 		cursor: pointer;
 	}
 }
+
+textarea {
+	font-family: inherit;
+}
 `;
