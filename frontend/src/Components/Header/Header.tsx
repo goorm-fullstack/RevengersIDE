@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './Style';
-import { ThemeContext, ThemeContextProps } from '../../App';
+import { ThemeContext, ThemeContextProps } from '../../Container/Home/Home';
 // 미사용으로 체크되지만 ThemeContextProps(type 정의) 값도 있어야 합니다. => import에서 삭제 금지
 
 const Header = () => {

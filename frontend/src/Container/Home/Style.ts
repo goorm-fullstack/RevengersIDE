@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const Home = styled.div`
   padding-bottom: 40px;
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
 
   .editor {
     // 코드 편집기 영역

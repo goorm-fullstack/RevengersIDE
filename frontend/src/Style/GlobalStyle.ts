@@ -38,8 +38,8 @@ html, body {
 body {
 	font-family: 'Roboto', 'Noto Sans KR', 'Arial', 'Malgun Gothic', 'Dotum', sans-serif;
 	line-height: 1;
-	background-color: ${(props) => props.theme.bgColor};
-	color: ${(props) => props.theme.textColor};
+	background-color: white;
+	color: #111;
 	font-size: 16px;
 }
 
