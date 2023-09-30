@@ -1,17 +1,20 @@
 package Revengers.IDE.docker.controller;
 
-import Revengers.IDE.docker.dto.request.RequestCompileDto;
+import Revengers.IDE.docker.model.CodeResult;
 import Revengers.IDE.docker.model.Docker;
 import Revengers.IDE.docker.service.DockerService;
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import Revengers.IDE.docker.source.model.Source;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.core.command.LogContainerResultCallback;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,8 +29,17 @@ public class DockerController {
     private final DockerService dockerService;
 
     @GetMapping("/java")
-    public String createJavaContainer() throws InterruptedException, IOException {
-        Docker dockerImage = dockerService.createDockerImage("openjdk", "java");
+    public ResponseEntity<CodeResult> createJavaContainer(@RequestBody Source source) {
+        Docker dockerImage = dockerService.createDockerImage("java");
+        String containerId = dockerImage.getContainerId();
+        CodeResult codeResult = dockerService.runAsJava(containerId, source);
+
+        return ResponseEntity.ok(codeResult);
+    }
+
+    @GetMapping("/python")
+    public String createPythonContainer() {
+        Docker dockerImage = dockerService.createDockerImage("python");
         return dockerImage.getContainerId();
     }
 
