@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 
 export const Home = styled.div`
+  padding-bottom: 40px;
+
   .editor {
     // 코드 편집기 영역
-    height: 65vh;
+    height: 55vh;
+  }
+
+  .terminal {
+    // 터미널 세로 크기: 화면 크기 세로 길이 - 코드 편집기 - header, 실행탭, 터미널탭, footer 사이즈 제외
+    height: calc(100vh - 55vh - (60px + 40px + 40px + 40px));
   }
 
   .tab {

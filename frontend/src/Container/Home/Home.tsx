@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import * as S from './Style';
 import Header from '../../Components/Header/Header';
+import Footer from '../../Components/Footer/Footer';
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 import { ThemeContext, ThemeContextProps } from '../../App';
 // 미사용으로 체크되지만 ThemeContextProps(type 정의) 값도 있어야 합니다. => import에서 삭제 금지
@@ -30,6 +31,7 @@ const Home = () => {
           <div className="terminal">{/** 터미널 영역 */}</div>
         </div>
       </div>
+      <Footer />
     </S.Home>
   );
 };
