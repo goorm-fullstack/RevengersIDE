@@ -62,20 +62,21 @@ table {
 	border-spacing: 0;
 }
 
-a {
+a, button, input, select {
 	color: inherit;
+	font-family: inherit;
+}
+
+a {
 	text-decoration: none;
 }
 
 button {
-	color: inherit;
-
-	&[type="button"] {
-		cursor: pointer;
-	}
+	cursor: pointer;
 }
 
 textarea {
 	font-family: inherit;
 }
+
 `;

@@ -5,16 +5,18 @@ import Logo from '../../Components/Logo/Logo';
 const SignUp = () => {
   return (
     <S.SignUp>
-      <Logo />
-      <div>
-        <form>
-          <input type="text" placeholder="ID"></input>
-          <input type="text" placeholder="Name"></input>
-          <input type="password" placeholder="Password"></input>
-          <input type="password" placeholder="Confirm Password"></input>
-          <input type="text" placeholder="Email"></input>
-          <button type="submit">회원가입</button>
-        </form>
+      <div className="w">
+        <Logo />
+        <div>
+          <form>
+            <input type="text" placeholder="아이디"></input>
+            <input type="text" placeholder="고객명"></input>
+            <input type="password" placeholder="비밀번호"></input>
+            <input type="password" placeholder="비밀번호 확인"></input>
+            <input type="text" placeholder="이메일"></input>
+            <button type="submit">회원가입</button>
+          </form>
+        </div>
       </div>
     </S.SignUp>
   );

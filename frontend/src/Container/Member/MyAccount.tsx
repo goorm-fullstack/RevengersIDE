@@ -6,22 +6,21 @@ import Logo from '../../Components/Logo/Logo';
 const MyAccount = () => {
   return (
     <S.MyAccount>
-      <div>
+      <div className="w">
         <Logo />
-      </div>
-      <div>
-        <h2>My Account</h2>
-        <form>
-          <input type="text" placeholder="ID"></input>
-          <input type="text" placeholder="Name"></input>
-          <input type="password" placeholder="Password"></input>
-          <input type="password" placeholder="Confirm Password"></input>
-          <input type="text" placeholder="Email"></input>
-          <button type="submit">회원정보수정</button>
-        </form>
-        <p>
-          <Link to="/">탈퇴하기</Link>
-        </p>
+        <div>
+          <form>
+            <input type="text" placeholder="아이디"></input>
+            <input type="text" placeholder="고객명"></input>
+            <input type="password" placeholder="비밀번호"></input>
+            <input type="password" placeholder="비밀번호 확인"></input>
+            <input type="text" placeholder="이메일"></input>
+            <button type="submit">회원정보수정</button>
+          </form>
+          <p className="link">
+            <Link to="/">탈퇴하기</Link>
+          </p>
+        </div>
       </div>
     </S.MyAccount>
   );
