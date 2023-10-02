@@ -6,7 +6,7 @@ import Revengers.IDE.docker.model.Docker;
 import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.repository.DockerRepository;
 import Revengers.IDE.docker.service.callback.TimeoutResultCallback;
-import Revengers.IDE.docker.source.model.Source;
+import Revengers.IDE.source.model.Source;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.async.ResultCallbackTemplate;
@@ -98,9 +98,9 @@ public class DockerService {
      */
     private CodeResult compileJava(String containerId, Source source) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName()};// 파일 이동 명령
-        String[] compileCommand = {"sh", "-c", "javac /usr/src/" + source.getFileName()};// 컴파일 명령
-        String[] runCommand = {"sh", "-c","java /usr/src/" + source.getFileName()};// 실행 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.java"};// 파일 이동 명령
+        String[] compileCommand = {"sh", "-c", "javac /usr/src/Main.java"};// 컴파일 명령
+        String[] runCommand = {"sh", "-c","java /usr/src/Main.java"};// 실행 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
         StringBuilder exceptions = new StringBuilder();// 예외 출력
@@ -167,8 +167,8 @@ public class DockerService {
      */
     private CodeResult compilePython(String containerId, Source source) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName()};// 파일 이동 명령
-        String[] runCommand = {"sh", "-c", "python3 /usr/src/" + source.getFileName()};// 컴파일 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.py"};// 파일 이동 명령
+        String[] runCommand = {"sh", "-c", "python3 /usr/src/Main.py"};// 컴파일 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
         StringBuilder exceptions = new StringBuilder();// 예외 출력

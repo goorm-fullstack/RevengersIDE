@@ -4,15 +4,12 @@ import Revengers.IDE.docker.model.CodeResult;
 import Revengers.IDE.docker.model.Docker;
 import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.service.DockerService;
-import Revengers.IDE.docker.source.model.Source;
+import Revengers.IDE.source.model.Source;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class DockerController {
 
     private final DockerService dockerService;
 
-    @GetMapping("/java")
+    @PostMapping("/java")
     public ResponseEntity<CodeResult> createJavaContainer(@RequestBody Source source) {
         Docker dockerImage = dockerService.createDockerImage("java");
         String containerId = dockerImage.getContainerId();
@@ -32,7 +29,7 @@ public class DockerController {
         return ResponseEntity.ok(codeResult);
     }
 
-    @GetMapping("/python")
+    @PostMapping("/python")
     public ResponseEntity<CodeResult> createPythonContainer(@RequestBody Source source) {
         Docker dockerImage = dockerService.createDockerImage("python");
         String containerId = dockerImage.getContainerId();
@@ -41,6 +38,10 @@ public class DockerController {
         return ResponseEntity.ok(codeResult);
     }
 
+    /**
+     * 도커 연결 테스트용 코드입니다.
+     * 이 부분을 호출하고, 오류가 발생한다면 도커와 연결이 이루어지지 않았습니다.
+     */
     @GetMapping("/test")
     public String test() {
         dockerService.test();
