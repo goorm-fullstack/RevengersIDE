@@ -34,6 +34,10 @@ const Home = () => {
           <div className="container">
             <div className="wrapper run">
               <div className="tab">
+                <select>
+                  <option value="java">JAVA</option>
+                  <option value="python">Python</option>
+                </select>
                 <button type="button">실행</button>
                 {/** 일단 type button 후에 type은 변경될 수 있음 */}
               </div>
