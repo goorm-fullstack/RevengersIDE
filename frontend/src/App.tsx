@@ -10,6 +10,8 @@ import SignUp from './Container/Member/SignUp';
 import MyAccount from './Container/Member/MyAccount';
 import AdminHome from './Admin/AdminHome/AdminHome';
 import AdminLogin from './Admin/AdminLogin/AdminLogin';
+import AdminMember from "./Admin/AdminManage/AdminMember";
+import AdminGroup from "./Admin/AdminManage/AdminGroup";
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -25,6 +27,9 @@ function App() {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/member" element={<AdminMember />} />
+        <Route path="/admin/group" element={<AdminGroup />} />
+
       </Routes>
     </BrowserRouter>
   );
