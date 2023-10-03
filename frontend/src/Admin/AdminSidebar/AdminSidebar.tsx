@@ -1,5 +1,6 @@
 import React from 'react';
 import * as S from './Style';
+import {Link} from "react-router-dom";
 
 const AdminSidebar = () => {
   const Logout = () => {
@@ -20,11 +21,10 @@ const AdminSidebar = () => {
 
             <h3>회원 관리</h3>
             <ul>
-              <li>회원 관리</li>
+              <li><Link to="/admin/member/">회원 관리</Link></li>
               <li>그룹 관리</li>
             </ul>
           </ul>
-
         </div>
       </S.Sidebar>
   );

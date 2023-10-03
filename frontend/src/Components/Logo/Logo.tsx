@@ -10,7 +10,7 @@ const Logo: React.FC<LogoProps> = ({ isAdmin }) => {
     return (
         <S.Logo>
             <Link to={isAdmin ? '/admin/login' : '/'}>
-                <strong>REVENGERS</strong> IDE
+                <strong>REVENGERS</strong> IDE {isAdmin ? <strong>ADMIN</strong> : ''}
             </Link>
         </S.Logo>
     );
