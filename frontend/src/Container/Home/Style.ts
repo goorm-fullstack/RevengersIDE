@@ -25,11 +25,18 @@ export const Home = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
     background-color: ${(props) => props.theme.bgPanel};
     font-size: 0.875rem;
+
+    select {
+      color: ${(props) => props.theme.textColor};
+      background: ${(props) => props.theme.bgPanel};
+      border: 0;
+    }
   }
 
   .run {
     .tab {
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
     }
     button {
       border: 0;
