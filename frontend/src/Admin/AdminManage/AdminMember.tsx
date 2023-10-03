@@ -5,7 +5,6 @@ import Footer from "../../Components/Footer/Footer";
 const AdminMember = () => {
     return <div>
         <AdminSidebar />
-
             <table>
                 <th><input type="checkbox" /></th>
                 <th>번호</th>
