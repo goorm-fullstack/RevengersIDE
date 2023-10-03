@@ -6,7 +6,7 @@ const SignUp = () => {
   return (
     <S.SignUp>
       <div className="w">
-        <Logo />
+        <Logo isAdmin={false}/>
         <div>
           <form>
             <input type="text" placeholder="아이디"></input>

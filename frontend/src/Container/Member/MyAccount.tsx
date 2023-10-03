@@ -7,7 +7,7 @@ const MyAccount = () => {
   return (
     <S.MyAccount>
       <div className="w">
-        <Logo />
+        <Logo isAdmin={false}/>
         <div>
           <form>
             <input type="text" placeholder="아이디"></input>

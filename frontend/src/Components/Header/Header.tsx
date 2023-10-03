@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <S.Header>
       <div className="left">
-        <Logo />
+        <Logo isAdmin={false}/>
         <div className="darkmodew">
           {/* theme button: dark mode(default) */}
           <button type="button" onClick={toggleTheme} className={isLight ? 'dark' : 'light'}>

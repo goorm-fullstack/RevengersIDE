@@ -7,7 +7,7 @@ const Login = () => {
   return (
     <S.Login>
       <div className="w">
-        <Logo />
+        <Logo isAdmin={false} />    {/* 관리자의 로그인인지 확인 변수 전송 */}
         <div>
           <form>
             <input type="text" placeholder="아이디"></input>
