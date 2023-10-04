@@ -4,7 +4,7 @@ import { lightTheme, darkTheme } from '../../Style/theme';
 import * as S from './Style';
 import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
-import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 
 // 다른 컴포넌트와 테마 전환 설정 공유
 export interface ThemeContextProps {

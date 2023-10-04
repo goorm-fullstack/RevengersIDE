@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as S from './Style';
@@ -13,7 +13,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
         console.log(response.data);
       })
