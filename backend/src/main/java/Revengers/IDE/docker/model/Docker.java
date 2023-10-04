@@ -13,6 +13,7 @@ public class Docker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String containerId;//컨테이너 이름
+    private String langType;
 
     /*
     @OneToMany
@@ -20,7 +21,8 @@ public class Docker {
     */
 
     @Builder
-    public Docker(String containerId) {
+    public Docker(String containerId, String langType) {
         this.containerId = containerId;
+        this.langType = langType;
     }
 }
