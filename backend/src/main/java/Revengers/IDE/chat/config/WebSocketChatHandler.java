@@ -2,6 +2,7 @@ package Revengers.IDE.chat.config;
 
 import Revengers.IDE.chat.model.ChatDTO;
 import Revengers.IDE.chat.model.ChatRoom;
+import Revengers.IDE.chat.repository.ChatMessageRepository;
 import Revengers.IDE.chat.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
