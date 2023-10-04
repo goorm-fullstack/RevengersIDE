@@ -3,6 +3,8 @@ package Revengers.IDE.chat.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class ChatDTO {
@@ -15,5 +17,5 @@ public class ChatDTO {
     private String roomId; // 방 번호
     private String sender; // 채팅 보낸사람
     private String message; // 채팅 메시지
-    private String time; // 채팅 발송시간
+    private LocalDateTime time; // 채팅 발송시간
 }

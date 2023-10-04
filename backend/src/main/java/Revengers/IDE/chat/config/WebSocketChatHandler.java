@@ -11,6 +11,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.Map;
+import java.util.UUID;
+
 
 @Slf4j
 @Component
@@ -19,6 +22,18 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     private final ObjectMapper mapper;
     private final ChatService service;
+
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        Map<String, Object> attributes = session.getAttributes();
+        if (attributes.containsKey("loginUser")) {
+            String username = (String) attributes.get("loginUser"); // DB에서 가져온 사용자 아이디 (아직 시큐리티x)
+            attributes.put("username", username);
+        } else {
+            String randomUsername = UUID.randomUUID().toString().substring(0, 8);
+            attributes.put("username", randomUsername);
+        }
+    }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
