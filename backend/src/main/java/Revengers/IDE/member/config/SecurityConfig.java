@@ -1,7 +1,6 @@
 package Revengers.IDE.member.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,11 +32,13 @@ public class SecurityConfig {
                 ).formLogin( // 로그인 설정
                         (formLogin) -> formLogin.usernameParameter("memberId")
                                 .passwordParameter("password")
+                                .loginProcessingUrl("/member/login")
                                 .loginPage("/login")
                                 .defaultSuccessUrl("/member/loginSuccess") // 로그인 성공
                                 .failureUrl("/member/loginFailed") // 로그인 실패
                 ).logout( // 로그아웃 설정
-                        (logout) -> logout.logoutUrl("/member/logout")
+                        (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                                .logoutSuccessUrl("/")
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")

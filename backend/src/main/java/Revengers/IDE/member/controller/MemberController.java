@@ -5,25 +5,19 @@ import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -95,9 +89,8 @@ public class MemberController {
     }
 
     /**
-     * 회원 정보 출력(작업중)
+     * 회원 정보 출력
      *
-     * @param memberId
      * @param auth
      * @return
      */
@@ -123,20 +116,4 @@ public class MemberController {
         return memberService.getAllMembers();
     }
 
-    /**
-     * 로그아웃
-     * @param request
-     * @param response
-     * @return
-     */
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-        return "redirect:/";
-    }
 }
