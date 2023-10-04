@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/ws")
+@RequestMapping("/chat")
 public class ChatController {
-    private final ChatService service;
+    private final ChatService chatService;
 
     // 방 만들기
-    @PostMapping("/chat")
+    @PostMapping
     public ChatRoom createRoom(@RequestParam String name){
-        return service.createRoom(name);
+        return chatService.createRoom(name);
     }
 }
