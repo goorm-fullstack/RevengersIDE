@@ -12,7 +12,15 @@ const Login = () => {
     formState: { isSubmitting },
   } = useForm();
 
-  const onSubmit = (data: any) => alert(JSON.stringify(data));
+  const onSubmit = (data: any) => {
+    const formData = new FormData();
+    formData.append('req', data);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:8080/api/member/login',
+      data: formData,
+    });
+  };
 
   return (
     <S.Login>
