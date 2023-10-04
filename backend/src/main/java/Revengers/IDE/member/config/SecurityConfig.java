@@ -39,6 +39,7 @@ public class SecurityConfig {
                 ).logout( // 로그아웃 설정
                         (logout) -> logout.logoutUrl("/member/logout")
                                 .invalidateHttpSession(true)
+                                .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
                 );
 

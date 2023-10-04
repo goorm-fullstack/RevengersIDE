@@ -1,9 +1,11 @@
 package Revengers.IDE.member.service;
 
+import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,9 +19,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByMemberId(username).orElseThrow(() -> {
-            return new UsernameNotFoundException("해당 회원을 찾을 수 없습니다.");
-        });
+        Member member = memberRepository.findByMemberId(username).orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
         return new PrincipalDetails(member);
     }
 }

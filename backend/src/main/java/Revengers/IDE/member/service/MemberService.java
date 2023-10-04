@@ -4,11 +4,14 @@ import Revengers.IDE.member.dto.request.LoginRequest;
 import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,6 +74,23 @@ public class MemberService {
         if(optionalMember.isEmpty()) return null;
 
         return optionalMember.get();
+    }
+
+    public Member getMemberByMemberId(Member member) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(member.getMemberId());
+
+        // 일치하는 id 검색, 없으면 null
+        if (optionalMember.isEmpty()) return null;
+
+        return optionalMember.get();
+    }
+
+    /**
+     * 전체 회원 조회
+     * @return 전체 회원 목록
+     */
+    public List<Member> getAllMembers() {
+        return memberRepository.findAll();
     }
 
 }

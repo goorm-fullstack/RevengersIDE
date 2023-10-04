@@ -36,6 +36,7 @@ public class MemberTest {
                 .build();
 
         memberService.singup(signup);
+//        memberService.getMemberByMemberId("testid")
 
     }
 }
