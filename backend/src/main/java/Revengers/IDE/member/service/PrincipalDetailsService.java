@@ -1,11 +1,9 @@
 package Revengers.IDE.member.service;
 
-import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

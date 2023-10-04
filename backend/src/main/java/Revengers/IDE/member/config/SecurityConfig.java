@@ -20,8 +20,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable) // 사이트 위변조 요청 방지
                 .authorizeHttpRequests( // 인가(접근 권한) 설정
                         (authz) -> authz.requestMatchers(
-                                new AntPathRequestMatcher("/admin/**")
-                                        ).hasRole("ADMIN")
+                                        new AntPathRequestMatcher("/admin/**")
+                                ).hasRole("ADMIN")
                                 .requestMatchers(
                                         new AntPathRequestMatcher("/myaccount")
                                 ).hasAnyRole("ADMIN", "MEMBER")
@@ -42,6 +42,13 @@ public class SecurityConfig {
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
+                ).sessionManagement((sessionManagement) ->
+                        sessionManagement
+                                .sessionConcurrency((sessionConcurrency) ->
+                                        sessionConcurrency
+                                                .maximumSessions(1)
+                                                .maxSessionsPreventsLogin(true)
+                                )
                 );
 
         return http.build();

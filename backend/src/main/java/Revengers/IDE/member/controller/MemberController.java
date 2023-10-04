@@ -28,8 +28,8 @@ public class MemberController {
     /**
      * 로그인 상태일 때 index 화면 memberName 출력용
      *
-     * @param auth
-     * @return
+     * @param auth 권한
+     * @return 회원 이름
      */
     @GetMapping(value = {"", "/"})
     public String getMemberName(Authentication auth) {
@@ -47,9 +47,9 @@ public class MemberController {
     /**
      * 회원가입
      *
-     * @param sign
-     * @param bindingResult
-     * @return
+     * @param sign SignUpRequest
+     * @param bindingResult 검증 결과 기록
+     * @return 회원가입
      */
     @PostMapping("/signup")
     public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
@@ -79,8 +79,8 @@ public class MemberController {
     /**
      * 로그인
      *
-     * @param request
-     * @return
+     * @param request LoginRequest
+     * @return 로그인
      */
     @GetMapping("/login")
     public String loginPage(LoginRequest request) {
@@ -91,8 +91,8 @@ public class MemberController {
     /**
      * 회원 정보 출력
      *
-     * @param auth
-     * @return
+     * @param auth 권한
+     * @return 회원 정보
      */
     @GetMapping("/myaccount")
     public ResponseEntity<MemberResponse> getMyAccount(Authentication auth) {
@@ -109,7 +109,7 @@ public class MemberController {
     /**
      * 전체 회원 조회
      *
-     * @return
+     * @return 전체 회원 목록
      */
     @GetMapping("/all")
     public List<Member> getAllMembers() {

@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class PrincipalDetails implements UserDetails {
 
-    private Member member;
+    private final Member member;
 
     public PrincipalDetails(Member member) {
         this.member = member;
@@ -21,9 +21,7 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collections = new ArrayList<>();
-        collections.add(() -> {
-            return member.getRole().name();
-        });
+        collections.add(() -> member.getRole().name());
 
         return collections;
     }
