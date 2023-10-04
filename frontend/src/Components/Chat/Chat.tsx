@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as S from './Style';
 
 type MessageType = 'TALK' | 'ENTER';
@@ -11,7 +11,9 @@ interface Message {
 }
 
 const Chat = () => {
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const wsURL = 'ws://localhost:8080/ws/chat';
+  const ws = useRef<WebSocket | null>(null);
+  const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
 
@@ -30,29 +32,36 @@ const Chat = () => {
 
   // WebSocket 연결 설정
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/ws/chat');
-    ws.onopen = () => {
+    ws.current = new WebSocket(wsURL);
+    ws.current.onopen = () => {
       console.log('채팅(웹소켓)에 연결합니다.');
+      setWsConnected(true);
     };
-    ws.onmessage = (message) => {
+    ws.current.onmessage = (message) => {
       const parsedMessage: Message = JSON.parse(message.data);
       setMessages((prevMessages) => [...prevMessages, parsedMessage]);
     };
-    ws.onclose = () => {
+    ws.current.onclose = () => {
       console.log('채팅(웹소켓) 연결 해제합니다.');
+      setWsConnected(false);
     };
-    setWs(ws);
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
   }, []);
 
   const sendMessage = () => {
-    if (ws) {
+    if (wsConnected && ws.current) {
       const message: Message = {
         type: 'TALK', // or 'ENTER'
         roomId: '1', // 하나의 방이므로 임의로 설정
         sender: 'username', // 로그인한 유저의 username
         message: inputMessage,
       };
-      ws.send(JSON.stringify(message));
+      ws.current.send(JSON.stringify(message));
+      // setMessages((prevMessages) => [...prevMessages, message]); //(즉시 메세지 표시: 임시)
       setInputMessage('');
     }
   };
