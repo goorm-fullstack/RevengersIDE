@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
-import axios from 'axios';
+import Instance from '../../Utils/api/axiosInstance';
 
 const Login = () => {
   const {
@@ -13,13 +13,11 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    const formData = new FormData();
-    formData.append('req', data);
-    axios({
-      method: 'POST',
-      url: 'http://localhost:8080/api/member/login',
-      data: formData,
-    });
+    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error.data));
   };
 
   return (

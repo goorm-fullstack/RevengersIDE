@@ -2,9 +2,7 @@ import React from 'react';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { response } from 'express';
-import { error } from 'console';
+import Instance from '../../Utils/api/axiosInstance';
 
 const SignUp = () => {
   const {
@@ -14,10 +12,10 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    axios
-      .post('http://localhost:8080/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
-      .then((response) => {
-        console.log(response.data);
+    Instance.post('/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
+      .then(() => {
+        alert('회원가입이 완료되었습니다.');
+        window.location.href = '/login';
       })
       .catch((error) => console.log(error.data));
   };
