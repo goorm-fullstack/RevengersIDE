@@ -2,6 +2,7 @@ package Revengers.IDE.Member;
 
 import Revengers.IDE.member.controller.MemberController;
 import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.model.MemberRole;
 import Revengers.IDE.member.repository.MemberRepository;
 import Revengers.IDE.member.service.MemberService;
@@ -35,8 +36,12 @@ public class MemberTest {
                 .email("test@test.com")
                 .build();
 
-        memberService.singup(signup);
+//        memberService.singup(signup);
 //        memberService.getMemberByMemberId("testid")
 
+//        Member member = memberService.getMemberByMemberIdAndMemberNameAndEmail("testid", "테스트", "test@test.com");
+//        Member member = memberService.getMemberByMemberNameAndEmail("테스트", "test@test.com");
+//        System.out.println(member.getPassword());
+//        System.out.println(member.getPassword());
     }
 }

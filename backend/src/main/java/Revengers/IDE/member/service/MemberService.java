@@ -89,4 +89,19 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+
+    //이름, Email로 아이디 찾기
+    public Member getMemberByMemberNameAndEmail(String memberName, String email){
+        Optional<Member> byEmail = memberRepository.findByMemberNameAndEmail(memberName, email);
+
+        return byEmail.orElse(null);
+    }
+
+    //Id, 이름, Email로 비밀번호 찾기
+    public Member getMemberByMemberIdAndMemberNameAndEmail(String memberId, String memberName, String email){
+        Optional<Member> byMemberIdAndEmail = memberRepository.findByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
+
+        return byMemberIdAndEmail.orElse(null);
+    }
+
 }

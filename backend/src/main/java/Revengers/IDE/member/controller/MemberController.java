@@ -116,4 +116,29 @@ public class MemberController {
         return memberService.getAllMembers();
     }
 
+
+    /**
+     * 아이디 찾기
+     *
+     * @return 이메일이 일치하는 아이디 찾기
+     */
+    @GetMapping("/findId")
+    public ResponseEntity<Object> getMemberId(String memberName, String email) {
+        Member member = memberService.getMemberByMemberNameAndEmail(memberName, email);
+
+        return ResponseEntity.ok(member);
+    }
+
+    /**
+     * 비밀번호 찾기
+     *
+     * @return 이메일과 아이디가 일치하는 비밀번호 찾기
+     */
+    @GetMapping("/findPassword")
+    public ResponseEntity<Object> getMemberPassword(String memberId, String memberName, String email) {
+        Member member = memberService.getMemberByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
+
+        return ResponseEntity.ok(member);
+    }
+
 }
