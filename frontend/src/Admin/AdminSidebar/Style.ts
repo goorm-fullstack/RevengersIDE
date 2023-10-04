@@ -6,24 +6,23 @@ export const Sidebar = styled.div `
   top: 0;
   width: 250px;
   height: 100%;
-  background-color: #f0f2f5;
-  color: black;
+  background-color: rgba(0,0,0,0.87);
+  color: white;
   padding: 20px;
   
   h2 {
     font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   button{
     margin-bottom: 10px;
     border: none;
     font-size: 1rem;
+    background-color: transparent;
   }
   
   h3 {
     font-size: 1.5rem;
-    font-weight: bold;
     margin-top: 40px;
     margin-bottom: 10px;
   }

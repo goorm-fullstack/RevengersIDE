@@ -104,4 +104,6 @@ public class MemberService {
         return byMemberIdAndEmail.orElse(null);
     }
 
+    //회원 정보 변경하기
+
 }

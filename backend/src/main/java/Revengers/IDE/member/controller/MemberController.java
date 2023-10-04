@@ -141,4 +141,9 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
+    /**
+     * 회원정보
+     */
+//    @PutMapping("/{memberId}")
+
 }
