@@ -13,6 +13,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
+    console.log(data);
     Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
         console.log(response.data);
