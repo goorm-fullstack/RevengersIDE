@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
@@ -52,26 +52,37 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
         // memberId 중복 검사
-//        if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
-//            bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));
-//        }
-//
-//        // email 중복 검사
-//        if (memberService.checkEmailDuplicate(sign.getEmail())) {
-//            bindingResult.addError(new FieldError("sign", "email", "이메일 중복"));
-//        }
-//
-//        // password 확인 검사
-//        if (!sign.getPassword().equals(sign.getPasswordCheck())) {
-//            bindingResult.addError(new FieldError("sign", "passwordCheck", "비밀번호 불일치"));
-//        }
-//
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body(bindingResult);
-//        }
+        if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
+            bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));
+        }
+
+        // email 중복 검사
+        if (memberService.checkEmailDuplicate(sign.getEmail())) {
+            bindingResult.addError(new FieldError("sign", "email", "이메일 중복"));
+        }
+
+        // password 확인 검사
+        if (!sign.getPassword().equals(sign.getPasswordCheck())) {
+            bindingResult.addError(new FieldError("sign", "passwordCheck", "비밀번호 불일치"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors().toString());
+        }
 
         memberService.singup(sign);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 로그인
+     * @param request
+     * @return
+     */
+    @GetMapping("/login")
+    public String loginPage(LoginRequest request) {
+        memberService.login(request);
+        return "login";
     }
 
     /**

@@ -19,7 +19,7 @@ public class SignUpRequest {
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;        // 로그인 PW
-    private String passwordCheck;   // 비밀번호 확인
+    private String passwordCheck;   // 비밀번호 확인: 검증은 controller
 
     @NotBlank(message = "이름을 입력해주세요.")
     private String memberName;      // 회원 이름
@@ -33,6 +33,7 @@ public class SignUpRequest {
     public SignUpRequest(String memberId, String password, String passwordCheck, String memberName, String email) {
         this.memberId = memberId;
         this.password = password;
+        this.passwordCheck = passwordCheck;
         this.memberName = memberName;
         this.email = email;
     }
