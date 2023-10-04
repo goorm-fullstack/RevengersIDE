@@ -2,16 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
+import axios from 'axios';
 
 const Login = () => {
   return (
     <S.Login>
       <div className="w">
-        <Logo isAdmin={false} />    {/* 관리자의 로그인인지 확인 변수 전송 */}
+        <Logo isAdmin={false} /> {/* 관리자의 로그인인지 확인 변수 전송 */}
         <div>
-          <form>
-            <input type="text" placeholder="아이디"></input>
-            <input type="password" placeholder="비밀번호"></input>
+          <form action="/api/member/login" method="POST">
+            <input type="text" name="memberId" placeholder="아이디"></input>
+            <input type="password" name="password" placeholder="비밀번호"></input>
             <button type="submit">로그인</button>
           </form>
           <p className="link">

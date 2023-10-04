@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/api/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -52,7 +52,7 @@ public class MemberController {
      * @return 회원가입
      */
     @PostMapping("/signup")
-    public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
+    public ResponseEntity<Object> SignUp(@Validated SignUpRequest sign, BindingResult bindingResult) {
         // memberId 중복 검사
         if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
             bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));

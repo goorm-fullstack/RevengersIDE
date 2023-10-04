@@ -32,7 +32,7 @@ public class SecurityConfig {
                 ).formLogin( // 로그인 설정
                         (formLogin) -> formLogin.usernameParameter("memberId")
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/member/login")
+                                .loginProcessingUrl("/api/member/login")
                                 .loginPage("/login")
                                 .defaultSuccessUrl("/member/loginSuccess") // 로그인 성공
                                 .failureUrl("/member/loginFailed") // 로그인 실패
