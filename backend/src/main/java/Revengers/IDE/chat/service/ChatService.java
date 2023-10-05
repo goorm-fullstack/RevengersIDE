@@ -14,6 +14,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -49,7 +50,7 @@ public class ChatService {
                 chatMessageEntity.setRoomId(chatMessage.getRoomId());
                 chatMessageEntity.setSender(chatMessage.getSender());
                 chatMessageEntity.setMessage(chatMessage.getMessage());
-                chatMessageEntity.setSentAt(chatMessage.getTime());
+                chatMessageEntity.setSentAt(LocalDateTime.now());
 
                 chatMessageRepository.save(chatMessageEntity);
             }
