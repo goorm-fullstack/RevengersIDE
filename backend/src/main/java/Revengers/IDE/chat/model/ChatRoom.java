@@ -3,12 +3,14 @@ package Revengers.IDE.chat.model;
 import Revengers.IDE.chat.service.ChatService;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Slf4j
 public class ChatRoom {
     private String roomId; // 채팅방 아이디
     private String name; // 채팅방 이름
@@ -21,15 +23,21 @@ public class ChatRoom {
     }
 
     public void handleAction(WebSocketSession session, ChatDTO message, ChatService service) {
-        // ChatDTO message에서 getType 확인 -> 일치하면 세션+, 아니면 메세지만
-        if (message.getType().equals(ChatDTO.MessageType.ENTER)) {
+        try {
+            log.info("handleAction try구문 실행");
             sessions.add(session);
-            message.setMessage(message.getSender() + " 님이 입장하셨습니다");
-            sendMessage(message, service);
+            log.info("현재 세션 수: " + sessions.size());
+            // ChatDTO message에서 getType 확인 -> 일치하면 세션+, 아니면 메세지만
+            if (message.getType().equals(ChatDTO.MessageType.ENTER)) {
+                message.setMessage(message.getSender() + " 님이 입장하셨습니다");
+                sendMessage(message, service);
 
-        } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
-            message.setMessage(message.getMessage());
-            sendMessage(message, service);
+            } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
+                message.setMessage(message.getMessage());
+                sendMessage(message, service);
+            }
+        } catch (Exception e) {
+            log.error("handleAction 에러 발생", e);
         }
     }
 

@@ -5,7 +5,6 @@ type MessageType = 'TALK' | 'ENTER';
 
 interface Message {
   type: MessageType;
-  roomId: string;
   sender: string;
   message: string;
 }
@@ -44,11 +43,10 @@ const Chat = () => {
     ws.current.onclose = () => {
       console.log('채팅(웹소켓) 연결 해제합니다.');
       setWsConnected(false);
-    };
-    return () => {
-      if (ws.current) {
-        ws.current.close();
-      }
+      setTimeout(() => {
+        console.log('재연결 시도...');
+        ws.current = new WebSocket(wsURL);
+      }, 3000);
     };
   }, []);
 
@@ -56,7 +54,6 @@ const Chat = () => {
     if (wsConnected && ws.current) {
       const message: Message = {
         type: 'TALK', // or 'ENTER'
-        roomId: '1', // 하나의 방이므로 임의로 설정
         sender: 'username', // 로그인한 유저의 username
         message: inputMessage,
       };

@@ -13,10 +13,4 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/chat")
 public class ChatController {
     private final ChatService chatService;
-
-    // 방 만들기
-    @PostMapping
-    public ChatRoom createRoom(@RequestParam String name){
-        return chatService.createRoom(name);
-    }
 }
