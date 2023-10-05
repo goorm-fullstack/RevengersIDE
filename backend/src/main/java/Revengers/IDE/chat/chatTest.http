@@ -1,0 +1,10 @@
+### 채팅방 생성
+POST http://localhost:8080/api/chat?name=start
+Content-Type: application/json
+
+{
+  "type": "ENTER",
+  "roomId": "a35c11ff-e616-49b3-bdfc-a6be664b7106",
+  "sender": "익명1",
+  "message": "안녕하세요"
+}

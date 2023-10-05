@@ -32,6 +32,7 @@ dependencies {
 			'org.springframework.security:spring-security-crypto',
 			'com.h2database:h2',
 			'com.querydsl:querydsl-jpa:5.0.0:jakarta',
+			'org.springframework.boot:spring-boot-starter-websocket'
 	)
 	compileOnly (
 			'org.projectlombok:lombok',
