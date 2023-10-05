@@ -15,6 +15,7 @@ const Chat = () => {
   const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
+  const [username, setUsername] = useState("");
 
   // 엔터 입력 시 전송, 쉬프트+엔터 시 다음 줄
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -38,6 +39,12 @@ const Chat = () => {
     };
     ws.current.onmessage = (message) => {
       const parsedMessage: Message = JSON.parse(message.data);
+
+      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+        setUsername(parsedMessage.message);
+        return;
+      }
+
       setMessages((prevMessages) => [...prevMessages, parsedMessage]);
     };
     ws.current.onclose = () => {
@@ -53,8 +60,8 @@ const Chat = () => {
   const sendMessage = () => {
     if (wsConnected && ws.current) {
       const message: Message = {
-        type: 'TALK', // or 'ENTER'
-        sender: 'username', // 로그인한 유저의 username
+        type: 'TALK',
+        sender: username,
         message: inputMessage,
       };
       ws.current.send(JSON.stringify(message));

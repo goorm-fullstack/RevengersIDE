@@ -28,12 +28,23 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Map<String, Object> attributes = session.getAttributes();
         if (attributes.containsKey("loginUser")) {
-            String username = (String) attributes.get("loginUser"); // DB에서 가져온 사용자 아이디 (아직 시큐리티x)
+            String username = (String) attributes.get("loginUser"); // DB에서 가져온 사용자 아이디 (시큐리티 고려 필요)
             attributes.put("username", username);
         } else {
             String randomUsername = UUID.randomUUID().toString().substring(0, 8);
             attributes.put("username", randomUsername);
         }
+
+        String username = (String) attributes.get("username");
+
+        ChatDTO initialMessage = ChatDTO.builder()
+                .type(ChatDTO.MessageType.ENTER)
+                .sender("SERVER")
+                .message(username)
+                .build();
+
+        session.sendMessage(new TextMessage(mapper.writeValueAsString(initialMessage)));
+
     }
 
     @Override
