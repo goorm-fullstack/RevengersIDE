@@ -32,12 +32,12 @@ public class SecurityConfig {
                 ).formLogin( // 로그인 설정
                         (formLogin) -> formLogin.usernameParameter("memberId")
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/member/login")
+                                .loginProcessingUrl("/api/member/login")
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/member/loginSuccess") // 로그인 성공
-                                .failureUrl("/member/loginFailed") // 로그인 실패
+                                .defaultSuccessUrl("/api/member/loginSuccess") // 로그인 성공
+                                .failureUrl("/api/member/loginFailed") // 로그인 실패
                 ).logout( // 로그아웃 설정
-                        (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                        (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/api/member/logout"))
                                 .logoutSuccessUrl("/")
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)

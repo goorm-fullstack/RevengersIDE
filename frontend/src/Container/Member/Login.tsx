@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
+import Instance from '../../Utils/api/axiosInstance';
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error.data));
+  };
+
   return (
     <S.Login>
       <div className="w">
-        <Logo isAdmin={false} />    {/* 관리자의 로그인인지 확인 변수 전송 */}
+        <Logo isAdmin={false} /> {/* 관리자의 로그인인지 확인 변수 전송 */}
         <div>
-          <form>
-            <input type="text" placeholder="아이디"></input>
-            <input type="password" placeholder="비밀번호"></input>
-            <button type="submit">로그인</button>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input {...register('memberId')} type="text" name="memberId" placeholder="아이디" required />
+            <input {...register('password')} type="password" name="password" placeholder="비밀번호" required />
+            <button type="submit" disabled={isSubmitting}>
+              로그인
+            </button>
           </form>
           <p className="link">
             계정이 없으신가요? <Link to="/signup">회원가입</Link>
