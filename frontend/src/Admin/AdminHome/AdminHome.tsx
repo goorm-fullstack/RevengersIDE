@@ -48,7 +48,7 @@ const AdminHome = () => {
          <td>Administrator</td>
          <td>관리자</td>
          <td>test@test.com</td>
-         <td><button>어디로??</button></td>
+         <td><button onClick={detail}>어디로??</button></td>
        </tr>
        <tr>
          <td><input type="checkbox" /></td>
@@ -56,7 +56,7 @@ const AdminHome = () => {
          <td>Administrator</td>
          <td>관리자</td>
          <td>test@test.com</td>
-         <td><button>어디로??</button></td>
+         <td><button onClick={detail}>어디로??</button></td>
        </tr>
        <tr>
          <td><input type="checkbox" /></td>
