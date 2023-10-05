@@ -58,7 +58,6 @@ const Chat = () => {
         message: inputMessage,
       };
       ws.current.send(JSON.stringify(message));
-      // setMessages((prevMessages) => [...prevMessages, message]); //(즉시 메세지 표시: 임시)
       setInputMessage('');
     }
   };
