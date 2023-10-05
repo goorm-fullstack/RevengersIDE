@@ -30,18 +30,18 @@ public class MemberTest {
     @Test
     public void memberTest() {
         SignUpRequest signup = SignUpRequest.builder()
-                .memberId("testid")
-                .password("testpw")
-                .memberName("테스트")
-                .email("test@test.com")
+                .memberId("testid2")
+                .password("testpw2")
+                .memberName("테스트2")
+                .email("test2@test.com")
                 .build();
 
-//        memberService.singup(signup);
+        memberService.singup(signup);
 //        memberService.getMemberByMemberId("testid")
 
 //        Member member = memberService.getMemberByMemberIdAndMemberNameAndEmail("testid", "테스트", "test@test.com");
-//        Member member = memberService.getMemberByMemberNameAndEmail("테스트", "test@test.com");
+        Member member = memberService.getMemberByMemberNameAndEmail("테스트2", "test2@test.com");
 //        System.out.println(member.getPassword());
-//        System.out.println(member.getPassword());
+        System.out.println(member.getMemberId());
     }
 }

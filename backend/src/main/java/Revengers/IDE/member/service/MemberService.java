@@ -92,16 +92,16 @@ public class MemberService {
 
     //이름, Email로 아이디 찾기
     public Member getMemberByMemberNameAndEmail(String memberName, String email){
-        Optional<Member> byEmail = memberRepository.findByMemberNameAndEmail(memberName, email);
+        Optional<Member> member = memberRepository.findByMemberNameAndEmail(memberName, email);
 
-        return byEmail.orElse(null);
+        return member.orElse(null);
     }
 
     //Id, 이름, Email로 비밀번호 찾기
     public Member getMemberByMemberIdAndMemberNameAndEmail(String memberId, String memberName, String email){
-        Optional<Member> byMemberIdAndEmail = memberRepository.findByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
+        Optional<Member> member = memberRepository.findByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
 
-        return byMemberIdAndEmail.orElse(null);
+        return member.orElse(null);
     }
 
     //회원 정보 변경하기
