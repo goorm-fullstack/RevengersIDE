@@ -2,16 +2,13 @@ package Revengers.IDE.Member;
 
 import Revengers.IDE.member.controller.MemberController;
 import Revengers.IDE.member.dto.request.SignUpRequest;
-import Revengers.IDE.member.model.Member;
-import Revengers.IDE.member.model.MemberRole;
+
 import Revengers.IDE.member.repository.MemberRepository;
 import Revengers.IDE.member.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 @SpringBootTest
 @Transactional
@@ -40,8 +37,8 @@ public class MemberTest {
 //        memberService.getMemberByMemberId("testid")
 
 //        Member member = memberService.getMemberByMemberIdAndMemberNameAndEmail("testid", "테스트", "test@test.com");
-        Member member = memberService.getMemberByMemberNameAndEmail("테스트2", "test2@test.com");
+//        Member member = memberService.getMemberByMemberNameAndEmail("테스트2", "test2@test.com");
 //        System.out.println(member.getPassword());
-        System.out.println(member.getMemberId());
+//        System.out.println(member.getMemberId());
     }
 }

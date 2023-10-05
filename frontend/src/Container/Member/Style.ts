@@ -66,10 +66,13 @@ export const Find = styled(Member)`
     text-align: left;
     font-size: 1rem;
   }
+  div div div button{
+    border: none;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
   form{
     text-align: right;
-  }
-  button{
-    
   }
 `;
