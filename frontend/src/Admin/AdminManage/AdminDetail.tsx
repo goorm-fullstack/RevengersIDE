@@ -13,24 +13,7 @@ const AdminDetail = () => {
                 <h1>회원 정보 상세</h1>
                 <S.Items>
                     <table>
-                        <tr>
-                            <th>번호</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th>이름</th>
-                            <td>John</td>
-                            <td>Jane</td>
-                            <td>Smith</td>
-                        </tr>
-                        <tr>
-                            <th>나이</th>
-                            <td>25</td>
-                            <td>30</td>
-                            <td>22</td>
-                        </tr>
+
                     </table>
                 </S.Items>
             </HS.Statistics>
