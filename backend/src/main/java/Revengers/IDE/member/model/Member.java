@@ -1,12 +1,10 @@
 package Revengers.IDE.member.model;
 
+import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.LoginResponse;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
@@ -23,6 +21,7 @@ public class Member {
     private String memberId;        // 로그인 ID
 
     @Column(nullable = false)
+    @Setter
     private String password;        // 로그인 PW
 
     @Column(nullable = false)
@@ -41,5 +40,5 @@ public class Member {
     public MemberResponse toMemberResponse() {
         return new MemberResponse(this);
     }
-    
+
 }

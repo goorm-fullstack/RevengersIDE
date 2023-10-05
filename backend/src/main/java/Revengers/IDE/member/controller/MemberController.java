@@ -149,11 +149,13 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    /**
-     * 회원정보
-     *
-     *
-     */
-//    @PutMapping("/{memberId}")
+    @PostMapping("/changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> requestBody) {
+        String memberId = requestBody.get("memberId");
+        String newPassword = requestBody.get("newPassword");
 
+        Member newMember = memberService.updatePassword(memberId, newPassword);
+
+        return ResponseEntity.ok(newMember);
+    }
 }

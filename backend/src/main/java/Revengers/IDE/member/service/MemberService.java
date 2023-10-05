@@ -104,6 +104,14 @@ public class MemberService {
         return member.orElse(null);
     }
 
-    //회원 정보 변경하기
+    //회원 비밀번호 변경
+    public Member updatePassword(String memberId, String newPassword) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        Member member = optionalMember.get();
+        member.setPassword(encoder.encode(newPassword));
+
+        return memberRepository.save(member);
+    }
 
 }
