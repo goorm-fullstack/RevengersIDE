@@ -9,10 +9,15 @@ spring:
     show-sql: true
 
   datasource:
-    url: jdbc:h2:mem:ide;NON_KEYWORDS=USER;
+#    url: jdbc:h2:mem:ide;NON_KEYWORDS=USER;
+    url: jdbc:h2:tcp://localhost/~/test
     driver-class-name: org.h2.Driver
     username: sa
     password:
   h2:
     console:
       enabled: true
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
