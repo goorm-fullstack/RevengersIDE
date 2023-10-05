@@ -9,7 +9,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -28,7 +27,7 @@ public class ChatService {
 
     @PostConstruct
     private void init() {
-        chatRoom = new ChatRoom("single-room", "Global Chat Room");
+        chatRoom = new ChatRoom("RevengersIDE", "Global Chat Room");
     }
 
     public ChatRoom getChatRoom(){
@@ -43,7 +42,6 @@ public class ChatService {
 
             // DB에 저장할 메시지 생성
             if (message instanceof ChatDTO chatMessage) {
-                // ChatDTO chatMessage = (ChatDTO) message; 를 instanceof로 변경 (오류시 삭제)
                 log.info("DB에 저장: {}", chatMessage);
                 ChatMessage chatMessageEntity = new ChatMessage();
                 chatMessageEntity.setMessageType(chatMessage.getType().name());
