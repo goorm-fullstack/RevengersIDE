@@ -3,6 +3,7 @@ import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import { useForm } from 'react-hook-form';
 import Instance from '../../Utils/api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Find = () => {
     const {
@@ -14,17 +15,18 @@ const Find = () => {
 
     const [isIdFormVisible, setIdFormVisible] = useState(true);
     const [isPasswordFormVisible, setPasswordFormVisible] = useState(false);
+    const navigate = useNavigate();
 
     const toggleIdForm = () => {
         setIdFormVisible(true);
         setPasswordFormVisible(false);
-        reset(); // 아이디 찾기 폼으로 토글할 때 입력 필드를 초기화합니다.
+        reset();
     };
 
     const togglePasswordForm = () => {
         setIdFormVisible(false);
         setPasswordFormVisible(true);
-        reset(); // 비밀번호 찾기 폼으로 토글할 때 입력 필드를 초기화합니다.
+        reset();
     };
 
     const findId = (data: any) => {
@@ -42,9 +44,10 @@ const Find = () => {
     const findPassword = (data: any) => {
         Instance.post('/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
             .then((response) => {
-                const userPassword = response.data.memberPassword;
-                console.log(response.data);
-                alert(`비밀번호는 ${userPassword}입니다.`);
+                alert('올바른 회원정보입니다. 비밀번호 변경 페이지로 이동합니다.');
+                if (response.data.memberId) {
+                    navigate('/changepassword', { state: { memberId: response.data.memberId } });
+                }
             })
             .catch((e) => {
                 console.error(e);

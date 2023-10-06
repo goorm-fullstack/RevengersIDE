@@ -14,6 +14,7 @@ import AdminMember from "./Admin/AdminManage/AdminMember";
 import AdminGroup from "./Admin/AdminManage/AdminGroup";
 import AdminDetail from "./Admin/AdminManage/AdminDetail";
 import Find from "./Container/Member/Find";
+import ChangePassword from './Container/Member/ChangePassword';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/member" element={<AdminMember />} />
         <Route path="/admin/group" element={<AdminGroup />} />
         <Route path="/admin/detail" element={<AdminDetail/>} />
+        <Route path='/changepassword' element={<ChangePassword/>} />
       </Routes>
     </BrowserRouter>
   );
