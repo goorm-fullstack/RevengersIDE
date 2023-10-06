@@ -5,6 +5,7 @@ public class CodeResult {
     private String standardError;
     private String exceptions;
 
+
     public String getStandardOutput() {
         return standardOutput;
     }
