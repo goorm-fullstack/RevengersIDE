@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <S.Footer>
       <div className="left">
-        <Link to="/admin">관리자 페이지</Link>
+        <Link to="/admin" style={{ color: 'white' }}>관리자 페이지</Link>
       </div>
       <div className="right">
         <button type="button" onClick={toggleChat} data-isactive={chat}>

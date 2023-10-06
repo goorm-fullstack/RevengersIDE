@@ -51,8 +51,28 @@ export const Login = styled(Member)`
   & > .w {
     padding-top: 30vh;
   }
+  
+  p{
+    margin-bottom: 10px;
+  }
 `;
 
 export const SignUp = styled(Member)``;
 
 export const MyAccount = styled(Member)``;
+
+export const Find = styled(Member)`
+  div div h2{
+    text-align: left;
+    font-size: 1rem;
+  }
+  div div div button{
+    border: none;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  form{
+    text-align: right;
+  }
+`;
