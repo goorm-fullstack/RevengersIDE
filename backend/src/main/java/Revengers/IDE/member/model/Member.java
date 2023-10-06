@@ -32,6 +32,10 @@ public class Member {
 
     @Column(nullable = false)
     private MemberRole role;        // 권한: MEMBER 또는 ADMIN
+    
+    // 일단은 한 사용자가 하나의 도커 컨테이너를 가리키도록 한다.
+    @OneToOne
+    private Docker docker;
 
     public LoginResponse toLoginResponse() {
         return new LoginResponse(this);
