@@ -40,5 +40,22 @@ export const AdminManage = styled.div`
   }
 `;
 export const Items = styled.div`
-  
+
+  table{
+    text-align: left;
+    border-top: black 1px solid;
+    border-bottom: black 1px solid;
+    min-width: 720px;
+    margin-left: 0;
+    margin-top: 0;
+  }
+  td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  td button{
+    border: none;
+    background-color: transparent;
+  }
+
 `

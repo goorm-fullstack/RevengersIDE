@@ -21,3 +21,8 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+
+docker:
+  value:
+    email : ${email}
+    password : ${password}

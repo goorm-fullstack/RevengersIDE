@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -123,7 +124,10 @@ public class MemberController {
      * @return 이름, 이메일이 일치하는 아이디 찾기
      */
     @PostMapping("/findId")
-    public ResponseEntity<Object> getMemberId(String memberName, String email) {
+    public ResponseEntity<Object> getMemberId(@RequestBody Map<String, String> requestBody) {
+        String memberName = requestBody.get("memberName");
+        String email = requestBody.get("email");
+
         Member member = memberService.getMemberByMemberNameAndEmail(memberName, email);
 
         return ResponseEntity.ok(member);
@@ -135,15 +139,23 @@ public class MemberController {
      * @return 이름, 이메일, 아이디가 일치하는 비밀번호 찾기
      */
     @PostMapping("/findPassword")
-    public ResponseEntity<Object> getMemberPassword(String memberId, String memberName, String email) {
+    public ResponseEntity<Object> getMemberPassword(@RequestBody Map<String, String> requestBody) {
+        String memberId = requestBody.get("memberId");
+        String memberName = requestBody.get("memberName");
+        String email = requestBody.get("email");
+
         Member member = memberService.getMemberByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
 
         return ResponseEntity.ok(member);
     }
 
-    /**
-     * 회원정보
-     */
-//    @PutMapping("/{memberId}")
+    @PostMapping("/changePassword")
+    public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> requestBody) {
+        String memberId = requestBody.get("memberId");
+        String newPassword = requestBody.get("newPassword");
 
+        Member newMember = memberService.updatePassword(memberId, newPassword);
+
+        return ResponseEntity.ok(newMember);
+    }
 }

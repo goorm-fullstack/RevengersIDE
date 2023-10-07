@@ -35,6 +35,9 @@ const Login = () => {
           <p className="link">
             계정이 없으신가요? <Link to="/signup">회원가입</Link>
           </p>
+          <p className="link">
+            로그인이 안 되시나요? <Link to="/find">계정찾기</Link>
+          </p>
         </div>
       </div>
     </S.Login>
