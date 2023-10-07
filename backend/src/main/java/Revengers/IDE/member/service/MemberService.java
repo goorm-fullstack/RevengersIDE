@@ -2,9 +2,13 @@ package Revengers.IDE.member.service;
 
 import Revengers.IDE.member.dto.request.LoginRequest;
 import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,8 +60,12 @@ public class MemberService {
 
         // password 불일치 시 null
         Member member = optionalMember.get();
-        if (!member.getPassword().equals(request.getPassword())) return null;
+        if (!encoder.matches(request.getPassword(), member.getPassword())) {
+            System.out.println("실패");
+            throw new LoginException("로그인에 실패했습니다.");
+        }
 
+        System.out.println(member.toString());
         return member;
     }
 

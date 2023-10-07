@@ -3,6 +3,8 @@ package Revengers.IDE.member.dto.request;
 import Revengers.IDE.member.model.Member;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
 public class RequestMemberDto {
     private String username;
@@ -10,8 +12,9 @@ public class RequestMemberDto {
 
     public Member toEntity() {
         return Member.builder()
-                .username(username)
+                .memberName(username)
                 .password(password)
+                .docker(new ArrayList<>())
                 .build();
     }
 }
