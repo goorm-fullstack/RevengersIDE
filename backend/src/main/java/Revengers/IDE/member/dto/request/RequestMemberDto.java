@@ -10,7 +10,7 @@ public class RequestMemberDto {
 
     public Member toEntity() {
         return Member.builder()
-                .username(username)
+                .memberName(username)
                 .password(password)
                 .build();
     }
