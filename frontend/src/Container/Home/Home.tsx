@@ -37,7 +37,7 @@ const Home = () => {
       language: lang,
     };
     const jsonData = JSON.stringify(data);
-    axios.post(`/ideApi/docker/${lang}`, jsonData, {
+    axios.post(`http://localhost:8080/ideApi/docker/${lang}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
