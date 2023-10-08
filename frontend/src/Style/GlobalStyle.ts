@@ -38,8 +38,8 @@ html, body {
 body {
 	font-family: 'Roboto', 'Noto Sans KR', 'Arial', 'Malgun Gothic', 'Dotum', sans-serif;
 	line-height: 1;
-	background-color: ${(props) => props.theme.bgColor};
-	color: ${(props) => props.theme.textColor};
+	background-color: white;
+	color: #111;
 	font-size: 16px;
 }
 
@@ -62,16 +62,21 @@ table {
 	border-spacing: 0;
 }
 
-a {
+a, button, input, select {
 	color: inherit;
+	font-family: inherit;
+}
+
+a {
 	text-decoration: none;
 }
 
 button {
-	color: inherit;
-
-	&[type="button"] {
-		cursor: pointer;
-	}
+	cursor: pointer;
 }
+
+textarea {
+	font-family: inherit;
+}
+
 `;

@@ -1,55 +1,42 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './Style/theme';
 import { GlobalStyle } from './Style/GlobalStyle';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import Home from './Container/Home/Home';
-import Login from './Container/Login/Login';
-import SignUp from './Container/SignUp/SignUp';
+import Login from './Container/Member/Login';
+import SignUp from './Container/Member/SignUp';
+import MyAccount from './Container/Member/MyAccount';
 import AdminHome from './Admin/AdminHome/AdminHome';
 import AdminLogin from './Admin/AdminLogin/AdminLogin';
+import AdminMember from "./Admin/AdminManage/AdminMember";
+import AdminGroup from "./Admin/AdminManage/AdminGroup";
+import AdminDetail from "./Admin/AdminManage/AdminDetail";
+import Find from "./Container/Member/Find";
+import ChangePassword from './Container/Member/ChangePassword';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
-// 다른 컴포넌트와 테마 전환 설정 공유
-export interface ThemeContextProps {
-  theme: string;
-  isLight: boolean;
-  toggleTheme: any;
-}
-export const ThemeContext = createContext({} as ThemeContextProps);
-
 function App() {
-  // 테마 전환 이벤트
-  const [theme, setTheme] = useState('dark');
-  const isLight = theme === 'light';
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  };
-
   return (
-    <ThemeContext.Provider value={{ theme, isLight, toggleTheme }}>
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-        <BrowserRouter>
-          <GlobalStyle />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/admin" element={<AdminHome />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </ThemeContext.Provider>
+    <BrowserRouter>
+      <GlobalStyle />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/find" element={<Find />} />
+        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/member" element={<AdminMember />} />
+        <Route path="/admin/group" element={<AdminGroup />} />
+        <Route path="/admin/detail" element={<AdminDetail/>} />
+        <Route path='/changepassword' element={<ChangePassword/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

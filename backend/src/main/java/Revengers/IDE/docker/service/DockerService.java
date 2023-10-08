@@ -1,12 +1,14 @@
 package Revengers.IDE.docker.service;
 
 import Revengers.IDE.docker.exception.CustomInterruptedException;
+import Revengers.IDE.docker.exception.WrongLangTypeException;
 import Revengers.IDE.docker.model.CodeResult;
 import Revengers.IDE.docker.model.Docker;
 import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.repository.DockerRepository;
 import Revengers.IDE.docker.service.callback.TimeoutResultCallback;
-import Revengers.IDE.docker.source.model.Source;
+import Revengers.IDE.member.model.Member;
+import Revengers.IDE.source.model.Source;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.async.ResultCallbackTemplate;
@@ -29,7 +31,6 @@ import static java.nio.charset.StandardCharsets.*;
 @Slf4j
 public class DockerService {
     private final DockerClient dockerClient;
-    private final HostConfig hostConfig;
     private final DockerRepository dockerRepository;
 
 
@@ -40,6 +41,7 @@ public class DockerService {
         String containerId = createContainer(options);
         Docker docker = Docker.builder()
                 .containerId(containerId)
+                .langType(options)
                 .build();
 
         return dockerRepository.save(docker);
@@ -63,7 +65,6 @@ public class DockerService {
 
     // 파이썬 컨테이너 생성
     private String createPythonContainer() {
-        System.out.println("call 1 - python");
         return dockerClient.createContainerCmd("python:3.10.13-bookworm")
                 .withName("python_"+UUID.randomUUID().toString())
                 .withHostName(username)
@@ -74,7 +75,6 @@ public class DockerService {
 
     // 실제로 컨테이너에서 소스 코드를 실행하는 로직
     public CodeResult runAsPython(String containerId, Source source) {
-        System.out.println("call 2 - python");
         dockerClient.startContainerCmd(containerId).exec();
         return compilePython(containerId, source);
     }
@@ -101,9 +101,9 @@ public class DockerService {
      */
     private CodeResult compileJava(String containerId, Source source) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName() + ".java"};// 파일 이동 명령
-        String[] compileCommand = {"sh", "-c", "javac /usr/src/" + source.getFileName() + ".java"};// 컴파일 명령
-        String[] runCommand = {"sh", "-c","java /usr/src/" + source.getFileName()};// 실행 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.java"};// 파일 이동 명령
+        String[] compileCommand = {"sh", "-c", "javac /usr/src/Main.java"};// 컴파일 명령
+        String[] runCommand = {"sh", "-c","java /usr/src/Main.java"};// 실행 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
         StringBuilder exceptions = new StringBuilder();// 예외 출력
@@ -170,8 +170,8 @@ public class DockerService {
      */
     private CodeResult compilePython(String containerId, Source source) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/" + source.getFileName()};// 파일 이동 명령
-        String[] runCommand = {"sh", "-c", "python3 /usr/src/" + source.getFileName()};// 컴파일 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.py"};// 파일 이동 명령
+        String[] runCommand = {"sh", "-c", "python3 /usr/src/Main.py"};// 컴파일 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
         StringBuilder exceptions = new StringBuilder();// 예외 출력
@@ -215,7 +215,6 @@ public class DockerService {
                         }
                     })
                     .awaitCompletion(60, TimeUnit.SECONDS);
-            System.out.println("call 5 - python");
 
 
             if (!sourceSaved || !runSuccess) {
@@ -228,7 +227,6 @@ public class DockerService {
             codeResult.setExceptions("Execution interrupted: " + e.getMessage());
             throw new CustomInterruptedException("인터럽트 예외 발생");
         }
-        System.out.println("call 6 - python");
         return codeResult;
     }
 
@@ -250,6 +248,71 @@ public class DockerService {
                 .withShowAll(true)
                 .exec();
     }
+
+    // 사용자의 이전 작업 코드를 출력하는 코드입니다.
+    public CodeResult getPreviousCode(Member member) {
+        CodeResult codeResult = new CodeResult();
+        String langType = member.getDocker().getLangType();
+        String fileName = "Main";
+        switch (langType) {
+            case "java" :
+                fileName += ".java";
+                break;
+            case "python" :
+                fileName += ".py";
+                break;
+            default:
+                throw new WrongLangTypeException("현재 지원하지 않는 유형의 언어입니다.");
+        }
+
+        String[] printSourceCodeCommand = {"sh", "-c", "cat /usr/src/"+fileName};// 파일 코드 출력 명령어
+        StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
+        StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
+        StringBuilder exceptions = new StringBuilder();// 예외 출력
+
+        try {
+            ExecCreateCmdResponse runResponse = dockerClient.execCreateCmd(member.getDocker().getContainerId())
+                    .withAttachStdout(true)
+                    .withAttachStderr(true)
+                    .withAttachStdin(true) // stdin 활성화
+                    .withTty(true) // TTY 활성화
+                    .withCmd(printSourceCodeCommand)
+                    .exec();
+            boolean runSuccess = dockerClient.execStartCmd(runResponse.getId())
+                    .exec(new ResultCallback.Adapter<>() {  // 일단은 Deprecated된 인터페이스나 클래스를 사용하는 것은 좋지 않을 것 같습니다.
+                        /**
+                         * Object의 데이터 형식
+                         * StreamType() : 위에서 사용설정한 STDOUT, STDERR
+                         * 결과값은 바이트 단위로 출력된다. 바이트 값 -> 문자 값으로 변환 로직 추가
+                         */
+                        @Override
+                        public void onNext(Frame object) {
+                            //System.out.println(object);  //for example
+                            if(object.getStreamType().name().equals("STDOUT")) {
+                                byte[] data = object.getPayload();// 실행 출력값
+                                String output = new String(data, UTF_8);//변환
+                                standardOutputLogs.append(output);
+                            } else if(object.getStreamType().name().equals("STDERR")) {
+                                byte[] data = object.getPayload();// 에러 출력값
+                                String output = new String(data, UTF_8);//변환
+                                standardErrorLogs.append(output);
+                            }
+                        }
+                    })
+                    .awaitCompletion(60, TimeUnit.SECONDS);
+            if (!runSuccess) {
+                codeResult.setExceptions("Code execution failed.");
+            }
+            codeResult.setStandardOutput(standardOutputLogs.toString());
+            codeResult.setStandardError(standardErrorLogs.toString());
+            codeResult.setExceptions(exceptions.toString());
+        } catch (InterruptedException e) {
+            throw new CustomInterruptedException("인터럽트 예외 발생");
+        }
+
+        return codeResult;//실행 결과를 Standard Stream으로 출력
+    }
+
 
     // 사용자 요청에 맞는 이미지를 가져옵니다.
     // 관리자 기능에 추가하여 더 다양한 기능을 추가할 수 있을듯?
