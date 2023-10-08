@@ -37,7 +37,7 @@ const Home = () => {
       language: lang,
     };
     const jsonData = JSON.stringify(data);
-    Instance.post(`http://ec2-3-34-230-219.ap-northeast-2.compute.amazonaws.com/ideApi/docker/${lang}`, jsonData, {
+    Instance.post(`/ideApi/docker/${lang}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
