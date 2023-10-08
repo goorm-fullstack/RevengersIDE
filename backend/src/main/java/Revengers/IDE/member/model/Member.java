@@ -1,13 +1,11 @@
 package Revengers.IDE.member.model;
 
 import Revengers.IDE.docker.model.Docker;
-import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.LoginResponse;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './Style';
 import Logo from '../Logo/Logo';
@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <S.Header>
       <div className="left">
-        <Logo isAdmin={false}/>
+        <Logo isAdmin={false} />
         <div className="darkmodew">
           {/* theme button: dark mode(default) */}
           <button type="button" onClick={toggleTheme} className={isLight ? 'dark' : 'light'}>

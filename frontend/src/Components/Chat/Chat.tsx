@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as S from './Style';
 
 type MessageType = 'TALK' | 'ENTER';
@@ -15,7 +15,7 @@ const Chat = () => {
   const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
 
   // 엔터 입력 시 전송, 쉬프트+엔터 시 다음 줄
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -27,7 +27,7 @@ const Chat = () => {
 
   // 메세지 삭제 (클라이언트 한정)
   const deleteMessage = (index: number) => {
-    setMessages(prevMessages => prevMessages.filter((_, i) => i !== index));
+    setMessages((prevMessages) => prevMessages.filter((_, i) => i !== index));
   };
 
   // WebSocket 연결 설정
@@ -40,7 +40,7 @@ const Chat = () => {
     ws.current.onmessage = (message) => {
       const parsedMessage: Message = JSON.parse(message.data);
 
-      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+      if (parsedMessage.sender === 'SERVER' && parsedMessage.type === 'ENTER') {
         setUsername(parsedMessage.message);
         return;
       }
@@ -76,24 +76,18 @@ const Chat = () => {
       </h3>
       <ul className="messagew">
         {messages.map((message, index) => (
-            <li key={index} className={message.type === 'ENTER' ? 'enter' : ''}>
-              <strong>{message.sender}: </strong>
-              <span>{message.message}</span>
-            </li>
+          <li key={index} className={message.type === 'ENTER' ? 'enter' : ''}>
+            <strong>{message.sender}: </strong>
+            <span>{message.message}</span>
+          </li>
         ))}
       </ul>
       <div className="writewrapper">
         <div className="tab">
-          <button type="button">
-            {/* SVG 삭제 버튼 */}
-          </button>
+          <button type="button">{/* SVG 삭제 버튼 */}</button>
         </div>
         <div className="textareaw">
-          <textarea
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-          ></textarea>
+          <textarea value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} onKeyDown={handleKeyDown}></textarea>
         </div>
         <button onClick={sendMessage}>Send</button>
       </div>
