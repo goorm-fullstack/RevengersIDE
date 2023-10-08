@@ -9,6 +9,7 @@ import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.service.MemberService;
 import Revengers.IDE.source.model.Source;
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.Image;
@@ -84,7 +85,6 @@ public class DockerController {
 
     @PostMapping("/java")
     public ResponseEntity<CodeResult> createJavaContainer(@RequestBody Source source) {
-        log.info("fileName={}", source.getFileName());
         log.info("source={}", source.getSource());
         log.info("language={}", source.getLanguageType());
         Docker dockerImage = dockerService.createDockerImage("java");
