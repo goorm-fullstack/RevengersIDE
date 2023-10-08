@@ -12,7 +12,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/ideApi/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
       .then(() => {
         alert('회원가입이 완료되었습니다.');
         window.location.href = '/login';
