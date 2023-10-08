@@ -6,6 +6,7 @@ import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 import Instance from '../../Utils/api/axiosInstance';
+import axios from 'axios';
 
 // 다른 컴포넌트와 테마 전환 설정 공유
 export interface ThemeContextProps {
@@ -36,7 +37,7 @@ const Home = () => {
       language: lang,
     };
     const jsonData = JSON.stringify(data);
-    Instance.post(`/ideApi/docker/${lang}`, jsonData, {
+    axios.post(`/ideApi/docker/${lang}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
