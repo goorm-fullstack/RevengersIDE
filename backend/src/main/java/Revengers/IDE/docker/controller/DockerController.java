@@ -9,21 +9,29 @@ import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.service.MemberService;
 import Revengers.IDE.source.model.Source;
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
+import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.core.command.ExecStartResultCallback;
+import com.github.dockerjava.core.command.LogContainerResultCallback;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/docker")
+@Slf4j
 public class DockerController {
 
+    private DockerClient dockerClient;
     private final DockerService dockerService;
     private final MemberService memberService;
 
@@ -77,6 +85,8 @@ public class DockerController {
 
     @PostMapping("/java")
     public ResponseEntity<CodeResult> createJavaContainer(@RequestBody Source source) {
+        log.info("source={}", source.getSource());
+        log.info("language={}", source.getLanguageType());
         Docker dockerImage = dockerService.createDockerImage("java");
         String containerId = dockerImage.getContainerId();
         CodeResult codeResult = dockerService.runAsJava(containerId, source);

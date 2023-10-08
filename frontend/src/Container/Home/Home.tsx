@@ -28,7 +28,7 @@ const Home = () => {
     } else {
       setTheme('light');
     }
-  };
+  }
 
   const handleRunCode = () => {
     const data = {
@@ -36,7 +36,7 @@ const Home = () => {
       language: lang,
     };
     const jsonData = JSON.stringify(data);
-    Instance.post(`/docker/${lang}`, jsonData, {
+    Instance.post(`/ideApi/docker/${lang}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
