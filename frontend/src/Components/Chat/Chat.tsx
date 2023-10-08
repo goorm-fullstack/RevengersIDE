@@ -1,74 +1,95 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as S from './Style';
 
+type MessageType = 'TALK' | 'ENTER';
+
+interface Message {
+  type: MessageType;
+  sender: string;
+  message: string;
+}
+
 const Chat = () => {
+  const wsURL = 'ws://localhost:8080/ws/chat';
+  const ws = useRef<WebSocket | null>(null);
+  const [wsConnected, setWsConnected] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [username, setUsername] = useState('');
+
+  // 엔터 입력 시 전송, 쉬프트+엔터 시 다음 줄
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  // 메세지 삭제 (클라이언트 한정)
+  const deleteMessage = (index: number) => {
+    setMessages((prevMessages) => prevMessages.filter((_, i) => i !== index));
+  };
+
+  // WebSocket 연결 설정
+  useEffect(() => {
+    ws.current = new WebSocket(wsURL);
+    ws.current.onopen = () => {
+      console.log('채팅(웹소켓)에 연결합니다.');
+      setWsConnected(true);
+    };
+    ws.current.onmessage = (message) => {
+      const parsedMessage: Message = JSON.parse(message.data);
+
+      if (parsedMessage.sender === 'SERVER' && parsedMessage.type === 'ENTER') {
+        setUsername(parsedMessage.message);
+        return;
+      }
+
+      setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+    };
+    ws.current.onclose = () => {
+      console.log('채팅(웹소켓) 연결 해제합니다.');
+      setWsConnected(false);
+      setTimeout(() => {
+        console.log('재연결 시도...');
+        ws.current = new WebSocket(wsURL);
+      }, 3000);
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (wsConnected && ws.current) {
+      const message: Message = {
+        type: 'TALK',
+        sender: username,
+        message: inputMessage,
+      };
+      ws.current.send(JSON.stringify(message));
+      setInputMessage('');
+    }
+  };
+
   return (
     <S.Chat>
       <h3>
-        Chats <span>1{/** 채팅 인원 수 */}</span>
+        Chats <span>{messages.length}</span>
       </h3>
       <ul className="messagew">
-        {/** 채팅 메시지 영역 */}
-        {/** 입장/퇴장은 enter className 추가 */}
-        {/** 사람 이름 strong, 메시지 내용 span */}
-        <li className="enter">
-          <strong>나</strong> <span>님이 접속했습니다.</span>
-        </li>
-        <li>
-          <strong>보낸사람1: </strong>
-          <span>메시지1</span>
-        </li>
-        <li>
-          <strong>보낸사람2: </strong>
-          <span>메시지2</span>
-        </li>
-        <li>
-          <strong>나: </strong>
-          <span>
-            통신·방송의 시설기준과 신문의 기능을 보장하기 위하여 필요한 사항은 법률로 정한다. 대통령은 법률이 정하는 바에 의하여 훈장 기타의 영전을
-            수여한다. 국가안전보장회의의 조직·직무범위 기타 필요한 사항은 법률로 정한다. 감사원은 원장을 포함한 5인 이상 11인 이하의 감사위원으로
-            구성한다. 훈장등의 영전은 이를 받은 자에게만 효력이 있고, 어떠한 특권도 이에 따르지 아니한다.
-          </span>
-        </li>
-        <li className="enter">
-          <strong>보낸사람2</strong> <span>님이 나가셨습니다.</span>
-        </li>
-        <li>
-          <strong>보낸사람3: </strong>
-          <span>메시지3</span>
-        </li>
-        <li>
-          <strong>나: </strong>
-          <span>
-            통신·방송의 시설기준과 신문의 기능을 보장하기 위하여 필요한 사항은 법률로 정한다. 대통령은 법률이 정하는 바에 의하여 훈장 기타의 영전을
-            수여한다. 국가안전보장회의의 조직·직무범위 기타 필요한 사항은 법률로 정한다. 감사원은 원장을 포함한 5인 이상 11인 이하의 감사위원으로
-            구성한다. 훈장등의 영전은 이를 받은 자에게만 효력이 있고, 어떠한 특권도 이에 따르지 아니한다.
-          </span>
-        </li>
+        {messages.map((message, index) => (
+          <li key={index} className={message.type === 'ENTER' ? 'enter' : ''}>
+            <strong>{message.sender}: </strong>
+            <span>{message.message}</span>
+          </li>
+        ))}
       </ul>
       <div className="writewrapper">
         <div className="tab">
-          {/** 메시지 삭제 버튼 */}
-          <button type="button">
-            <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-              <rect fill="none" height="256" width="256" />
-              <line fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" x1="216" x2="40" y1="56" y2="56" />
-              <line fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" x1="104" x2="104" y1="104" y2="168" />
-              <line fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" x1="152" x2="152" y1="104" y2="168" />
-              <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
-              <path
-                d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="16"
-              />
-            </svg>
-          </button>
+          <button type="button">{/* SVG 삭제 버튼 */}</button>
         </div>
         <div className="textareaw">
-          <textarea>{/** 채팅 메시지 입력 영역 */}</textarea>
+          <textarea value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} onKeyDown={handleKeyDown}></textarea>
         </div>
+        <button onClick={sendMessage}>Send</button>
       </div>
     </S.Chat>
   );

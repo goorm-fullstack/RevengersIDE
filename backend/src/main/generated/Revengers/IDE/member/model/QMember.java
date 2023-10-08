@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,6 +19,8 @@ public class QMember extends EntityPathBase<Member> {
     private static final long serialVersionUID = -338064468L;
 
     public static final QMember member = new QMember("member1");
+
+    public final ListPath<Revengers.IDE.docker.model.Docker, Revengers.IDE.docker.model.QDocker> docker = this.<Revengers.IDE.docker.model.Docker, Revengers.IDE.docker.model.QDocker>createList("docker", Revengers.IDE.docker.model.Docker.class, Revengers.IDE.docker.model.QDocker.class, PathInits.DIRECT2);
 
     public final StringPath email = createString("email");
 

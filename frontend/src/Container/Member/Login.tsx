@@ -17,6 +17,9 @@ const Login = () => {
     Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
         console.log(response.data);
+        if (response.status === 200) {
+          window.location.href = '/';
+        }
       })
       .catch((error) => console.log(error.data));
   };
@@ -35,6 +38,9 @@ const Login = () => {
           </form>
           <p className="link">
             계정이 없으신가요? <Link to="/signup">회원가입</Link>
+          </p>
+          <p className="link">
+            아이디/비밀번호를 분실하셨나요? <Link to="/find">아이디/비밀번호 찾기</Link>
           </p>
         </div>
       </div>

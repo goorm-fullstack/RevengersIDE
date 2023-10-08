@@ -1,5 +1,9 @@
 package Revengers.IDE.member.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,14 +11,16 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Configuration
@@ -41,9 +47,11 @@ public class SecurityConfig {
                         (formLogin) -> formLogin.usernameParameter("memberId")
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/api/member/login")
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/api/member/loginSuccess") // 로그인 성공
-                                .failureUrl("/api/member/loginFailed") // 로그인 실패
+//                                .loginPage("/login")
+                                .successHandler(authenticationSuccessHandler())
+                                .failureHandler(authenticationFailureHandler())
+//                                .defaultSuccessUrl("/") // 로그인 성공
+//                                .failureUrl("/api/member/loginFailed") // 로그인 실패
                 ).logout( // 로그아웃 설정
                         (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/api/member/logout"))
                                 .logoutSuccessUrl("/")
@@ -63,13 +71,39 @@ public class SecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    // 커스텀 로그인 성공 핸들러
+    private static class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+        private final ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                            Authentication authentication) throws IOException, ServletException {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(objectMapper.writeValueAsString("로그인 성공")); // 원하는 JSON 응답 데이터를 설정
+        }
+    }
+
+    // 커스텀 로그인 성공 핸들러
+    private static class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
+        private final ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(objectMapper.writeValueAsString("로그인 실패")); // 원하는 JSON 응답 데이터를 설정
+        }
+    }
 }

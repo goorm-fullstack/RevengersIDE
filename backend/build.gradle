@@ -32,6 +32,11 @@ dependencies {
 			'org.springframework.security:spring-security-crypto',
 			'com.h2database:h2',
 			'com.querydsl:querydsl-jpa:5.0.0:jakarta',
+			'org.springframework.boot:spring-boot-starter-websocket',
+			'com.github.docker-java:docker-java:3.3.3',//도커 자바 API
+			'com.github.docker-java:docker-java-api:3.3.3',//도커 자바 API
+			'com.github.docker-java:docker-java-transport-httpclient5:3.3.3',
+			'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 	)
 	compileOnly (
 			'org.projectlombok:lombok',

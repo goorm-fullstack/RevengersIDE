@@ -42,7 +42,6 @@ const AdminMember = () => {
                     <td className="center"><button>어디로??</button></td>
                 </tr>
             </table>
-
         <Footer />
     </S.AdminManage>
     );

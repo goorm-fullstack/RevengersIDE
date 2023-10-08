@@ -2,6 +2,7 @@ package Revengers.IDE.member.service;
 
 import Revengers.IDE.member.dto.request.LoginRequest;
 import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,12 @@ public class MemberService {
 
         // password 불일치 시 null
         Member member = optionalMember.get();
-        if (!member.getPassword().equals(request.getPassword())) return null;
+        if (!encoder.matches(request.getPassword(), member.getPassword())) {
+            System.out.println("실패");
+            throw new LoginException("로그인에 실패했습니다.");
+        }
 
+        System.out.println(member.toString());
         return member;
     }
 
@@ -87,6 +92,46 @@ public class MemberService {
      */
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
+    }
+
+    /**
+     * 이름, Email로 아이디 찾기
+     * @param memberName 회원 이름
+     * @param email 회원 이메일
+     * @return
+     */
+    public Member getMemberByMemberNameAndEmail(String memberName, String email){
+        Optional<Member> member = memberRepository.findByMemberNameAndEmail(memberName, email);
+
+        return member.orElse(null);
+    }
+
+    /**
+     * Id, 이름, Email로 비밀번호 찾기
+     * @param memberId 회원 아이디
+     * @param memberName 회원 이름
+     * @param email 회원 이메일
+     * @return
+     */
+    public Member getMemberByMemberIdAndMemberNameAndEmail(String memberId, String memberName, String email){
+        Optional<Member> member = memberRepository.findByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
+
+        return member.orElse(null);
+    }
+
+    /**
+     * 회원 비밀번호 변경
+     * @param memberId 회원 아이디
+     * @param newPassword 새로운 비밀번호
+     * @return 바뀐 정보로 저장
+     */
+    public Member updatePassword(String memberId, String newPassword) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        Member member = optionalMember.get();
+        member.setPassword(encoder.encode(newPassword));
+
+        return memberRepository.save(member);
     }
 
 }
