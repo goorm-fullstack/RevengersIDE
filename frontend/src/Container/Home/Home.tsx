@@ -5,6 +5,7 @@ import * as S from './Style';
 import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import Instance from '../../Utils/api/axiosInstance';
 
 // 다른 컴포넌트와 테마 전환 설정 공유
 export interface ThemeContextProps {
@@ -17,6 +18,9 @@ export const ThemeContext = createContext({} as ThemeContextProps);
 const Home = () => {
   // 테마 전환 이벤트
   const [theme, setTheme] = useState('dark');
+  const [lang, setLang] = useState('java');
+  const [code, setCode] = useState('');
+  const [result, setResult] = useState('');
   const isLight = theme === 'light';
   const toggleTheme = () => {
     if (theme === 'light') {
@@ -24,6 +28,33 @@ const Home = () => {
     } else {
       setTheme('light');
     }
+  }
+
+  const handleRunCode = () => {
+    const data = {
+      source: code,
+      language: lang,
+    };
+    const jsonData = JSON.stringify(data);
+    Instance.post(`/ideApi/docker/${lang}`, jsonData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      const output = JSON.stringify(response.data);
+      const data = JSON.parse(output);
+      setResult(output);
+    });
+  };
+
+  const handleCodeInput = (newCode: string | undefined) => {
+    if (newCode !== undefined) {
+      setCode(newCode);
+    }
+  };
+
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setLang(event.target.value);
   };
 
   return (
@@ -34,16 +65,25 @@ const Home = () => {
           <div className="container">
             <div className="wrapper run">
               <div className="tab">
-                <select>
+                <select value={lang} onChange={handleLanguageChange}>
                   <option value="java">JAVA</option>
                   <option value="python">Python</option>
                 </select>
-                <button type="button">실행</button>
+                <button type="button" onClick={handleRunCode}>
+                  실행
+                </button>
                 {/** 일단 type button 후에 type은 변경될 수 있음 */}
               </div>
               <div className="editor">
                 {/** 코드 편집기 영역 */}
-                <Editor height="100%" theme={isLight ? 'light' : 'vs-dark'} defaultLanguage="javascript" defaultValue="// hello, world!" />
+                <Editor
+                  height="100%"
+                  theme={isLight ? 'light' : 'vs-dark'}
+                  defaultLanguage="java"
+                  defaultValue="// hello, world!"
+                  value={code}
+                  onChange={handleCodeInput}
+                />
               </div>
             </div>
             <div className="wrapper">
@@ -52,7 +92,7 @@ const Home = () => {
                   <h2>터미널</h2>
                 </li>
               </ul>
-              <div className="terminal">{/** 터미널 영역 */}</div>
+              {result !== '' ? <div className="terminal">{result}</div> : <div className="terminal"></div>}
             </div>
           </div>
           <Footer />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as S from './Style';
@@ -13,9 +13,12 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(response.data);
+        if (response.status === 200) {
+          window.location.href = '/';
+        }
       })
       .catch((error) => console.log(error.data));
   };
@@ -36,7 +39,7 @@ const Login = () => {
             계정이 없으신가요? <Link to="/signup">회원가입</Link>
           </p>
           <p className="link">
-            로그인이 안 되시나요? <Link to="/find">계정찾기</Link>
+            아이디/비밀번호를 분실하셨나요? <Link to="/find">아이디/비밀번호 찾기</Link>
           </p>
         </div>
       </div>
