@@ -15,9 +15,11 @@ import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -26,12 +28,13 @@ import static java.nio.charset.StandardCharsets.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DockerService {
     private final DockerClient dockerClient;
     private final DockerRepository dockerRepository;
 
 
-    @Value("${username")
+    @Value("${username}")
     private String username;
 
     public Docker createDockerImage(String options) {
@@ -42,6 +45,27 @@ public class DockerService {
                 .build();
 
         return dockerRepository.save(docker);
+    }
+
+    // 특정 타입의 컨테이너와 특정 타입의 코드를 실행
+    public CodeResult createDockerImageAndRun(Source source, Member member) {
+        String containerId = createContainer(source.getLanguageType());
+        Docker docker = Docker.builder()
+                .containerId(containerId)
+                .langType(source.getLanguageType())
+                .build();
+
+        Docker saveContainer = dockerRepository.save(docker);
+        member.getDocker().add(saveContainer);
+
+        // 소스 코드 타입에 따라서 실행합니다.
+        if(source.getLanguageType().equals("java")) {
+            return runAsJava(saveContainer.getContainerId(), source);
+        } else if(source.getLanguageType().equals("python")) {
+            return runAsPython(saveContainer.getContainerId(), source);
+        } else {
+            throw new WrongLangTypeException("지원하지 않는 형식입니다.");
+        }
     }
 
 
@@ -57,6 +81,16 @@ public class DockerService {
                 return containerId;
             default:
                 throw new IllegalArgumentException("잘못된 선택값입니다.");
+        }
+    }
+
+    public CodeResult runCode(Source source, String containerId) {
+        if(source.getLanguageType().equals("java")) {
+            return runAsJava(containerId, source);
+        } else if (source.getLanguageType().equals("python")) {
+            return runAsPython(containerId, source);
+        } else {
+            throw new WrongLangTypeException("지원하지 않는 언어입니다.");
         }
     }
 
@@ -247,11 +281,10 @@ public class DockerService {
     }
 
     // 사용자의 이전 작업 코드를 출력하는 코드입니다.
-    public CodeResult getPreviousCode(Member member) {
+    public CodeResult getPreviousCode(Member member, String lang) {
         CodeResult codeResult = new CodeResult();
-        String langType = member.getDocker().getLangType();
         String fileName = "Main";
-        switch (langType) {
+        switch (lang) {
             case "java" :
                 fileName += ".java";
                 break;
@@ -261,14 +294,24 @@ public class DockerService {
             default:
                 throw new WrongLangTypeException("현재 지원하지 않는 유형의 언어입니다.");
         }
+        String containerId = "";
+        for(Docker docker :  member.getDocker()) {
+            if(docker.getLangType().equals(lang)) {
+                containerId = docker.getContainerId();
+            }
+        }
 
         String[] printSourceCodeCommand = {"sh", "-c", "cat /usr/src/"+fileName};// 파일 코드 출력 명령어
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력
         StringBuilder exceptions = new StringBuilder();// 예외 출력
 
+        if(containerId.isBlank()) {
+            return new CodeResult();
+        }
+
         try {
-            ExecCreateCmdResponse runResponse = dockerClient.execCreateCmd(member.getDocker().getContainerId())
+            ExecCreateCmdResponse runResponse = dockerClient.execCreateCmd(containerId)
                     .withAttachStdout(true)
                     .withAttachStderr(true)
                     .withAttachStdin(true) // stdin 활성화

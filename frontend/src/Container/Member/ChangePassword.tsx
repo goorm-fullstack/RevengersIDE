@@ -39,7 +39,7 @@ const ChangePassword = () => {
       newPassword: data.newPassword,
     };
 
-    Instance.post("/api/member/changePassword", formData, {
+    Instance.post("/ideApi/api/member/changePassword", formData, {
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => {

@@ -25,7 +25,7 @@ public class DockerContainerConfig {
     @Value("${docker.value.password}")
     private String password;
 
-    @Value("${docker.value.username}")
+    @Value("${username}")
     private String username;
 
     @Bean
