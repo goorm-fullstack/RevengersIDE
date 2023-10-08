@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
+import axios from 'axios';
 
 const Login = () => {
   const {
@@ -13,7 +14,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
