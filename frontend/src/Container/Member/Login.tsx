@@ -16,6 +16,9 @@ const Login = () => {
     Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(response.data);
+        if(response.status === 200) {
+          window.location.href= '/';
+        }
       })
       .catch((error) => console.log(error.data));
   };
