@@ -3,6 +3,7 @@ import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import { useForm } from 'react-hook-form';
 import Instance from '../../Utils/api/axiosInstance';
+import axios from 'axios';
 
 const SignUp = () => {
   const {
@@ -12,7 +13,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/ideApi/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/ideApi/api/member/signup', data, { headers: { 'Content-Type': 'application/json' } })
       .then(() => {
         alert('회원가입이 완료되었습니다.');
         window.location.href = '/login';
