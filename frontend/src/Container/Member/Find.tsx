@@ -30,7 +30,7 @@ const Find = () => {
     };
 
     const findId = (data: any) => {
-        Instance.post('/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
+        Instance.post('/ideApi/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
             .then((response) => {
                 console.log(data);
                 const userId = response.data.memberId;
@@ -42,7 +42,7 @@ const Find = () => {
     };
 
     const findPassword = (data: any) => {
-        Instance.post('/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
+        Instance.post('/ideApi/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
             .then((response) => {
                 alert('올바른 회원정보입니다. 비밀번호 변경 페이지로 이동합니다.');
                 if (response.data.memberId) {
