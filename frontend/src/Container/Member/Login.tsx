@@ -13,7 +13,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {

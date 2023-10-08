@@ -21,8 +21,6 @@ server:
   error:
     include-message: always
     include-binding-errors: always
-  servlet:
-    context-path: /ideApi
 
 docker:
   value:
