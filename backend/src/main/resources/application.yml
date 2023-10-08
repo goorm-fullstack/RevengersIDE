@@ -12,7 +12,7 @@ spring:
     url: jdbc:mysql://my-ide.callxiy6n1zh.ap-northeast-2.rds.amazonaws.com:3306/ide?characterEncoding=UTF-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
-    password:
+    password: 20231010
 server:
   error:
     include-message: always
@@ -22,5 +22,6 @@ server:
 
 docker:
   value:
-    email : ${email}
-    password : ${password}
+    email : paewhal20@gmail.com
+    password : pwl781955!
+username: jinhwanB
