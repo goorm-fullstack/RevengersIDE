@@ -26,6 +26,7 @@ public class ChatRoom {
         try {
             log.info("handleAction try구문 실행");
             sessions.add(session);
+            message.setRoomId(this.roomId);
             log.info("현재 세션 수: " + sessions.size());
             // ChatDTO message에서 getType 확인 -> 일치하면 세션+, 아니면 메세지만
             if (message.getType().equals(ChatDTO.MessageType.ENTER)) {
