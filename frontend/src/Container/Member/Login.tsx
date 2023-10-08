@@ -14,7 +14,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    axios.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/api/member/login', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
