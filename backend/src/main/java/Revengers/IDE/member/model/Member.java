@@ -40,7 +40,7 @@ public class Member {
     // 일단은 한 사용자가 하나의 도커 컨테이너를 가리키도록 한다.
     @OneToMany
     @JoinColumn(name = "docker_id")
-    private List<Docker> docker;
+    private List<Docker> docker = new ArrayList<>();
 
     public LoginResponse toLoginResponse() {
         return new LoginResponse(this);

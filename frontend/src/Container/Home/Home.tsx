@@ -33,10 +33,10 @@ const Home = () => {
   const handleRunCode = () => {
     const data = {
       source : code,
-      language : lang,
+      languageType : lang,
     }
     const jsonData = JSON.stringify(data);
-    Instance.post(`/docker/${lang}`, jsonData, {
+    Instance.post(`/docker/run`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
