@@ -28,7 +28,7 @@ const Home = () => {
     } else {
       setTheme('light');
     }
-  }
+  };
 
   const handleRunCode = () => {
     const data = {
