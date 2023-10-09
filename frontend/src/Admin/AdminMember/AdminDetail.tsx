@@ -95,7 +95,7 @@ const AdminDetail = () => {
                 <tr>
                   <th>회원명</th>
                   <td>
-                    <input type="text" name="memberName" defaultValue={memberInfo.memberName} placeholder="회원명" />
+                    <input type="text" name="memberName" defaultValue={memberInfo.memberName} placeholder="회원명" readOnly />
                   </td>
                 </tr>
                 <tr>
