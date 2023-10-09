@@ -154,4 +154,14 @@ public class MemberService {
         return memberRepository.findByCreateMemberDateBetween(yesterdayStartOfDay, yesterdayEndOfDay);
     }
 
+    public Member updateMember(String memberId, String newPassword, String email) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        Member member = optionalMember.get();
+        member.setPassword(encoder.encode(newPassword));
+        member.setEmail(email);
+
+        return memberRepository.save(member);
+    }
+
 }

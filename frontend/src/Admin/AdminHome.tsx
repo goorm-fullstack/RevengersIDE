@@ -9,8 +9,14 @@ const AdminHome = () => {
   const [todayMemberCount, setTodayMemberCount] = useState(0);
   const [yesterdayMemberCount, setYesterdayMemberCount] = useState(0);
   const [allMemberCount, setAllMemberCount] = useState(0);
+  const [allMember, setAllMember] = useState<Member[]>([]);
 
-
+  interface Member {
+    id: number;
+    memberId: string;
+    memberName: string;
+    email: string;
+  }
 
   const detail = () => {
     navigate('/admin/detail');
@@ -40,11 +46,46 @@ const AdminHome = () => {
     Instance.get(`/ideApi/api/member/all`)
         .then((response) => {
           setAllMemberCount(response.data.length);
+          setAllMember(response.data);
         })
         .catch((e) => {
           console.error(e);
         })
   }, []);
+
+  console.log(allMember);
+
+  const printMember = () => {
+    if (allMember.length === 0) {
+      return (
+          <tr>
+            <td colSpan={5} style={{ textAlign: "center" }}>
+              회원가입된 아이디가 없습니다.
+            </td>
+          </tr>
+      );
+    } else {
+      return (
+          allMember.map((member, index: number) => (
+              <tr key={member.id}>
+                <td>
+                  <input type="checkbox" />
+                </td>
+                <td>{member.id}</td>
+                <td>
+                  <Link to={`/admin/member/detail/${member.memberId}`}>
+                    {member.memberId}
+                  </Link>
+                </td>
+                <td>{member.memberName}</td>
+                <td>{member.email}</td>
+              </tr>
+          ))
+      );
+    }
+  };
+
+
 
   return (
     <S.AdminLayout>
@@ -101,42 +142,7 @@ const AdminHome = () => {
               </tr>
             </thead>
             <tbody>
-              {/* 반복문 시작 */}
-              <tr>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>3</td>
-                <td>
-                  <Link to="/admin/member/detail/memberid">Administrator</Link>
-                </td>
-                <td>관리자</td>
-                <td>test@test.com</td>
-              </tr>
-              {/* 반복문 끝 */}
-              {/* 이하 작업 후 지워도 되는 값, 디자인 확인용 */}
-              <tr>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>2</td>
-                <td>
-                  <Link to="/admin/member/detail/memberid">Administrator</Link>
-                </td>
-                <td>관리자</td>
-                <td>test@test.com</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" />
-                </td>
-                <td>1</td>
-                <td>
-                  <Link to="/admin/member/detail/memberid">Administrator</Link>
-                </td>
-                <td>관리자</td>
-                <td>test@test.com</td>
-              </tr>
+            {printMember()}
             </tbody>
           </table>
         </S.TableWrap>

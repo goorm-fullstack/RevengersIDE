@@ -179,4 +179,16 @@ public class MemberController {
 
         return ResponseEntity.ok(todayMembers);
     }
+
+    @PostMapping("/updateMember")
+    public ResponseEntity<Object> updateMember(@RequestBody Map<String, String> requestBody) {
+        String memberId = requestBody.get("memberId");
+        String newPassword = requestBody.get("newPassword");
+        String email = requestBody.get("email");
+
+        Member newMember = memberService.updateMember(memberId, newPassword, email);
+
+        return ResponseEntity.ok(newMember);
+    }
+
 }

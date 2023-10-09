@@ -10,7 +10,7 @@ const Find = () => {
     register,
     handleSubmit,
     formState: { isSubmitting },
-    reset, // 입력 필드를 초기화하기 위해 reset 함수를 사용합니다.
+    reset,
   } = useForm();
 
   const [isIdFormVisible, setIdFormVisible] = useState(true);

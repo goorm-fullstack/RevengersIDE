@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
@@ -26,7 +27,6 @@ public class Member {
     private String memberId;        // 로그인 ID
 
     @Column(nullable = false)
-    @Setter
     private String password;        // 로그인 PW
 
     @Column(nullable = false)
