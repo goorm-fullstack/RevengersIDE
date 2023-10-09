@@ -50,6 +50,7 @@ const Chat = () => {
     ws.current.onopen = () => {
       console.log('채팅(웹소켓)에 연결합니다.');
       setWsConnected(true);
+      console.log('웹소켓 상태:', ws.current?.readyState);
     };
     ws.current.onmessage = (message) => {
       const parsedMessage: Message = JSON.parse(message.data);
