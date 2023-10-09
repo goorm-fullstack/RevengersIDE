@@ -7,10 +7,11 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+#    database: h2
+#    database-platform: org.hibernate.dialect.H2Dialect
 
   datasource:
-    url: jdbc:h2:mem:ide;NON_KEYWORDS=USER;
-#    url: jdbc:h2:tcp://localhost/~/test
+    url: jdbc:h2:tcp://localhost/~/test
     driver-class-name: org.h2.Driver
     username: sa
     password:
