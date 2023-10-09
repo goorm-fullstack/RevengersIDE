@@ -30,5 +30,6 @@ server:
 
 docker:
   value:
-    email : ehdrb141@naver.com
-    password : asdf2627!
+    email : ${email}
+    password : ${password}
+  username: ${username}
