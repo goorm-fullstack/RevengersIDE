@@ -54,4 +54,11 @@ public class Member {
         return new MemberResponse(this);
     }
 
+    public Member(String memberId, String password, String memberName, String email, MemberRole role) {
+        this.memberId = memberId;
+        this.password = password;
+        this.memberName = memberName;
+        this.email = email;
+        this.role = role;
+    }
 }

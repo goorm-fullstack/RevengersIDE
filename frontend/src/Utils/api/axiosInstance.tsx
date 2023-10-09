@@ -7,6 +7,7 @@ const Instance = axios.create({
     'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
+    credentials: 'true',
   },
 });
 

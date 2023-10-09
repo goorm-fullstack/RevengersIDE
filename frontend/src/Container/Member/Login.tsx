@@ -1,26 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm();
 
+  const [cookies, setCookie] = useCookies(['JSESSIONID']);
+
   const onSubmit = (data: any) => {
     Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200) {
-          window.location.href = '/';
+          console.log('React: 로그인 성공');
+          // console.log('cookie ' + response.headers['jsessionid']);
+          setCookie('JSESSIONID', response.headers['jsessionid'], { path: '/ideApi' });
+          navigate('/');
         }
       })
-      .catch((error) => console.log(error.data));
+      .catch((error) => {
+        console.log(error.data);
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+      });
   };
 
   return (
