@@ -9,8 +9,8 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ isAdmin }) => {
   return (
     <S.Logo>
-      <Link to={isAdmin ? '/admin/login' : '/'}>
-        <strong>REVENGERS</strong> IDE {isAdmin ? <strong>ADMIN</strong> : ''}
+      <Link to={isAdmin ? '/admin' : '/'}>
+        <strong>REVENGERS</strong> IDE {isAdmin ? <span>ADMIN</span> : ''}
       </Link>
     </S.Logo>
   );
