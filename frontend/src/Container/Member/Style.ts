@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
-const Member = styled.div`
+export const Member = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #f0f2f5;
 
   & > .w {
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     margin: 0 auto;
     padding-top: 22vh;
     text-align: center;
@@ -51,28 +52,43 @@ export const Login = styled(Member)`
   & > .w {
     padding-top: 30vh;
   }
-  
-  p{
+
+  p {
     margin-bottom: 10px;
   }
 `;
 
-export const SignUp = styled(Member)``;
+export const Find = styled(Login)`
+  // 아이디 찾기/비밀번호 찾기 전환 탭
+  .tab {
+    display: flex;
+    margin-bottom: 20px;
 
-export const MyAccount = styled(Member)``;
+    button {
+      width: 50%;
+      height: 50px;
+      background: transparent;
+      border: 1px solid #ddd;
+      border-bottom-color: #121212;
+      color: #888;
 
-export const Find = styled(Member)`
-  div div h2{
-    text-align: left;
-    font-size: 1rem;
+      &[data-isactive='true'] {
+        background-color: transparent;
+        border-color: #121212;
+        border-bottom-color: transparent;
+        color: #121212;
+        font-weight: 500;
+      }
+    }
   }
-  div div div button{
-    border: none;
-    margin-bottom: 30px;
-    margin-right: 10px;
-    margin-left: 10px;
+
+  p {
+    line-height: 1.4;
   }
-  form{
-    text-align: right;
+
+  .check {
+    font-size: 14px;
+    color: #ee2c4a;
+    margin-top: 10px;
   }
 `;

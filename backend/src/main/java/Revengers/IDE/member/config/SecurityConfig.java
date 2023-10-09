@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,6 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable) // 사이트 위변조 요청 방지
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests( // 인가(접근 권한) 설정
                         (authz) -> authz.requestMatchers(
                                         new AntPathRequestMatcher("/admin/**")
@@ -46,10 +47,10 @@ public class SecurityConfig {
                         (formLogin) -> formLogin.usernameParameter("memberId")
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/api/member/login")
-                                //.loginPage("/login")
+//                                .loginPage("/login")
                                 .successHandler(authenticationSuccessHandler())
                                 .failureHandler(authenticationFailureHandler())
-//                                .defaultSuccessUrl("/api/member/loginSuccess") // 로그인 성공
+//                                .defaultSuccessUrl("/") // 로그인 성공
 //                                .failureUrl("/api/member/loginFailed") // 로그인 실패
                 ).logout( // 로그아웃 설정
                         (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/api/member/logout"))
@@ -68,7 +69,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {

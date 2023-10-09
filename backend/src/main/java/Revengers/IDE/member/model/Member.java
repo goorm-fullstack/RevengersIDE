@@ -1,13 +1,11 @@
 package Revengers.IDE.member.model;
 
 import Revengers.IDE.docker.model.Docker;
-import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.LoginResponse;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,7 +37,6 @@ public class Member {
     
     // 일단은 한 사용자가 하나의 도커 컨테이너를 가리키도록 한다.
     @OneToMany
-    @JoinColumn(name = "docker_id")
     private List<Docker> docker;
 
     public LoginResponse toLoginResponse() {

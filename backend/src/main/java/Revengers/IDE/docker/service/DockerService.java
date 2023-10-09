@@ -15,9 +15,11 @@ import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -26,12 +28,13 @@ import static java.nio.charset.StandardCharsets.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DockerService {
     private final DockerClient dockerClient;
     private final DockerRepository dockerRepository;
 
 
-    @Value("${username")
+    @Value("${username}")
     private String username;
 
     public Docker createDockerImage(String options) {

@@ -18,6 +18,7 @@ public class Docker {
     private String langType;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;//사용자
 
     @Builder

@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <S.Footer>
       <div className="left">
-        <Link to="/admin" style={{ color: 'white' }}>관리자 페이지</Link>
+        <Link to="/admin">관리자 페이지</Link> {/** 스타일 직접적으로 넣으시면 테마 동작에 문제 생깁니다. */}
       </div>
       <div className="right">
         <button type="button" onClick={toggleChat} data-isactive={chat}>

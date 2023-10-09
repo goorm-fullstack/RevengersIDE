@@ -6,9 +6,6 @@ import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,22 +94,37 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-
-    //이름, Email로 아이디 찾기
+    /**
+     * 이름, Email로 아이디 찾기
+     * @param memberName 회원 이름
+     * @param email 회원 이메일
+     * @return
+     */
     public Member getMemberByMemberNameAndEmail(String memberName, String email){
         Optional<Member> member = memberRepository.findByMemberNameAndEmail(memberName, email);
 
         return member.orElse(null);
     }
 
-    //Id, 이름, Email로 비밀번호 찾기
+    /**
+     * Id, 이름, Email로 비밀번호 찾기
+     * @param memberId 회원 아이디
+     * @param memberName 회원 이름
+     * @param email 회원 이메일
+     * @return
+     */
     public Member getMemberByMemberIdAndMemberNameAndEmail(String memberId, String memberName, String email){
         Optional<Member> member = memberRepository.findByMemberIdAndMemberNameAndEmail(memberId, memberName, email);
 
         return member.orElse(null);
     }
 
-    //회원 비밀번호 변경
+    /**
+     * 회원 비밀번호 변경
+     * @param memberId 회원 아이디
+     * @param newPassword 새로운 비밀번호
+     * @return 바뀐 정보로 저장
+     */
     public Member updatePassword(String memberId, String newPassword) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
