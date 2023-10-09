@@ -65,7 +65,7 @@ public class SecurityConfig {
                 ).rememberMe(
                         (customizer) -> customizer.tokenValiditySeconds(ONE_MONTH)
                                 .userDetailsService(memberDetailService)
-//                                .authenticationSuccessHandler(authenticationSuccessHandler())
+                                .authenticationSuccessHandler(authenticationSuccessHandler())
                 ).logout( // 로그아웃 설정
                         (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/api/member/logout"))
                                 .logoutSuccessUrl("/")
