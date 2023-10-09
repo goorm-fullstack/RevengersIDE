@@ -164,4 +164,10 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public Member findByMemberId(String memberId){
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
+
+        return member.orElse(null);
+    }
+
 }

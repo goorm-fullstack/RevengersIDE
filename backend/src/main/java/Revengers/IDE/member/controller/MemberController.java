@@ -191,4 +191,11 @@ public class MemberController {
         return ResponseEntity.ok(newMember);
     }
 
+    @PostMapping("/findById")
+    public ResponseEntity<Member> findById(@RequestBody Map<String, String> requestBody){
+        String memberId = requestBody.get("memberId");
+        Member member = memberService.findByMemberId(memberId);
+
+        return ResponseEntity.ok(member);
+    }
 }

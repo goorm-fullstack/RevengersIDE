@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as S from '../Style';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import { useParams } from "react-router-dom";
@@ -7,6 +7,26 @@ import {useForm} from "react-hook-form";
 
 const AdminDetail = () => {
   const { memberId } = useParams();
+  const [memberInfo, setMemberInfo] = useState({ memberName: '' }); // You can initialize it with default values
+
+  useEffect(() => {
+    const formData = {
+      memberId : memberId,
+    }
+    Instance.post(`/ideApi/api/member/findById`, formData, {
+      headers: {'Content-Type': 'application/json'},
+    })
+        .then((response) => {
+          if(response.data){
+            setMemberInfo(response.data);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+  }, []);
+
+  console.log(memberInfo);
 
   const {
     register,
@@ -75,7 +95,7 @@ const AdminDetail = () => {
                 <tr>
                   <th>회원명</th>
                   <td>
-                    <input type="text" name="memberName" placeholder="회원명" />
+                    <input type="text" name="memberName" defaultValue={memberInfo.memberName} placeholder="회원명" />
                   </td>
                 </tr>
                 <tr>

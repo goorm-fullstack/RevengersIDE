@@ -68,9 +68,6 @@ const AdminHome = () => {
       return (
           allMember.map((member, index: number) => (
               <tr key={member.id}>
-                <td>
-                  <input type="checkbox" />
-                </td>
                 <td>{member.id}</td>
                 <td>
                   <Link to={`/admin/member/detail/${member.memberId}`}>
@@ -124,17 +121,13 @@ const AdminHome = () => {
         <S.TableWrap>
           <table>
             <colgroup>
-              <col width="80px" />
-              <col width="100px" />
+              <col width="120px" />
               <col width="auto" />
               <col width="auto" />
               <col width="auto" />
             </colgroup>
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" />
-                </th>
                 <th>번호</th>
                 <th>회원 ID</th>
                 <th>회원명</th>
