@@ -2,11 +2,14 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
     show-sql: true
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: Asia/Seoul
 
   datasource:
     #url: jdbc:h2:mem:ide;NON_KEYWORDS=USER;

@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,5 +136,14 @@ public class MemberService {
 
         return memberRepository.save(member);
     }
+
+    //오늘 회원가입 멤버 구하기
+    public List<Member> getTodayMembers() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(23, 59, 59);
+        return memberRepository.findByCreateMemberDateBetween(startOfDay, endOfDay);
+    }
+
 
 }

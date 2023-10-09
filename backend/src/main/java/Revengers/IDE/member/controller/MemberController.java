@@ -158,4 +158,10 @@ public class MemberController {
 
         return ResponseEntity.ok(newMember);
     }
+
+    @GetMapping("/todayMember")
+    public ResponseEntity<List<Member>> getTodayMembers() {
+        List<Member> todayMembers = memberService.getTodayMembers();
+        return ResponseEntity.ok(todayMembers);
+    }
 }
