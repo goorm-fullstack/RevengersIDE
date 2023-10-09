@@ -21,7 +21,7 @@ const SignUp = () => {
   };
 
   return (
-    <S.SignUp>
+    <S.Member>
       <div className="w">
         <Logo isAdmin={false} />
         <div>
@@ -37,7 +37,7 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-    </S.SignUp>
+    </S.Member>
   );
 };
 
