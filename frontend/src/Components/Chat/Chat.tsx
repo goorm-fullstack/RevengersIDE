@@ -140,7 +140,6 @@ const Chat = () => {
               onKeyDown={handleKeyDown}
           ></textarea>
         </div>
-        <button onClick={sendMessage}>Send</button>
       </div>
     </S.Chat>
   );
