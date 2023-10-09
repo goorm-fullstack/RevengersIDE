@@ -26,5 +26,5 @@ server:
 
 docker:
   value:
-    email : ${email}
-    password : ${password}
+    email : soheetech@gmail.com
+    password : gml746331!

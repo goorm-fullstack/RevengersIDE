@@ -4,17 +4,23 @@ import Revengers.IDE.member.dto.request.LoginRequest;
 import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
+import Revengers.IDE.member.model.MemberRole;
+import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +60,7 @@ public class MemberController {
      */
     @PostMapping("/signup")
     public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
+
         // memberId 중복 검사
         if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
             bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));

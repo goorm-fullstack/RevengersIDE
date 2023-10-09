@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,10 +18,14 @@ const Login = () => {
       .then((response) => {
         console.log(response.data);
         if (response.status === 200) {
-          window.location.href = '/';
+          console.log('React: 로그인 성공');
+          navigate('/');
         }
       })
-      .catch((error) => console.log(error.data));
+      .catch((error) => {
+        console.log(error.data);
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+      });
   };
 
   return (
