@@ -1,14 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as S from './Style';
 import AdminSidebar from './AdminSidebar/AdminSidebar';
 import { Link, useNavigate } from 'react-router-dom';
+import Instance from "../Utils/api/axiosInstance";
 
 const AdminHome = () => {
   const navigate = useNavigate();
+  const [todayMemberCount, setTodayMemberCount] = useState(0);
+  const [yesterdayMemberCount, setYesterdayMemberCount] = useState(0);
+  const [allMemberCount, setAllMemberCount] = useState(0);
+
+
 
   const detail = () => {
     navigate('/admin/detail');
   };
+
+  useEffect(() => {
+    Instance.get(`/ideApi/api/member/todayMember`)
+        .then((response) => {
+          setTodayMemberCount(response.data.length);
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+  }, []);
+
+  useEffect(() => {
+    Instance.get(`/ideApi/api/member/yesterdayMember`)
+        .then((response) => {
+          setYesterdayMemberCount(response.data.length);
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+  }, []);
+
+  useEffect(() => {
+    Instance.get(`/ideApi/api/member/all`)
+        .then((response) => {
+          setAllMemberCount(response.data.length);
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+  }, []);
 
   return (
     <S.AdminLayout>
@@ -21,7 +57,7 @@ const AdminHome = () => {
             <div className="info">
               <h3>전체 회원 수</h3>
               <p>
-                <strong>0</strong> 명
+                <strong>{allMemberCount}</strong> 명
               </p>
             </div>
           </li>
@@ -30,7 +66,7 @@ const AdminHome = () => {
             <div className="info">
               <h3>오늘 가입 회원 수</h3>
               <p>
-                <strong>0</strong> 명
+                <strong>{todayMemberCount}</strong> 명
               </p>
             </div>
           </li>
@@ -39,7 +75,7 @@ const AdminHome = () => {
             <div className="info">
               <h3>전일 가입 회원 수</h3>
               <p>
-                <strong>0</strong> 명
+                <strong>{yesterdayMemberCount}</strong> 명
               </p>
             </div>
           </li>
