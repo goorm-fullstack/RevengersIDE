@@ -149,6 +149,11 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
     @PostMapping("/changePassword")
     public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> requestBody) {
         String memberId = requestBody.get("memberId");
@@ -161,7 +166,17 @@ public class MemberController {
 
     @GetMapping("/todayMember")
     public ResponseEntity<List<Member>> getTodayMembers() {
+
         List<Member> todayMembers = memberService.getTodayMembers();
+
+        return ResponseEntity.ok(todayMembers);
+    }
+
+    @GetMapping("/yesterdayMember")
+    public ResponseEntity<List<Member>> getYesterdayMembers() {
+
+        List<Member> todayMembers = memberService.getYesterdayMembers();
+
         return ResponseEntity.ok(todayMembers);
     }
 }

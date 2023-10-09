@@ -145,5 +145,13 @@ public class MemberService {
         return memberRepository.findByCreateMemberDateBetween(startOfDay, endOfDay);
     }
 
+    //어제 가입한 멤버 구하기
+    public List<Member> getYesterdayMembers() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDateTime yesterdayStartOfDay = yesterday.atStartOfDay();
+        LocalDateTime yesterdayEndOfDay = yesterday.atTime(23, 59, 59);
+
+        return memberRepository.findByCreateMemberDateBetween(yesterdayStartOfDay, yesterdayEndOfDay);
+    }
 
 }
