@@ -48,6 +48,7 @@ public class MemberController {
                 memberName = loginMember.getMemberName();
             }
         }
+        System.out.println(memberName);
         return memberName;
     }
 

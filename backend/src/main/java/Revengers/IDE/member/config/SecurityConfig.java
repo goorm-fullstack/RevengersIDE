@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -46,7 +47,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+        http.csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
                 .authorizeHttpRequests( // 인가(접근 권한) 설정
                         (authz) -> authz.requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
@@ -79,7 +80,7 @@ public class SecurityConfig {
                                                 .maximumSessions(1)
                                                 .maxSessionsPreventsLogin(true)
                                 ).sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션 생성
-                ).addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
+                );
 
         return http.build();
     }
@@ -108,6 +109,7 @@ public class SecurityConfig {
             response.getWriter().write(objectMapper.writeValueAsString("Spring: 로그인 성공")); // 원하는 JSON 응답 데이터를 설정
 
             String cookieValue = request.getSession().getId();
+            response.addHeader("JSESSIONID", cookieValue);
             System.out.println(cookieValue);
         }
     }
@@ -126,17 +128,17 @@ public class SecurityConfig {
         }
     }
 
-    /**
-     * 쿠키 저장
-     */
-    private class CsrfCookieFilter extends OncePerRequestFilter {
-        @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-            CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-            if(csrfToken.getHeaderName() != null){
-                response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-            }
-            filterChain.doFilter(request, response);
-        }
-    }
+//    /**
+//     * 쿠키 저장
+//     */
+//    private class CsrfCookieFilter extends OncePerRequestFilter {
+//        @Override
+//        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//            CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+//            if(csrfToken.getHeaderName() != null){
+//                response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+//            }
+//            filterChain.doFilter(request, response);
+//        }
+//    }
 }

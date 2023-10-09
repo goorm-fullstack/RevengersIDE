@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,12 +14,15 @@ const Login = () => {
     formState: { isSubmitting },
   } = useForm();
 
+  const [cookies, setCookie] = useCookies(['JSESSIONID']);
+
   const onSubmit = (data: any) => {
     Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200) {
           console.log('React: 로그인 성공');
+          // console.log('cookie ' + response.headers['jsessionid']);
+          setCookie('JSESSIONID', response.headers['jsessionid'], { path: '/ideApi' });
           navigate('/');
         }
       })

@@ -11,11 +11,11 @@ const Header = () => {
   const { toggleTheme, isLight } = useContext(ThemeContext);
   const isLoggedIn = false;
 
-  Instance.get('/ideApi/api/member/')
+  Instance.get('/ideApi/api/member/', { withCredentials: true })
     .then((response) => {
-      console.log(response.data);
+      console.log(response);
       if (response.status === 200) {
-        console.log('성공:' + response.data);
+        console.log('로그인:' + response.data);
       }
     })
     .catch((error) => {
