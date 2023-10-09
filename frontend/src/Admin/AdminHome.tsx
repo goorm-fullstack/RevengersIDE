@@ -53,8 +53,6 @@ const AdminHome = () => {
         })
   }, []);
 
-  console.log(allMember);
-
   const printMember = () => {
     if (allMember.length === 0) {
       return (
