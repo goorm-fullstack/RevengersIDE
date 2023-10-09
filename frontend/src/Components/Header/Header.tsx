@@ -8,6 +8,8 @@ import { ThemeContext, ThemeContextProps } from '../../Container/Home/Home';
 const Header = () => {
   // 테마 전환: App.tsx에서 가져온 값
   const { toggleTheme, isLight } = useContext(ThemeContext);
+  const isLoggedIn = true;
+
   return (
     <S.Header>
       <div className="left">
@@ -20,13 +22,16 @@ const Header = () => {
         </div>
       </div>
       <div className="right">
-        <div className="guest" data-isactive="true">
-          <Link to="/login">로그인</Link>
-          <Link to="/signup">회원가입</Link>
-        </div>
-        <div className="member" data-isactive="false">
-          <Link to="/myaccount">홍구름 님</Link>
-        </div>
+        {isLoggedIn ? (
+          <div className="member">
+            <Link to="/myaccount">홍구름</Link> 님<button type="button">로그아웃</button>
+          </div>
+        ) : (
+          <div className="guest">
+            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
+          </div>
+        )}
       </div>
     </S.Header>
   );

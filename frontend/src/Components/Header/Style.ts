@@ -61,14 +61,6 @@ export const Header = styled.header`
   .right {
     font-size: 0.9375rem;
 
-    & > div {
-      display: none;
-    }
-
-    & > div[data-isactive='true'] {
-      display: block;
-    }
-
     .guest {
       // 로그인 안 했을 때
       a::before {
@@ -82,6 +74,24 @@ export const Header = styled.header`
 
       a:first-child::before {
         display: none;
+      }
+    }
+
+    .member {
+      // 로그인한 경우
+      button {
+        background: transparent;
+        border: 0;
+        font-size: 15px;
+
+        &::before {
+          width: 1px;
+          height: 10px;
+          content: '';
+          background: ${(props) => props.theme.borderColor};
+          display: inline-block;
+          margin: 0 12px;
+        }
       }
     }
   }
