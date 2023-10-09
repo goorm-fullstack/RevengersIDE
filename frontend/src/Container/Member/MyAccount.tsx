@@ -5,7 +5,7 @@ import Logo from '../../Components/Logo/Logo';
 
 const MyAccount = () => {
   return (
-    <S.MyAccount>
+    <S.Member>
       <div className="w">
         <Logo isAdmin={false} />
         <div>
@@ -22,7 +22,7 @@ const MyAccount = () => {
           </p>
         </div>
       </div>
-    </S.MyAccount>
+    </S.Member>
   );
 };
 

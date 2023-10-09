@@ -9,6 +9,9 @@ export const Chat = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
 
   h3 {
+  
+    position: relative;
+  
     // 채팅 영역 타이틀
     background-color: ${(props) => props.theme.bgPanel};
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
@@ -21,6 +24,20 @@ export const Chat = styled.div`
       color: ${(props) => props.theme.textPale};
       font-weight: 300;
       padding-left: 4px;
+    }
+  }
+  
+  input {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 30px;
+      border: 1px solid ${(props) => props.theme.borderColor};
+      background-color: ${(props) => props.theme.bgColor};
+      color: ${(props) => props.theme.textColor};
+      border-radius: 4px;
+      padding-left: 8px;
     }
   }
 

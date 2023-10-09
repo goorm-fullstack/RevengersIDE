@@ -8,11 +8,10 @@ import Home from './Container/Home/Home';
 import Login from './Container/Member/Login';
 import SignUp from './Container/Member/SignUp';
 import MyAccount from './Container/Member/MyAccount';
-import AdminHome from './Admin/AdminHome/AdminHome';
-import AdminLogin from './Admin/AdminLogin/AdminLogin';
-import AdminMember from './Admin/AdminManage/AdminMember';
-import AdminGroup from './Admin/AdminManage/AdminGroup';
-import AdminDetail from './Admin/AdminManage/AdminDetail';
+import AdminHome from './Admin/AdminHome';
+import AdminLogin from './Admin/AdminLogin';
+import AdminMember from './Admin/AdminMember/AdminMember';
+import AdminDetail from './Admin/AdminMember/AdminDetail';
 import Find from './Container/Member/Find';
 import ChangePassword from './Container/Member/ChangePassword';
 
@@ -32,8 +31,7 @@ function App() {
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/member" element={<AdminMember />} />
-        <Route path="/admin/group" element={<AdminGroup />} />
-        <Route path="/admin/detail" element={<AdminDetail />} />
+        <Route path="/admin/member/detail/:memberId" element={<AdminDetail />} />
         <Route path="/changepassword" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
