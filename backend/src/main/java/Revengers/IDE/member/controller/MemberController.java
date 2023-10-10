@@ -47,6 +47,25 @@ public class MemberController {
     }
 
     /**
+     * 회원 역할 확인용
+     * @param auth
+     * @return
+     */
+    @GetMapping("/auth")
+    public String getMemberRole(Authentication auth){
+        String memberRole = null;
+
+        if (auth != null) {
+            Member loginMember = memberService.getLoginByMemberId(auth.getName());
+            if (loginMember != null) {
+                memberRole = loginMember.getRole().toString();
+            }
+        }
+
+        return memberRole;
+    }
+
+    /**
      * 회원가입
      *
      * @param request SignUpRequest

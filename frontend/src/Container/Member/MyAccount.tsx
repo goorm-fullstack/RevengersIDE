@@ -44,6 +44,7 @@ const MyAccount = () => {
       })
       .catch((error) => {
         console.log(error.data);
+        navigate('/login');
       });
   }, []);
 

@@ -30,6 +30,6 @@ server:
 
 docker:
   value:
-    email : ${email}
-    password : ${password}
-  username: ${username}
+    email : soheetech@gmail.com
+    password : gml746331!
+  username: sohee
