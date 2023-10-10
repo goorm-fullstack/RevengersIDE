@@ -8,6 +8,16 @@ export const AdminLayout = styled.div`
   min-height: 100vh;
   padding: 0 0 0 320px;
   background: #f8f8f8;
+
+  .delBtn{
+    border: none;
+    color: #2673dd;
+    text-decoration: underline;
+    background-color: transparent;
+  }
+  .center{
+    text-align: center;
+  }
 `;
 
 export const AdminTitle = styled.h2`

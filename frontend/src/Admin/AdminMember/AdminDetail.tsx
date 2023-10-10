@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import * as S from '../Style';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Instance from "../../Utils/api/axiosInstance";
 import {useForm} from "react-hook-form";
 
 const AdminDetail = () => {
   const { memberId } = useParams();
-  const [memberInfo, setMemberInfo] = useState({ memberName: '' }); // You can initialize it with default values
+  const [memberInfo, setMemberInfo] = useState({ memberName: '' , email:''});
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const formData = {
@@ -64,6 +66,8 @@ const AdminDetail = () => {
           if(response.data){
             alert('회원정보가 변경되었습니다.');
             reset();
+
+            window.location.reload();
           }
         })
         .catch((e) => {
@@ -71,11 +75,26 @@ const AdminDetail = () => {
         });
   };
 
+  console.log(memberInfo);
+
   const passwordCheck = () => {
     if (password !== newPassword) {
       return <p className="check">입력하신 비밀번호가 일치하지 않습니다.</p>;
     }
     return null;
+  };
+
+  const deleteAccount = () => {
+    if(window.confirm("정말 회원을 탈퇴하시겠습니까?")){
+      Instance.delete(`/ideApi/api/member/deleteId/${memberId}`)
+          .then((response) => {
+            alert('회원이 정상적으로 탈퇴되었습니다.');
+            navigate(-1);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    }
   };
 
 
@@ -120,7 +139,7 @@ const AdminDetail = () => {
                 <tr>
                   <th>이메일</th>
                   <td>
-                    <input {...register('newEmail')} type="email" name="newEmail" placeholder="이메일" required />
+                    <input {...register('newEmail')} type="email" name="newEmail" placeholder="이메일" defaultValue={memberInfo.email} required />
                   </td>
                 </tr>
                 </tbody>
@@ -129,6 +148,9 @@ const AdminDetail = () => {
                 <button type="submit" disabled={isSubmitting || password !== newPassword}>회원 정보 수정</button>
               </S.BtnWrapper>
             </form>
+            <div className="center">
+              <button className="delBtn" onClick={deleteAccount}>탈퇴하기</button>
+            </div>
           </S.TableWrap>
         </S.AdminContents>
       </S.AdminLayout>
