@@ -10,7 +10,7 @@ interface Message {
 }
 
 const Chat = () => {
-  const wsURL = 'wss://ide.p-e.kr/ideApi/ws/chat';
+  const wsURL = 'wss://3.34.230.219/ideApi/ws/chat';
   const ws = useRef<WebSocket | null>(null);
   const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
