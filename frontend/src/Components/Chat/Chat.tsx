@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as S from './Style';
 
-type MessageType = 'TALK' | 'ENTER';
+type MessageType = 'TALK' | 'ENTER' | 'KEEP_ALIVE';
 
 interface Message {
   type: MessageType;
@@ -48,9 +48,27 @@ const Chat = () => {
   useEffect(() => {
     const connectWebSoket = () => {
       ws.current = new WebSocket(wsURL);
+
+      const sendKeepAliveMessage = () => {
+        if (wsConnected && ws.current) {
+          const keepAliveMessage = {
+            type: 'KEEP_ALIVE',
+            sender: 'CLIENT',
+            message: 'Keep-Alive',
+          };
+          ws.current.send(JSON.stringify(keepAliveMessage));
+        }
+      };
+
+      // 주기적으로 Keep-Alive 메시지 전송
+      const keepAliveInterval = setInterval(() => {
+        sendKeepAliveMessage();
+      }, 30000); // 30초마다 전송 (서버와 동일한 간격으로 설정)
+
       ws.current.onopen = () => {
         console.log('채팅(웹소켓)에 연결합니다.');
         setWsConnected(true);
+
         ws.current?.send(
             JSON.stringify({
               type: 'ENTER',
@@ -60,8 +78,14 @@ const Chat = () => {
         );
         console.log('웹소켓 상태:', ws.current?.readyState);
       };
+
       ws.current.onmessage = (message) => {
         const parsedMessage: Message = JSON.parse(message.data);
+
+        // Keep-Alive 메시지는 화면에 출력하지 않음
+        if (parsedMessage.type === 'KEEP_ALIVE') {
+          return;
+        }
 
         if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
           setUsername(parsedMessage.message);
@@ -70,14 +94,11 @@ const Chat = () => {
 
         setMessages((prevMessages) => [...prevMessages, parsedMessage]);
       };
+
       ws.current.onclose = () => {
         console.log('채팅(웹소켓) 연결 해제합니다.');
         setWsConnected(false);
-        ws.current = null;
-        setTimeout(() => {
-          console.log('재연결 시도...');
-          connectWebSoket();
-        }, 3000);
+        clearInterval(keepAliveInterval);
       };
     }
     connectWebSoket();
