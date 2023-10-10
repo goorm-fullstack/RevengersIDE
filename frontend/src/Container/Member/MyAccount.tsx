@@ -48,7 +48,7 @@ const MyAccount = () => {
 
   const deleteAccount = () => {
     if(window.confirm("정말 회원을 탈퇴하시겠습니까?")){
-      Instance.delete(`/ideApi/api/member/deleteId`)
+      Instance.delete(`/ideApi/api/member/deleteId/${memberInfo.memberId}`)
         .then((response) => {
           alert('회원이 정상적으로 탈퇴되었습니다.');
           navigate('/');
@@ -72,7 +72,7 @@ const MyAccount = () => {
             <button type="submit">회원정보수정</button>
           </form>
           <p className="link">
-            <button onClick={deleteAccount}>탈퇴하기</button>
+            <button className="delBtn" onClick={deleteAccount}>탈퇴하기</button>
           </p>
         </div>
       </div>
