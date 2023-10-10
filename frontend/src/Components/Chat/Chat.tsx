@@ -46,31 +46,45 @@ const Chat = () => {
 
   // WebSocket 연결 설정
   useEffect(() => {
-    const connectWebSoket = () => {
-      ws.current = new WebSocket(wsURL);
-      ws.current.onopen = () => {
-        console.log('채팅(웹소켓)에 연결합니다.');
-        setWsConnected(true);
-        
-        console.log('웹소켓 상태:', ws.current?.readyState);
-      };
-      ws.current.onmessage = (message) => {
-        const parsedMessage: Message = JSON.parse(message.data);
+    ws.current = new WebSocket(wsURL);
+    ws.current.onopen = () => {
+      console.log('채팅(웹소켓)에 연결합니다.');
+      setWsConnected(true);
+      // WebSocket 연결이 성공하면 ENTER 메시지 전송
+      ws.current?.send(
+        JSON.stringify({
+          type: 'ENTER',
+          sender: username,
+          message: '입장',
+        })
+      );
+    };
+    ws.current.onmessage = (message) => {
+      const parsedMessage: Message = JSON.parse(message.data);
 
-        if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
-          setUsername(parsedMessage.message);
-          return;
-        }
+      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+        setUsername(parsedMessage.message);
+        return;
+      }
 
-        setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-      };
-      ws.current.onclose = () => {
-        console.log('채팅(웹소켓) 연결 해제합니다.');
-        setWsConnected(false);
-        ws.current = null;
-      };
-    }
-    connectWebSoket();
+      setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+    };
+
+    ws.current.onclose = (error) => {
+      ws.current?.send(
+        JSON.stringify({
+          type: 'EXIT',
+          sender: username,
+          message: '퇴장',
+        })
+      );
+    };
+
+    ws.current.onerror = (error) => {
+      console.log('connection error ' + wsURL);
+      console.log(error);
+    };
+
   }, []);
 
   // 스크롤
@@ -142,7 +156,6 @@ const Chat = () => {
               onKeyDown={handleKeyDown}
           ></textarea>
         </div>
-        <button onClick={sendMessage}>Send</button>
       </div>
     </S.Chat>
   );
