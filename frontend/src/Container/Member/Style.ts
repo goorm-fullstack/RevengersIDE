@@ -61,6 +61,13 @@ export const Login = styled(Member)`
   p {
     margin-bottom: 10px;
   }
+
+  .delBtn{
+    border: none;
+    color: #2673dd;
+    text-decoration: underline;
+  }
+
 `;
 
 export const Find = styled(Login)`
