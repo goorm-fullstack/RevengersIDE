@@ -101,11 +101,27 @@ const Chat = () => {
     }
   };
 
+  const [searchwrap, setToggleSearch] = useState(false);
+  const toggleSearch = () => {
+    setToggleSearch((prev) => !prev);
+  };
+
   return (
     <S.Chat>
       <h3>
-        Chats <span></span>
-        <input type="text" placeholder="Search..." onChange={(e) => searchMessage(e.target.value)} />
+        <p>
+          Chats <span>{messages.length}</span>
+        </p>
+        <button type='button' onClick={toggleSearch} data-isactive={searchwrap} className='searchbtn'>
+          <svg id='Layer_1' version='1.1' viewBox='0 0 50 50'>
+            <rect fill='none' height='50' width='50' />
+            <circle cx='21' cy='20' fill='none' r='16' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' />
+            <line fill='none' stroke-miterlimit='10' stroke-width='4' x1='32.229' x2='45.5' y1='32.229' y2='45.5' />
+          </svg>
+        </button>
+        <div className='searchwrap' data-isactive={searchwrap}>
+          <input type="text" placeholder="Search..." onChange={(e) => searchMessage(e.target.value)} />
+        </div>
       </h3>
       <ul className="messagew">
         {messages.map((message, index) => (
