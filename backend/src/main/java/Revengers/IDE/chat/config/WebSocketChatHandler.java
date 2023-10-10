@@ -47,6 +47,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         System.out.println("call this 2");
         String payload = message.getPayload();
         ChatDTO chatMessage = mapper.readValue(payload, ChatDTO.class);
+        chatMessage.setSender(username);
         ChatRoom room = service.getChatRoom();
         chatMessage.setSender(username);
         room.handleAction(session, chatMessage, service);

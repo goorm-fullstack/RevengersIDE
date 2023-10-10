@@ -31,6 +31,7 @@ public class ChatRoom {
             // ChatDTO message에서 getType 확인 -> 일치하면 세션+, 아니면 메세지만
             if (message.getType().equals(ChatDTO.MessageType.ENTER)) {
                 message.setMessage(message.getSender() + " 님이 입장하셨습니다");
+                message.setSender("Notice");
                 sendMessage(message, service);
 
             } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
