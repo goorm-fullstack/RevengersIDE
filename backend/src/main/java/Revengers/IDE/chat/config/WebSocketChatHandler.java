@@ -3,9 +3,12 @@ package Revengers.IDE.chat.config;
 import Revengers.IDE.chat.model.ChatDTO;
 import Revengers.IDE.chat.model.ChatRoom;
 import Revengers.IDE.chat.service.ChatService;
+import Revengers.IDE.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,15 +29,21 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Map<String, Object> attributes = session.getAttributes();
-        if (attributes.containsKey("loginUser")) {
-            String username = (String) attributes.get("loginUser"); // DB에서 가져온 사용자 아이디 (시큐리티 고려 필요)
-            attributes.put("username", username);
+        SecurityContext securityContext = (SecurityContext) attributes.get("SPRING_SECURITY_CONTEXT"); // Spring Security context를 가져옴
+
+        String username;
+        if (securityContext != null) {
+            Authentication auth = securityContext.getAuthentication();
+            if (auth != null && auth.isAuthenticated()) {
+                username = auth.getName(); // Spring Security에서 제공하는 사용자 이름을 가져옴
+            } else {
+                username = UUID.randomUUID().toString().substring(0, 8); // 랜덤 이름 생성
+            }
         } else {
-            String randomUsername = UUID.randomUUID().toString().substring(0, 8);
-            attributes.put("username", randomUsername);
+            username = UUID.randomUUID().toString().substring(0, 8); // 랜덤 이름 생성
         }
 
-        String username = (String) attributes.get("username");
+        attributes.put("username", username);
 
         ChatDTO initialMessage = ChatDTO.builder()
                 .type(ChatDTO.MessageType.ENTER)
@@ -43,7 +52,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
                 .build();
 
         session.sendMessage(new TextMessage(mapper.writeValueAsString(initialMessage)));
-
     }
 
     @Override

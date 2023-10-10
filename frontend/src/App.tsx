@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalStyle } from './Style/GlobalStyle';
 import * as dayjs from 'dayjs';
@@ -19,6 +19,8 @@ dayjs.extend(relativeTime);
 dayjs.locale('ko');
 
 function App() {
+  const [logMemberName, setLogMemberName] = useState(null);
+
   return (
     <BrowserRouter>
       <GlobalStyle />

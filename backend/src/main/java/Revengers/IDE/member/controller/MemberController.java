@@ -8,6 +8,7 @@ import Revengers.IDE.member.model.MemberRole;
 import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
