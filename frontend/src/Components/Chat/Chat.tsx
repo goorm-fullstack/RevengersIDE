@@ -46,29 +46,35 @@ const Chat = () => {
 
   // WebSocket 연결 설정
   useEffect(() => {
-    ws.current = new WebSocket(wsURL);
-    ws.current.onopen = () => {
-      console.log('채팅(웹소켓)에 연결합니다.');
-      setWsConnected(true);
-    };
-    ws.current.onmessage = (message) => {
-      const parsedMessage: Message = JSON.parse(message.data);
+    const connectWebSoket = () => {
+      ws.current = new WebSocket(wsURL);
+      ws.current.onopen = () => {
+        console.log('채팅(웹소켓)에 연결합니다.');
+        setWsConnected(true);
 
-      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
-        setUsername(parsedMessage.message);
-        return;
-      }
+        console.log('웹소켓 상태:', ws.current?.readyState);
+      };
+      ws.current.onmessage = (message) => {
+        const parsedMessage: Message = JSON.parse(message.data);
 
-      setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-    };
-    ws.current.onclose = () => {
-      console.log('채팅(웹소켓) 연결 해제합니다.');
-      setWsConnected(false);
-      setTimeout(() => {
-        console.log('재연결 시도...');
-        ws.current = new WebSocket(wsURL);
-      }, 3000);
-    };
+        if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+          setUsername(parsedMessage.message);
+          return;
+        }
+
+        setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+      };
+      ws.current.onclose = () => {
+        console.log('채팅(웹소켓) 연결 해제합니다.');
+        setWsConnected(false);
+        ws.current = null;
+        setTimeout(() => {
+          console.log('재연결 시도...');
+          connectWebSoket();
+        }, 3000);
+      };
+    }
+    connectWebSoket();
   }, []);
 
   // 스크롤
@@ -140,7 +146,6 @@ const Chat = () => {
               onKeyDown={handleKeyDown}
           ></textarea>
         </div>
-        <button onClick={sendMessage}>Send</button>
       </div>
     </S.Chat>
   );
