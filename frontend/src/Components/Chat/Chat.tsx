@@ -71,8 +71,9 @@ const Chat = () => {
 
         setMessages((prevMessages) => [...prevMessages, parsedMessage]);
       };
-      ws.current.onclose = () => {
+      ws.current.onclose = (error) => {
         console.log('채팅(웹소켓) 연결 해제합니다.');
+        console.log(error)
         setWsConnected(false);
         ws.current = null;
         setTimeout(() => {
