@@ -44,34 +44,57 @@ const Chat = () => {
     setMessages([]);
   };
 
+  // 핑 메시지 보내기
+  const sendPingMessage = () => {
+    if (wsConnected && ws.current) {
+      const pingMessage: Message = {
+        type: 'TALK', // 핑 메시지도 TALK로 전송
+        sender: username,
+        message: 'ping', // 핑 메시지 내용
+      };
+      ws.current.send(JSON.stringify(pingMessage));
+    }
+  };
+
+  useEffect(() => {
+    // 주기적으로 핑 메시지 보내기 (예: 5초마다)
+    const pingInterval = setInterval(() => {
+      sendPingMessage();
+    }, 5000); // 5초마다 핑 메시지 보내기 (원하는 간격으로 수정 가능)
+
+    // 컴포넌트 언마운트 시 clearInterval로 간격 함수 제거
+    return () => clearInterval(pingInterval);
+  }, [wsConnected, username]); // wsConnected와 username이 변경될 때마다 재실행
+
   // WebSocket 연결 설정
   useEffect(() => {
     const connectWebSoket = () => {
       ws.current = new WebSocket(wsURL);
-    ws.current.onopen = () => {
-      console.log('채팅(웹소켓)에 연결합니다.');
-      setWsConnected(true);
-      console.log('웹소켓 상태:', ws.current?.readyState);
-    };
-    ws.current.onmessage = (message) => {
-      const parsedMessage: Message = JSON.parse(message.data);
+      ws.current.onopen = () => {
+        console.log('채팅(웹소켓)에 연결합니다.');
+        setWsConnected(true);
+        
+        console.log('웹소켓 상태:', ws.current?.readyState);
+      };
+      ws.current.onmessage = (message) => {
+        const parsedMessage: Message = JSON.parse(message.data);
 
-      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
-        setUsername(parsedMessage.message);
-        return;
-      }
+        if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+          setUsername(parsedMessage.message);
+          return;
+        }
 
-      setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-    };
-    ws.current.onclose = () => {
-      console.log('채팅(웹소켓) 연결 해제합니다.');
-      setWsConnected(false);
-      ws.current = null;
-      setTimeout(() => {
-        console.log('재연결 시도...');
-        connectWebSoket();
-      }, 3000);
-    };
+        setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+      };
+      ws.current.onclose = () => {
+        console.log('채팅(웹소켓) 연결 해제합니다.');
+        setWsConnected(false);
+        ws.current = null;
+        setTimeout(() => {
+          console.log('재연결 시도...');
+          connectWebSoket();
+        }, 3000);
+      };
     }
     connectWebSoket();
   }, []);
