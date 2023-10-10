@@ -134,6 +134,9 @@ public class SecurityConfig {
         }
     }
 
+    /**
+     * 로그아웃 성공 시 핸들러
+     */
     @Component
     private static class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         private final ObjectMapper objectMapper = new ObjectMapper();
