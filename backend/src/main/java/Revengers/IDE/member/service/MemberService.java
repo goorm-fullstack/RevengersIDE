@@ -1,19 +1,17 @@
 package Revengers.IDE.member.service;
 
 import Revengers.IDE.member.dto.request.LoginRequest;
-import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.dto.request.MemberRequest;
 import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +42,7 @@ public class MemberService {
     /**
      * 회원가입: 입력받은 값 + 비밀번호 암호화
      */
-    public void singup(SignUpRequest request) {
+    public void singup(MemberRequest request) {
         memberRepository.save(request.toEntity(encoder.encode(request.getPassword())));
     }
 
@@ -155,6 +153,7 @@ public class MemberService {
         return memberRepository.findByCreateMemberDateBetween(yesterdayStartOfDay, yesterdayEndOfDay);
     }
 
+    //회원 정보 수정(비밀번호, 이메일 변경)
     public Member updateMember(String memberId, String newPassword, String email) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
@@ -165,10 +164,41 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    //memberId로 회원 정보 찾기
     public Member findByMemberId(String memberId){
         Optional<Member> member = memberRepository.findByMemberId(memberId);
 
         return member.orElse(null);
     }
 
+    //회원 정보 삭제
+    public void deleteById(String memberId) {
+        memberRepository.deleteByMemberId(memberId);
+    }
+
+    /**
+     * 사용자 페이지 회원 정보 업데이트
+     * @param request
+     */
+    public void updateMyAccount(MemberRequest request) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(request.getMemberId());
+
+        // 일치하는 id 검색, 없으면 종료
+        if (optionalMember.isEmpty()) return;
+
+        Member member = optionalMember.get();
+
+        // 비밀번호 일치하지 않는 경우
+        if (!encoder.matches(request.getPassword(), member.getPassword())) {
+            member.setPassword(encoder.encode(request.getPassword()));
+        }
+
+        // 이메일이 일치하지 않는 경우
+        if(!(request.getEmail()).equals(member.getEmail())) {
+            member.setEmail(request.getEmail());
+        }
+
+        memberRepository.save(member);
+
+    }
 }
