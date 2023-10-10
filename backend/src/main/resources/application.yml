@@ -21,9 +21,9 @@ spring:
 #    driver-class-name: org.h2.Driver
 #    username: sa
 #    password:
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
 
 server:
   error:
