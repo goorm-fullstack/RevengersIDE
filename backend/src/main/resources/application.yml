@@ -15,7 +15,7 @@ spring:
     url: jdbc:mysql://my-ide.callxiy6n1zh.ap-northeast-2.rds.amazonaws.com:3306/ide?characterEncoding=UTF-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
-    password: 20231010
+    password: ${password}
 #    url: jdbc:h2:mem:ide;NON_KEYWORDS=USER;
 #    url: jdbc:h2:tcp://localhost/~/test
 #    driver-class-name: org.h2.Driver
@@ -34,6 +34,6 @@ server:
 
 docker:
   value:
-    email : paewhal20@gmail.com
-    password : pwl781955!
-username: jinhwanB
+    email : ${email}
+    password : ${password}
+username: ${username}
