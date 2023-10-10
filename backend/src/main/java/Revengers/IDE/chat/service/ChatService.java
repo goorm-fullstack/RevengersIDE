@@ -13,6 +13,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -21,53 +22,47 @@ import java.util.*;
 public class ChatService {
     private final ObjectMapper mapper;
     private Map<String, ChatRoom> chatRooms;
+    private ChatRoom chatRoom;
     private final ChatMessageRepository chatMessageRepository;
 
     @PostConstruct
     private void init() {
-        chatRooms = new LinkedHashMap<>();
+        chatRoom = new ChatRoom("RevengersIDE", "Global Chat Room");
     }
 
-    public List<ChatRoom> findAllRoom(){
-        return new ArrayList<>(chatRooms.values());
-    }
-
-    public ChatRoom findRoomById(String roomId){
-        return chatRooms.get(roomId);
-    }
-
-    public ChatRoom createRoom(String name) {
-        String roomId = UUID.randomUUID().toString(); // 랜덤한 방 아이디 생성
-
-        // Builder 를 이용해서 ChatRoom 을 Building
-        ChatRoom room = ChatRoom.builder()
-                .roomId(roomId)
-                .name(name)
-                .build();
-
-        chatRooms.put(roomId, room); // 랜덤 아이디와 room 정보를 Map 에 저장
-        return room;
+    public ChatRoom getChatRoom(){
+        return chatRoom;
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {
         try{
             // WebSocket을 통해 메시지 전송
             session.sendMessage(new TextMessage(mapper.writeValueAsString(message)));
+            log.info("try구문: {}", message);
 
             // DB에 저장할 메시지 생성
             if (message instanceof ChatDTO chatMessage) {
-                // ChatDTO chatMessage = (ChatDTO) message; 를 instanceof로 변경 (오류시 삭제)
+                log.info("DB에 저장: {}", chatMessage);
                 ChatMessage chatMessageEntity = new ChatMessage();
                 chatMessageEntity.setMessageType(chatMessage.getType().name());
                 chatMessageEntity.setRoomId(chatMessage.getRoomId());
                 chatMessageEntity.setSender(chatMessage.getSender());
                 chatMessageEntity.setMessage(chatMessage.getMessage());
-                chatMessageEntity.setSentAt(chatMessage.getTime());
+                chatMessageEntity.setSentAt(LocalDateTime.now());
 
                 chatMessageRepository.save(chatMessageEntity);
             }
         } catch (IOException e) {
             log.error("메세지 저장 실패: " + e.getMessage(), e);
+        }
+    }
+
+    public <T> void sendExitedMessage(WebSocketSession session, T message) {
+        try {
+            TextMessage textMessage = new TextMessage(mapper.writeValueAsString(message));
+            session.sendMessage(textMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

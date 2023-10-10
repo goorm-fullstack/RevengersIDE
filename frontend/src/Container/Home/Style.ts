@@ -13,6 +13,27 @@ export const Home = styled.div`
   .terminal {
     // 터미널 세로 크기: 화면 크기 세로 길이 - 코드 편집기 - header, 실행탭, 터미널탭, footer 사이즈 제외
     height: calc(100vh - 55vh - (60px + 40px + 40px + 40px));
+    padding: 20px;
+    line-height: 1.4;
+    word-break: break-all;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: ${(props) => props.theme.bgColor};
+      border-radius: 8px;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: ${(props) => props.theme.bgPanel};
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: ${(props) => props.theme.bgColor};
+    }
   }
 
   .tab {
@@ -25,11 +46,18 @@ export const Home = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
     background-color: ${(props) => props.theme.bgPanel};
     font-size: 0.875rem;
+
+    select {
+      color: ${(props) => props.theme.textColor};
+      background: ${(props) => props.theme.bgPanel};
+      border: 0;
+    }
   }
 
   .run {
     .tab {
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
     }
     button {
       border: 0;
