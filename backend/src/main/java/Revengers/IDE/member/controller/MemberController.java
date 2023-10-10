@@ -4,17 +4,23 @@ import Revengers.IDE.member.dto.request.LoginRequest;
 import Revengers.IDE.member.dto.request.SignUpRequest;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
+import Revengers.IDE.member.model.MemberRole;
+import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +36,7 @@ public class MemberController {
      * 로그인 상태일 때 index 화면 memberName 출력용
      *
      * @param auth 권한
-     * @return 회원 이름
+     * @return 회원 이름(회원 아이디)
      */
     @GetMapping(value = {"", "/"})
     public String getMemberName(Authentication auth) {
@@ -39,9 +45,10 @@ public class MemberController {
         if (auth != null) {
             Member loginMember = memberService.getLoginByMemberId(auth.getName());
             if (loginMember != null) {
-                memberName = loginMember.getMemberName();
+                memberName = loginMember.getMemberName() + "(" + loginMember.getMemberId() + ")";
             }
         }
+        System.out.println(memberName);
         return memberName;
     }
 
@@ -54,6 +61,7 @@ public class MemberController {
      */
     @PostMapping("/signup")
     public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
+
         // memberId 중복 검사
         if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
             bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));
@@ -149,6 +157,11 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
     @PostMapping("/changePassword")
     public ResponseEntity<Object> changePassword(@RequestBody Map<String, String> requestBody) {
         String memberId = requestBody.get("memberId");
@@ -157,5 +170,40 @@ public class MemberController {
         Member newMember = memberService.updatePassword(memberId, newPassword);
 
         return ResponseEntity.ok(newMember);
+    }
+
+    @GetMapping("/todayMember")
+    public ResponseEntity<List<Member>> getTodayMembers() {
+
+        List<Member> todayMembers = memberService.getTodayMembers();
+
+        return ResponseEntity.ok(todayMembers);
+    }
+
+    @GetMapping("/yesterdayMember")
+    public ResponseEntity<List<Member>> getYesterdayMembers() {
+
+        List<Member> todayMembers = memberService.getYesterdayMembers();
+
+        return ResponseEntity.ok(todayMembers);
+    }
+
+    @PostMapping("/updateMember")
+    public ResponseEntity<Object> updateMember(@RequestBody Map<String, String> requestBody) {
+        String memberId = requestBody.get("memberId");
+        String newPassword = requestBody.get("newPassword");
+        String email = requestBody.get("email");
+
+        Member newMember = memberService.updateMember(memberId, newPassword, email);
+
+        return ResponseEntity.ok(newMember);
+    }
+
+    @PostMapping("/findById")
+    public ResponseEntity<Member> findById(@RequestBody Map<String, String> requestBody){
+        String memberId = requestBody.get("memberId");
+        Member member = memberService.findByMemberId(memberId);
+
+        return ResponseEntity.ok(member);
     }
 }

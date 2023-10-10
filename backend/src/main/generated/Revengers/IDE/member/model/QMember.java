@@ -20,6 +20,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
+    public final DateTimePath<java.time.LocalDateTime> createMemberDate = createDateTime("createMemberDate", java.time.LocalDateTime.class);
+
     public final ListPath<Revengers.IDE.docker.model.Docker, Revengers.IDE.docker.model.QDocker> docker = this.<Revengers.IDE.docker.model.Docker, Revengers.IDE.docker.model.QDocker>createList("docker", Revengers.IDE.docker.model.Docker.class, Revengers.IDE.docker.model.QDocker.class, PathInits.DIRECT2);
 
     public final StringPath email = createString("email");

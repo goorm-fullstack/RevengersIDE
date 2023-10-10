@@ -6,10 +6,14 @@ import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,6 +136,39 @@ public class MemberService {
         member.setPassword(encoder.encode(newPassword));
 
         return memberRepository.save(member);
+    }
+
+    //오늘 회원가입 멤버 구하기
+    public List<Member> getTodayMembers() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(23, 59, 59);
+        return memberRepository.findByCreateMemberDateBetween(startOfDay, endOfDay);
+    }
+
+    //어제 가입한 멤버 구하기
+    public List<Member> getYesterdayMembers() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDateTime yesterdayStartOfDay = yesterday.atStartOfDay();
+        LocalDateTime yesterdayEndOfDay = yesterday.atTime(23, 59, 59);
+
+        return memberRepository.findByCreateMemberDateBetween(yesterdayStartOfDay, yesterdayEndOfDay);
+    }
+
+    public Member updateMember(String memberId, String newPassword, String email) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        Member member = optionalMember.get();
+        member.setPassword(encoder.encode(newPassword));
+        member.setEmail(email);
+
+        return memberRepository.save(member);
+    }
+
+    public Member findByMemberId(String memberId){
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
+
+        return member.orElse(null);
     }
 
 }
