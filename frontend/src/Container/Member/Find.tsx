@@ -4,6 +4,7 @@ import Logo from '../../Components/Logo/Logo';
 import { useForm } from 'react-hook-form';
 import Instance from '../../Utils/api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Find = () => {
   const {
@@ -30,7 +31,7 @@ const Find = () => {
   };
 
   const findId = (data: any) => {
-    Instance.post('/ideApi/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/ideApi/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(data);
         const userId = response.data.memberId;
@@ -42,7 +43,7 @@ const Find = () => {
   };
 
   const findPassword = (data: any) => {
-    Instance.post('/ideApi/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/ideApi/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         if (response.data.memberId) {
           navigate('/changepassword', { state: { memberId: response.data.memberId } });

@@ -5,6 +5,7 @@ import Logo from '../Logo/Logo';
 import { ThemeContext, ThemeContextProps } from '../../Container/Home/Home';
 // 미사용으로 체크되지만 ThemeContextProps(type 정의) 값도 있어야 합니다. => import에서 삭제 금지
 import Instance from '../../Utils/api/axiosInstance';
+import axios from 'axios';
 
 const Header = () => {
   // 테마 전환: App.tsx에서 가져온 값
@@ -13,7 +14,7 @@ const Header = () => {
   let [logMemberName, setLogMemberName] = useState(); // 회원명(아이디)
 
   // 회원 이름(아이디) 가져오기
-  Instance.get('/ideApi/api/member/', { withCredentials: true })
+  axios.get('/ideApi/api/member/', { withCredentials: true })
     .then((response) => {
       // console.log(response);
       if (response.status === 200) {

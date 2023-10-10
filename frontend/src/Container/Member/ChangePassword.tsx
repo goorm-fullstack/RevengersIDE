@@ -4,6 +4,7 @@ import Logo from '../../Components/Logo/Logo';
 import { useForm } from 'react-hook-form';
 import Instance from '../../Utils/api/axiosInstance';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ChangePassword = () => {
   const location = useLocation();
@@ -35,7 +36,7 @@ const ChangePassword = () => {
       newPassword: data.newPassword,
     };
 
-    Instance.post('/ideApi/api/member/changePassword', formData, {
+    axios.post('/ideApi/api/member/changePassword', formData, {
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => {
