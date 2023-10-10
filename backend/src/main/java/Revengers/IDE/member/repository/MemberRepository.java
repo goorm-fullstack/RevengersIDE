@@ -26,4 +26,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByCreateMemberDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
+    void deleteByMemberId(String memberId);
+
 }
