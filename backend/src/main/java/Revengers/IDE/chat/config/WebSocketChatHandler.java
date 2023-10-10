@@ -35,12 +35,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         if (securityContext != null) {
             Authentication auth = securityContext.getAuthentication();
             if (auth != null && auth.isAuthenticated()) {
-                username = auth.getName(); // Spring Security에서 제공하는 사용자 이름을 가져옴
+                username = auth.getName();
             } else {
-                username = UUID.randomUUID().toString().substring(0, 8); // 랜덤 이름 생성
+                username = UUID.randomUUID().toString().substring(0, 8);
             }
         } else {
-            username = UUID.randomUUID().toString().substring(0, 8); // 랜덤 이름 생성
+            username = UUID.randomUUID().toString().substring(0, 8);
         }
 
         attributes.put("username", username);
