@@ -25,6 +25,7 @@ const Login = () => {
         if (response.status === 200) {
           console.log('React: 로그인 성공');
           setLoggedIn(true);
+          localStorage.setItem('isLoggedIn', 'true');
           // console.log('cookie ' + response.headers['jsessionid']);
           setCookie('JSESSIONID', response.headers['jsessionid'], { path: '/ideApi' });
           navigate('/');
