@@ -46,7 +46,8 @@ const Chat = () => {
 
   // WebSocket 연결 설정
   useEffect(() => {
-    ws.current = new WebSocket(wsURL);
+    const connectWebSoket = () => {
+      ws.current = new WebSocket(wsURL);
     ws.current.onopen = () => {
       console.log('채팅(웹소켓)에 연결합니다.');
       setWsConnected(true);
@@ -67,9 +68,11 @@ const Chat = () => {
       setWsConnected(false);
       setTimeout(() => {
         console.log('재연결 시도...');
-        ws.current = new WebSocket(wsURL);
+        connectWebSoket();
       }, 3000);
     };
+    }
+    connectWebSoket();
   }, []);
 
   // 스크롤
