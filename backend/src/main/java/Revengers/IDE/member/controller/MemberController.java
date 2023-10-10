@@ -124,11 +124,11 @@ public class MemberController {
             if (memberService.checkMemberIdDuplicate(request.getMemberId())) {
                 bindingResult.addError(new FieldError("checkMemberInfo", "memberId", "회원 ID 중복"));
             }
-        }
 
-        // email 중복 검사
-        if (memberService.checkEmailDuplicate(request.getEmail())) {
-            bindingResult.addError(new FieldError("checkMemberInfo", "email", "이메일 중복"));
+            // email 중복 검사
+            if (memberService.checkEmailDuplicate(request.getEmail())) {
+                bindingResult.addError(new FieldError("checkMemberInfo", "email", "이메일 중복"));
+            }
         }
 
         // password 확인 검사

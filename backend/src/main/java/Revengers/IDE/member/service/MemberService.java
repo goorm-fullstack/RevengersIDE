@@ -187,11 +187,16 @@ public class MemberService {
         if (optionalMember.isEmpty()) return;
 
         Member member = optionalMember.get();
+
         // 비밀번호 일치하지 않는 경우
         if (!encoder.matches(request.getPassword(), member.getPassword())) {
             member.setPassword(encoder.encode(request.getPassword()));
         }
-        member.setEmail(request.getEmail());
+
+        // 이메일이 일치하지 않는 경우
+        if(!(request.getEmail()).equals(member.getEmail())) {
+            member.setEmail(request.getEmail());
+        }
 
         memberRepository.save(member);
 
