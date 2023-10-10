@@ -10,7 +10,7 @@ interface Message {
 }
 
 const Chat = () => {
-  const wsURL = 'wss://localhost/ideApi/ws/chat';
+  const wsURL = 'wss://localhost:8080/ideApi/ws/chat';
   const ws = useRef<WebSocket | null>(null);
   const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
