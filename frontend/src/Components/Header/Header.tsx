@@ -1,14 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as S from './Style';
 import Logo from '../Logo/Logo';
 import { ThemeContext, ThemeContextProps } from '../../Container/Home/Home';
 // 미사용으로 체크되지만 ThemeContextProps(type 정의) 값도 있어야 합니다. => import에서 삭제 금지
 import Instance from '../../Utils/api/axiosInstance';
+import { useCookies } from 'react-cookie';
 
 const Header = () => {
-  // 테마 전환: App.tsx에서 가져온 값
-  const { toggleTheme, isLight } = useContext(ThemeContext);
+  const [cookies, removeCookie] = useCookies(['JSESSIONID']); // 로그인 쿠키
+  const { toggleTheme, isLight } = useContext(ThemeContext); // 테마 전환: App.tsx에서 가져온 값
+  const navigate = useNavigate();
   let [isLoggedIn, setLogState] = useState(true); // 로그인 유무 체크
   let [logMemberName, setLogMemberName] = useState(); // 회원명(아이디)
 
@@ -33,6 +35,21 @@ const Header = () => {
       setLogState(true);
     });
 
+  // 로그아웃
+  const Logout = () => {
+    Instance.post('/ideApi/api/member/logout')
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('React: 로그아웃 성공');
+        }
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
+    removeCookie('JSESSIONID', localStorage['jsessionid'], { path: '/ideApi' });
+    navigate('/');
+  };
+
   return (
     <S.Header>
       <div className="left">
@@ -52,7 +69,10 @@ const Header = () => {
           </div>
         ) : (
           <div className="member">
-            <Link to="/myaccount">{logMemberName}</Link> 님<button type="button">로그아웃</button>
+            <Link to="/myaccount">{logMemberName}</Link> 님
+            <button type="button" onClick={Logout}>
+              로그아웃
+            </button>
           </div>
         )}
       </div>

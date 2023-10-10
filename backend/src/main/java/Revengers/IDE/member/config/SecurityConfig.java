@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -69,7 +70,7 @@ public class SecurityConfig {
                                 .authenticationSuccessHandler(authenticationSuccessHandler())
                 ).logout( // 로그아웃 설정
                         (logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/api/member/logout"))
-                                .logoutSuccessUrl("/")
+                                .logoutSuccessHandler(logoutSuccessHandler())
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
@@ -83,6 +84,11 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
     }
 
     @Bean
@@ -128,17 +134,15 @@ public class SecurityConfig {
         }
     }
 
-//    /**
-//     * 쿠키 저장
-//     */
-//    private class CsrfCookieFilter extends OncePerRequestFilter {
-//        @Override
-//        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//            CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-//            if(csrfToken.getHeaderName() != null){
-//                response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-//            }
-//            filterChain.doFilter(request, response);
-//        }
-//    }
+    @Component
+    private static class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
+        private final ObjectMapper objectMapper = new ObjectMapper();
+
+        @Override
+        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(objectMapper.writeValueAsString("Spring: 로그아웃 성공"));
+        }
+    }
 }
