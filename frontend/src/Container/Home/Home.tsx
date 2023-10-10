@@ -32,6 +32,7 @@ const Home = () => {
   };
 
   const handleRunCode = () => {
+    setResult('loading...');
     const data = {
       source: code,
       language: lang,
