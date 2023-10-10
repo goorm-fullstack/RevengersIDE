@@ -30,10 +30,25 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        Map<String, Object> attributes = session.getAttributes();
+        SecurityContext securityContext = (SecurityContext) attributes.get("SPRING_SECURITY_CONTEXT"); // Spring Security context를 가져옴
+
+        String username;
+        if (securityContext != null) {
+            Authentication auth = securityContext.getAuthentication();
+            if (auth != null && auth.isAuthenticated()) {
+                username = auth.getName();
+            } else {
+                username = UUID.randomUUID().toString().substring(0, 8);
+            }
+        } else {
+            username = UUID.randomUUID().toString().substring(0, 8);
+        }
         System.out.println("call this 2");
         String payload = message.getPayload();
         ChatDTO chatMessage = mapper.readValue(payload, ChatDTO.class);
         ChatRoom room = service.getChatRoom();
+        chatMessage.setSender(username);
         room.handleAction(session, chatMessage, service);
     }
 
