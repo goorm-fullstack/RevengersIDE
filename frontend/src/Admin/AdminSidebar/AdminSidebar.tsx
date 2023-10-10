@@ -3,6 +3,7 @@ import * as S from './Style';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import Logo from '../../Components/Logo/Logo';
 import LogoutBtn from '../../Components/LogoutBtn';
+import AdminAuth from '../AdminAuth';
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const AdminSidebar = () => {
           사용자 홈 바로가기
         </Link>
       </div>
+      <AdminAuth />
     </S.Sidebar>
   );
 };
