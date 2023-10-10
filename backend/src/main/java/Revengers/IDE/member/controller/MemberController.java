@@ -5,6 +5,7 @@ import Revengers.IDE.member.dto.request.MemberRequest;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

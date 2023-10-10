@@ -6,9 +6,11 @@ import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import {useAuth} from "../../Utils/api/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setLoggedIn } = useAuth();
   const {
     register,
     handleSubmit,
@@ -22,6 +24,7 @@ const Login = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log('React: 로그인 성공');
+          setLoggedIn(true);
           // console.log('cookie ' + response.headers['jsessionid']);
           setCookie('JSESSIONID', response.headers['jsessionid'], { path: '/ideApi' });
           navigate('/');

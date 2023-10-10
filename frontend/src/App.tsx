@@ -14,6 +14,7 @@ import AdminMember from './Admin/AdminMember/AdminMember';
 import AdminDetail from './Admin/AdminMember/AdminDetail';
 import Find from './Container/Member/Find';
 import ChangePassword from './Container/Member/ChangePassword';
+import { AuthProvider } from './Utils/api/AuthContext';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -22,6 +23,7 @@ function App() {
   const [logMemberName, setLogMemberName] = useState(null);
 
   return (
+      <AuthProvider>
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
@@ -37,6 +39,7 @@ function App() {
         <Route path="/changepassword" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
+        </AuthProvider>
   );
 }
 
