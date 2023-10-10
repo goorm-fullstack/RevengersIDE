@@ -1,26 +1,20 @@
 package Revengers.IDE.member.controller;
 
 import Revengers.IDE.member.dto.request.LoginRequest;
-import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.dto.request.MemberRequest;
 import Revengers.IDE.member.dto.response.MemberResponse;
 import Revengers.IDE.member.model.Member;
-import Revengers.IDE.member.model.MemberRole;
-import Revengers.IDE.member.model.PrincipalDetails;
 import Revengers.IDE.member.service.MemberService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -55,33 +49,18 @@ public class MemberController {
     /**
      * 회원가입
      *
-     * @param sign SignUpRequest
+     * @param request SignUpRequest
      * @param bindingResult 검증 결과 기록
      * @return 회원가입
      */
     @PostMapping("/signup")
-    public ResponseEntity<Object> SignUp(@Validated @RequestBody SignUpRequest sign, BindingResult bindingResult) {
+    public ResponseEntity<Object> SignUp(@Validated @RequestBody MemberRequest request, BindingResult bindingResult) {
 
         // memberId 중복 검사
-        if (memberService.checkMemberIdDuplicate(sign.getMemberId())) {
-            bindingResult.addError(new FieldError("sign", "memberId", "회원 ID 중복"));
-        }
+        ResponseEntity<Object> BAD_REQUEST = checkMemberInfo(request, bindingResult, "signup");
+        if (BAD_REQUEST != null) return BAD_REQUEST;
 
-        // email 중복 검사
-        if (memberService.checkEmailDuplicate(sign.getEmail())) {
-            bindingResult.addError(new FieldError("sign", "email", "이메일 중복"));
-        }
-
-        // password 확인 검사
-        if (!sign.getPassword().equals(sign.getPasswordCheck())) {
-            bindingResult.addError(new FieldError("sign", "passwordCheck", "비밀번호 불일치"));
-        }
-
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors().toString());
-        }
-
-        memberService.singup(sign);
+        memberService.singup(request);
         return ResponseEntity.ok().build();
     }
 
@@ -104,7 +83,7 @@ public class MemberController {
      * @return 회원 정보
      */
     @GetMapping("/myaccount")
-    public ResponseEntity<MemberResponse> getMyAccount(Authentication auth) {
+    public ResponseEntity<Object> getMyAccount(Authentication auth) {
         Member loginMember = memberService.getLoginByMemberId(auth.getName());
 
         if (loginMember == null) { // 권한 확인
@@ -113,6 +92,55 @@ public class MemberController {
 
         MemberResponse response = memberService.getMemberByMemberId(loginMember).toMemberResponse();
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 회원 정보 업데이트
+     * @param request
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/myaccount")
+    public ResponseEntity<Object> updateMyAccount(@Validated @RequestBody MemberRequest request, BindingResult bindingResult) {
+
+        // 중복 검사
+        ResponseEntity<Object> BAD_REQUEST = checkMemberInfo(request, bindingResult, "update");
+        if (BAD_REQUEST != null) return BAD_REQUEST;
+
+        memberService.updateMyAccount(request);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 중복 검사
+     * @param request
+     * @param bindingResult
+     * @return
+     */
+    private ResponseEntity<Object> checkMemberInfo(MemberRequest request, BindingResult bindingResult, String action) {
+
+        if(action.equals("signup")) {
+            // memberId 중복 검사
+            if (memberService.checkMemberIdDuplicate(request.getMemberId())) {
+                bindingResult.addError(new FieldError("checkMemberInfo", "memberId", "회원 ID 중복"));
+            }
+        }
+
+        // email 중복 검사
+        if (memberService.checkEmailDuplicate(request.getEmail())) {
+            bindingResult.addError(new FieldError("checkMemberInfo", "email", "이메일 중복"));
+        }
+
+        // password 확인 검사
+        if (!request.getPassword().equals(request.getPasswordCheck())) {
+            bindingResult.addError(new FieldError("checkMemberInfo", "passwordCheck", "비밀번호 불일치"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors().toString());
+        }
+
+        return null;
     }
 
     /**

@@ -4,15 +4,6 @@ import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
 
-interface memberInfo {
-  memberId: string;
-  memberName: string;
-  email: string;
-  password: string;
-  passwordCheck: string;
-  createMemberDate: [number];
-}
-
 const MyAccount = () => {
   const navigate = useNavigate();
   const [memberInfo, setMemberInfo] = useState({
@@ -25,7 +16,7 @@ const MyAccount = () => {
   }); // 회원 정보 get
 
   useEffect(() => {
-    // 회원 이름(아이디) 가져오기
+    // 회원 정보 가져오기
     Instance.get('/ideApi/api/member/myaccount', { withCredentials: true })
       .then((response) => {
         // console.log(response);
