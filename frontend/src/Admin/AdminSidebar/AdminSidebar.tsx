@@ -4,9 +4,11 @@ import { Link, useNavigate, NavLink } from 'react-router-dom';
 import Logo from '../../Components/Logo/Logo';
 import LogoutBtn from '../../Components/LogoutBtn';
 import AdminAuth from '../AdminAuth';
+import Instance from "../../Utils/api/axiosInstance";
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
+
 
   return (
     <S.Sidebar>
