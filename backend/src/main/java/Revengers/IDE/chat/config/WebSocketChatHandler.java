@@ -51,18 +51,13 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         log.info("payload {}", payload);
 
-        if ("PING".equals(payload)) {
-            // 핑 메시지를 받으면 퐁 메시지를 클라이언트에 응답
-            session.sendMessage(new TextMessage("PONG"));
-        } else {
-            ChatDTO chatMessage = mapper.readValue(payload, ChatDTO.class);
-            log.info("session {}", chatMessage.toString());
+        ChatDTO chatMessage = mapper.readValue(payload, ChatDTO.class);
+        log.info("session {}", chatMessage.toString());
 
-            ChatRoom room = service.getChatRoom();
-            log.info("room {}", room.toString());
+        ChatRoom room = service.getChatRoom();
+        log.info("room {}", room.toString());
 
-            room.handleAction(session, chatMessage, service);
-            log.info("핸들액션={}, {}, {}" + session, chatMessage, service);
-        }
+        room.handleAction(session, chatMessage, service);
+        log.info("핸들액션={}, {}, {}" + session, chatMessage, service);
     }
 }

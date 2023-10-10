@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as S from './Style';
 
-type MessageType = 'TALK' | 'ENTER' | 'ping';
+type MessageType = 'TALK' | 'ENTER';
 
 interface Message {
   type: MessageType;
@@ -44,28 +44,6 @@ const Chat = () => {
     setMessages([]);
   };
 
-  // 핑 메시지 보내기
-  const sendPingMessage = () => {
-    if (wsConnected && ws.current) {
-      const pingMessage: Message = {
-        type: 'TALK', // 핑 메시지도 TALK로 전송
-        sender: username,
-        message: 'ping', // 핑 메시지 내용
-      };
-      ws.current.send(JSON.stringify(pingMessage));
-    }
-  };
-
-  useEffect(() => {
-    // 주기적으로 핑 메시지 보내기 (예: 5초마다)
-    const pingInterval = setInterval(() => {
-      sendPingMessage();
-    }, 5000); // 5초마다 핑 메시지 보내기 (원하는 간격으로 수정 가능)
-
-    // 컴포넌트 언마운트 시 clearInterval로 간격 함수 제거
-    return () => clearInterval(pingInterval);
-  }, [wsConnected, username]); // wsConnected와 username이 변경될 때마다 재실행
-
   // WebSocket 연결 설정
   useEffect(() => {
     const connectWebSoket = () => {
@@ -78,11 +56,6 @@ const Chat = () => {
       };
       ws.current.onmessage = (message) => {
         const parsedMessage: Message = JSON.parse(message.data);
-
-        if (parsedMessage.type === 'ping') {
-          // 핑 메시지는 화면에 표시하지 않음
-          return;
-        }
 
         if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
           setUsername(parsedMessage.message);
