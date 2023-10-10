@@ -43,6 +43,15 @@ public class ChatRoom {
     }
 
     public <T> void sendMessage(T message, ChatService service) {
-        sessions.parallelStream().forEach(session -> service.sendMessage(session, message));
+        sessions.forEach(session -> {
+            try {
+                // 세션이 열려 있는 경우에만 메시지 전송
+                if (session.isOpen()) {
+                    service.sendMessage(session, message);
+                }
+            } catch (Exception e) {
+                log.error("Error sending message to session", e);
+            }
+        });
     }
 }
