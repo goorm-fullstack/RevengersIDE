@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from '../Container/Member/Style';
 import Logo from '../Components/Logo/Logo';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import Instance from '../Utils/api/axiosInstance';
@@ -33,6 +33,10 @@ const AdminLogin = () => {
       });
   };
 
+  const goHome = () => {
+    navigate('/');
+  }
+
 
   return (
     <S.Login>
@@ -44,6 +48,11 @@ const AdminLogin = () => {
             <input {...register('password')}type="password" name='password' placeholder="관리자 비밀번호" />
             <button type="submit" disabled={isSubmitting}>로그인</button>
           </form>
+        </div>
+        <div>
+          <div>
+            <button className="delBtn" onClick={goHome}>사용자 홈 바로가기</button>
+          </div>
         </div>
       </div>
     </S.Login>
