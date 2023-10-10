@@ -45,43 +45,43 @@ const Chat = () => {
   };
 
   // WebSocket 연결 설정
+  const connectWebSoket = () => {
+    ws.current = new WebSocket(wsURL);
+    ws.current.onopen = () => {
+      console.log('채팅(웹소켓)에 연결합니다.');
+      setWsConnected(true);
+      ws.current?.send(
+          JSON.stringify({
+            type: 'ENTER',
+            sender: username,
+            message: '입장',
+          })
+      );
+      console.log('웹소켓 상태:', ws.current?.readyState);
+    };
+    ws.current.onmessage = (message) => {
+      const parsedMessage = JSON.parse(message.data);
+      if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
+        setUsername(parsedMessage.message);
+        return;
+      }
+      setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+    };
+    ws.current.onclose = () => {
+      console.log('채팅(웹소켓) 연결 해제합니다.');
+      setWsConnected(false);
+      ws.current = null;
+    };
+  };
+
   useEffect(() => {
-    const connectWebSoket = () => {
-      ws.current = new WebSocket(wsURL);
-      ws.current.onopen = () => {
-        console.log('채팅(웹소켓)에 연결합니다.');
-        setWsConnected(true);
-        ws.current?.send(
-            JSON.stringify({
-              type: 'ENTER',
-              sender: username,
-              message: '입장',
-            })
-        );
-        console.log('웹소켓 상태:', ws.current?.readyState);
-      };
-      ws.current.onmessage = (message) => {
-        const parsedMessage: Message = JSON.parse(message.data);
-
-        if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
-          setUsername(parsedMessage.message);
-          return;
-        }
-
-        setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-      };
-      ws.current.onclose = () => {
-        console.log('채팅(웹소켓) 연결 해제합니다.');
-        setWsConnected(false);
-        ws.current = null;
-        setTimeout(() => {
-          console.log('재연결 시도...');
-          connectWebSoket();
-        }, 3000);
-      };
-    }
     connectWebSoket();
-  }, []);
+
+    // Cleanup 함수: 컴포넌트가 언마운트될 때 실행
+    return () => {
+      ws.current?.close();
+    };
+  }, []);  // 빈 배열을 dependency로 설정
 
   // 스크롤
   useEffect(() => {
