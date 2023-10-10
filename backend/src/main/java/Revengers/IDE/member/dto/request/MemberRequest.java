@@ -8,14 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class SignUpRequest {
+public class MemberRequest {
 
     @NotBlank(message = "ID를 입력해주세요.")
     private String memberId;        // 로그인 ID
@@ -35,7 +34,7 @@ public class SignUpRequest {
 
 
     @Builder(toBuilder = true)
-    public SignUpRequest(String memberId, String password, String passwordCheck, String memberName, String email, LocalDateTime createMemberDate) {
+    public MemberRequest(String memberId, String password, String passwordCheck, String memberName, String email, LocalDateTime createMemberDate) {
         this.memberId = memberId;
         this.password = password;
         this.passwordCheck = passwordCheck;

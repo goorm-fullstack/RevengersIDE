@@ -56,4 +56,13 @@ public class ChatService {
             log.error("메세지 저장 실패: " + e.getMessage(), e);
         }
     }
+
+    public <T> void sendExitedMessage(WebSocketSession session, T message) {
+        try {
+            TextMessage textMessage = new TextMessage(mapper.writeValueAsString(message));
+            session.sendMessage(textMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
