@@ -46,6 +46,11 @@ export const Member = styled.div`
       margin: 0 6px;
     }
   }
+  .delBtn{
+    border: none;
+    color: #2673dd;
+    text-decoration: underline;
+  }
 `;
 
 export const Login = styled(Member)`
@@ -85,7 +90,7 @@ export const Find = styled(Login)`
   p {
     line-height: 1.4;
   }
-
+  
   .check {
     font-size: 14px;
     color: #ee2c4a;

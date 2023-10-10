@@ -9,15 +9,17 @@ export const Chat = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
 
   h3 {
-  
     position: relative;
-  
+
     // 채팅 영역 타이틀
     background-color: ${(props) => props.theme.bgPanel};
     border-bottom: 1px solid ${(props) => props.theme.borderColor};
     padding: 0 20px;
     height: 50px;
     line-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     span {
       // 채팅 인원
@@ -25,19 +27,53 @@ export const Chat = styled.div`
       font-weight: 300;
       padding-left: 4px;
     }
+
+    .searchbtn {
+      svg {
+        width: 22px;
+        height: 22px;
+
+        line,
+        circle {
+          stroke: ${(props) => props.theme.textPale};
+        }
+      }
+
+      &[data-isactive='true'] {
+        svg {
+          line,
+          circle {
+            stroke: ${(props) => props.theme.primary};
+          }
+        }
+      }
+    }
   }
-  
-  input {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 30px;
-      border: 1px solid ${(props) => props.theme.borderColor};
+
+  .searchwrap {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    width: 100%;
+    height: 60px;
+    padding: 12px 20px;
+    background-color: ${(props) => props.theme.bgPanel};
+    border-bottom: 1px solid ${(props) => props.theme.borderColor};
+    display: none;
+
+    &[data-isactive='true'] {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      height: 36px;
+      vertical-align: top;
+      border: 0;
+      border-radius: 3px;
+      padding: 0 8px;
       background-color: ${(props) => props.theme.bgColor};
       color: ${(props) => props.theme.textColor};
-      border-radius: 4px;
-      padding-left: 8px;
     }
   }
 

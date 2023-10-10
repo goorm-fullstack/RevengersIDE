@@ -51,7 +51,13 @@ const Chat = () => {
       ws.current.onopen = () => {
         console.log('채팅(웹소켓)에 연결합니다.');
         setWsConnected(true);
-        
+        ws.current?.send(
+            JSON.stringify({
+              type: 'ENTER',
+              sender: username,
+              message: '입장',
+            })
+        );
         console.log('웹소켓 상태:', ws.current?.readyState);
       };
       ws.current.onmessage = (message) => {
@@ -97,7 +103,7 @@ const Chat = () => {
   return (
     <S.Chat>
       <h3>
-        Chats <span>{messages.length}</span>
+        Chats <span></span>
         <input type="text" placeholder="Search..." onChange={(e) => searchMessage(e.target.value)} />
       </h3>
       <ul className="messagew">
@@ -146,7 +152,6 @@ const Chat = () => {
               onKeyDown={handleKeyDown}
           ></textarea>
         </div>
-        <button onClick={sendMessage}>Send</button>
       </div>
     </S.Chat>
   );

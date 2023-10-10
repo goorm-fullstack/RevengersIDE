@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './Style';
 import AdminSidebar from './AdminSidebar/AdminSidebar';
 import { Link, useNavigate } from 'react-router-dom';
-import Instance from "../Utils/api/axiosInstance";
+import Instance from '../Utils/api/axiosInstance';
+
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -24,63 +25,57 @@ const AdminHome = () => {
 
   useEffect(() => {
     Instance.get(`/ideApi/api/member/todayMember`)
-        .then((response) => {
-          setTodayMemberCount(response.data.length);
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+      .then((response) => {
+        setTodayMemberCount(response.data.length);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, []);
 
   useEffect(() => {
     Instance.get(`/ideApi/api/member/yesterdayMember`)
-        .then((response) => {
-          setYesterdayMemberCount(response.data.length);
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+      .then((response) => {
+        setYesterdayMemberCount(response.data.length);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, []);
 
   useEffect(() => {
     Instance.get(`/ideApi/api/member/all`)
-        .then((response) => {
-          setAllMemberCount(response.data.length);
-          setAllMember(response.data);
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+      .then((response) => {
+        setAllMemberCount(response.data.length);
+        setAllMember(response.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, []);
 
   const printMember = () => {
     if (allMember.length === 0) {
       return (
-          <tr>
-            <td colSpan={5} style={{ textAlign: "center" }}>
-              회원가입된 아이디가 없습니다.
-            </td>
-          </tr>
+        <tr>
+          <td colSpan={5} style={{ textAlign: 'center' }}>
+            회원가입된 아이디가 없습니다.
+          </td>
+        </tr>
       );
     } else {
-      return (
-          allMember.map((member, index: number) => (
-              <tr key={member.id}>
-                <td>{member.id}</td>
-                <td>
-                  <Link to={`/admin/member/detail/${member.memberId}`}>
-                    {member.memberId}
-                  </Link>
-                </td>
-                <td>{member.memberName}</td>
-                <td>{member.email}</td>
-              </tr>
-          ))
-      );
+      return allMember.map((member, index: number) => (
+        <tr key={member.id}>
+          <td>{member.id}</td>
+          <td>
+            <Link to={`/admin/member/detail/${member.memberId}`}>{member.memberId}</Link>
+          </td>
+          <td>{member.memberName}</td>
+          <td>{member.email}</td>
+        </tr>
+      ));
     }
   };
-
-
 
   return (
     <S.AdminLayout>
@@ -132,9 +127,7 @@ const AdminHome = () => {
                 <th>이메일</th>
               </tr>
             </thead>
-            <tbody>
-            {printMember()}
-            </tbody>
+            <tbody>{printMember()}</tbody>
           </table>
         </S.TableWrap>
       </S.AdminHome>
