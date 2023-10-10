@@ -2,14 +2,10 @@ import React from 'react';
 import * as S from './Style';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
 import Logo from '../../Components/Logo/Logo';
+import LogoutBtn from '../../Components/LogoutBtn';
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
-
-  const Logout = () => {
-    //   Logout 함수
-    navigate('/admin/login');
-  };
 
   return (
     <S.Sidebar>
@@ -27,7 +23,7 @@ const AdminSidebar = () => {
           </svg>
           <strong>관리자</strong>&nbsp;님, 반갑습니다.
         </p>
-        <button onClick={Logout}>로그아웃</button>
+        <LogoutBtn />
       </div>
       <ul className="nav">
         <li>

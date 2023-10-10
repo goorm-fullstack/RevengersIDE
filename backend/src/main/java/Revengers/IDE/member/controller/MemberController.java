@@ -36,7 +36,7 @@ public class MemberController {
      * 로그인 상태일 때 index 화면 memberName 출력용
      *
      * @param auth 권한
-     * @return 회원 이름
+     * @return 회원 이름(회원 아이디)
      */
     @GetMapping(value = {"", "/"})
     public String getMemberName(Authentication auth) {
@@ -45,7 +45,7 @@ public class MemberController {
         if (auth != null) {
             Member loginMember = memberService.getLoginByMemberId(auth.getName());
             if (loginMember != null) {
-                memberName = loginMember.getMemberName();
+                memberName = loginMember.getMemberName() + "(" + loginMember.getMemberId() + ")";
             }
         }
         System.out.println(memberName);
