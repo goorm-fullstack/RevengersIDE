@@ -13,10 +13,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private final WebSocketHandler webSocketHandler;
+    private final WebSocketChatHandler webSocketChatHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // ws://localhost:8080/ws/chat 으로 요청이 들어오면 websocket 통신 진행.
         registry.addHandler(webSocketHandler, "/ws/chat").setAllowedOrigins("*");
+        registry.addHandler(webSocketChatHandler, "/ws/chat").setAllowedOrigins("*");
     }
 }

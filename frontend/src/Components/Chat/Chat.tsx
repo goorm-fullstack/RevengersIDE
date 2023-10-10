@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as S from './Style';
 
-type MessageType = 'TALK' | 'ENTER';
+type MessageType = 'TALK' | 'ENTER' | 'ping';
 
 interface Message {
   type: MessageType;
@@ -78,6 +78,11 @@ const Chat = () => {
       };
       ws.current.onmessage = (message) => {
         const parsedMessage: Message = JSON.parse(message.data);
+
+        if (parsedMessage.type === 'ping') {
+          // 핑 메시지는 화면에 표시하지 않음
+          return;
+        }
 
         if (parsedMessage.sender === "SERVER" && parsedMessage.type === "ENTER") {
           setUsername(parsedMessage.message);
