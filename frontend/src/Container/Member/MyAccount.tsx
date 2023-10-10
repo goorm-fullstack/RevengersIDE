@@ -1,9 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import * as S from './Style';
 import Logo from '../../Components/Logo/Logo';
+import Instance from "../../Utils/api/axiosInstance";
 
 const MyAccount = () => {
+  const navigate = useNavigate();
+  const deleteAccount = () => {
+    if(window.confirm("정말 회원을 탈퇴하시겠습니까?")){
+      Instance.delete(`/ideApi/api/member/deleteId`)
+        .then((response) => {
+          alert('회원이 정상적으로 탈퇴되었습니다.');
+          navigate('/');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
   return (
     <S.Member>
       <div className="w">
@@ -18,7 +32,7 @@ const MyAccount = () => {
             <button type="submit">회원정보수정</button>
           </form>
           <p className="link">
-            <Link to="/">탈퇴하기</Link>
+            <button onClick={deleteAccount}>탈퇴하기</button>
           </p>
         </div>
       </div>
