@@ -3,6 +3,7 @@ import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import * as S from '../Style';
 import { Link } from 'react-router-dom';
 import Instance from "../../Utils/api/axiosInstance";
+import axios from 'axios';
 
 const AdminMember = () => {
   const [allMember, setAllMember] = useState<Member[]>([]);
@@ -14,7 +15,7 @@ const AdminMember = () => {
   }
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/all`)
+    axios.get(`/ideApi/api/member/all`)
         .then((response) => {
           setAllMember(response.data);
         })

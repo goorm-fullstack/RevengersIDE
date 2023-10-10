@@ -3,6 +3,7 @@ import * as S from './Style';
 import AdminSidebar from './AdminSidebar/AdminSidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import Instance from '../Utils/api/axiosInstance';
+import axios from 'axios';
 
 
 const AdminHome = () => {
@@ -24,7 +25,7 @@ const AdminHome = () => {
   };
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/todayMember`)
+    axios.get(`/ideApi/api/member/todayMember`)
       .then((response) => {
         setTodayMemberCount(response.data.length);
       })
@@ -34,7 +35,7 @@ const AdminHome = () => {
   }, []);
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/yesterdayMember`)
+    axios.get(`/ideApi/api/member/yesterdayMember`)
       .then((response) => {
         setYesterdayMemberCount(response.data.length);
       })
@@ -44,7 +45,7 @@ const AdminHome = () => {
   }, []);
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/all`)
+    axios.get(`/ideApi/api/member/all`)
       .then((response) => {
         setAllMemberCount(response.data.length);
         setAllMember(response.data);
