@@ -61,4 +61,15 @@ public class Member {
         this.email = email;
         this.role = role;
     }
+
+    public String getTempName() {
+        memberName = this.getMemberName() + "(" + this.getMemberId() + ")";
+        if(memberName.length()<3) {
+            throw new RuntimeException("이름 생성 오류");
+        }
+        if(memberName.length() > 20) {
+            memberName.substring(0, 20);
+        }
+        return memberName;
+    }
 }

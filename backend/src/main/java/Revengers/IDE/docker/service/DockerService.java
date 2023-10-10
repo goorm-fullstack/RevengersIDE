@@ -8,7 +8,7 @@ import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.repository.DockerRepository;
 import Revengers.IDE.docker.service.callback.TimeoutResultCallback;
 import Revengers.IDE.member.model.Member;
-import Revengers.IDE.source.model.Source;
+import Revengers.IDE.source.model.SourceRequestDto;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.async.ResultCallbackTemplate;
@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +31,8 @@ import static java.nio.charset.StandardCharsets.*;
 public class DockerService {
     private final DockerClient dockerClient;
     private final DockerRepository dockerRepository;
+
+    private final String MAIN_DIRECTORY = "/usr/src/Main.py";
 
 
     @Value("${username}")
@@ -48,21 +49,21 @@ public class DockerService {
     }
 
     // 특정 타입의 컨테이너와 특정 타입의 코드를 실행
-    public CodeResult createDockerImageAndRun(Source source, Member member) {
-        String containerId = createContainer(source.getLanguageType());
+    public CodeResult createDockerImageAndRun(SourceRequestDto sourceRequestDto, Member member) {
+        String containerId = createContainer(sourceRequestDto.getLanguageType());
         Docker docker = Docker.builder()
                 .containerId(containerId)
-                .langType(source.getLanguageType())
+                .langType(sourceRequestDto.getLanguageType())
                 .build();
 
         Docker saveContainer = dockerRepository.save(docker);
         member.getDocker().add(saveContainer);
 
         // 소스 코드 타입에 따라서 실행합니다.
-        if(source.getLanguageType().equals("java")) {
-            return runAsJava(saveContainer.getContainerId(), source);
-        } else if(source.getLanguageType().equals("python")) {
-            return runAsPython(saveContainer.getContainerId(), source);
+        if(sourceRequestDto.getLanguageType().equals("java")) {
+            return runAsJava(saveContainer.getContainerId(), sourceRequestDto);
+        } else if(sourceRequestDto.getLanguageType().equals("python")) {
+            return runAsPython(saveContainer.getContainerId(), sourceRequestDto);
         } else {
             throw new WrongLangTypeException("지원하지 않는 형식입니다.");
         }
@@ -84,11 +85,11 @@ public class DockerService {
         }
     }
 
-    public CodeResult runCode(Source source, String containerId) {
-        if(source.getLanguageType().equals("java")) {
-            return runAsJava(containerId, source);
-        } else if (source.getLanguageType().equals("python")) {
-            return runAsPython(containerId, source);
+    public CodeResult runCode(SourceRequestDto sourceRequestDto, String containerId) {
+        if(sourceRequestDto.getLanguageType().equals("java")) {
+            return runAsJava(containerId, sourceRequestDto);
+        } else if (sourceRequestDto.getLanguageType().equals("python")) {
+            return runAsPython(containerId, sourceRequestDto);
         } else {
             throw new WrongLangTypeException("지원하지 않는 언어입니다.");
         }
@@ -105,9 +106,9 @@ public class DockerService {
     }
 
     // 실제로 컨테이너에서 소스 코드를 실행하는 로직
-    public CodeResult runAsPython(String containerId, Source source) {
+    public CodeResult runAsPython(String containerId, SourceRequestDto sourceRequestDto) {
         dockerClient.startContainerCmd(containerId).exec();
-        return compilePython(containerId, source);
+        return compilePython(containerId, sourceRequestDto);
     }
 
     // 자바 컨테이너 생성
@@ -122,17 +123,17 @@ public class DockerService {
     }
 
     // 실제로 컨테이너에서 소스 코드를 실행하는 로직
-    public CodeResult runAsJava(String containerId, Source source) {
+    public CodeResult runAsJava(String containerId, SourceRequestDto sourceRequestDto) {
         dockerClient.startContainerCmd(containerId).exec();
-        return compileJava(containerId, source);
+        return compileJava(containerId, sourceRequestDto);
     }
 
     /**
      * 입력받은 자바 소스 코드를 컨테이너에 저장하고, 이를 컴파일한 후에 실행하는 로직
      */
-    private CodeResult compileJava(String containerId, Source source) {
+    private CodeResult compileJava(String containerId, SourceRequestDto sourceRequestDto) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.java"};// 파일 이동 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + sourceRequestDto.getSource() + "' > /usr/src/Main.java"};// 파일 이동 명령
         String[] compileCommand = {"sh", "-c", "javac /usr/src/Main.java"};// 컴파일 명령
         String[] runCommand = {"sh", "-c","java /usr/src/Main.java"};// 실행 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
@@ -199,9 +200,9 @@ public class DockerService {
     /**
      * 입력받은 자바 소스 코드를 컨테이너에 저장하고, 이를 컴파일한 후에 실행하는 로직
      */
-    private CodeResult compilePython(String containerId, Source source) {
+    private CodeResult compilePython(String containerId, SourceRequestDto sourceRequestDto) {
         CodeResult codeResult = new CodeResult();
-        String[] saveSourceCommand = {"sh", "-c", "echo '" + source.getSource() + "' > /usr/src/Main.py"};// 파일 이동 명령
+        String[] saveSourceCommand = {"sh", "-c", "echo '" + sourceRequestDto.getSource() + "' > /usr/src/Main.py"};// 파일 이동 명령
         String[] runCommand = {"sh", "-c", "python3 /usr/src/Main.py"};// 컴파일 명령
         StringBuilder standardOutputLogs = new StringBuilder();// 결과 출력
         StringBuilder standardErrorLogs = new StringBuilder();// 에러 출력

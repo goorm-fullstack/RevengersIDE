@@ -5,16 +5,14 @@ import Revengers.IDE.docker.model.CodeResult;
 import Revengers.IDE.docker.model.Docker;
 import Revengers.IDE.docker.model.RequestImage;
 import Revengers.IDE.docker.service.DockerService;
+import Revengers.IDE.docker.service.SourceCommand;
 import Revengers.IDE.member.exception.LoginException;
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.service.MemberService;
-import Revengers.IDE.source.model.Source;
+import Revengers.IDE.source.model.SourceRequestDto;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.Image;
-import com.github.dockerjava.core.command.ExecStartResultCallback;
-import com.github.dockerjava.core.command.LogContainerResultCallback;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.Objects;
 
 @RestController
@@ -39,80 +36,117 @@ public class DockerController {
     //셀렉트 박스로 값을 선택할 때마다 이 부분을 요청합시다.
     @GetMapping
     public ResponseEntity<CodeResult> initPage(Authentication auth, @RequestParam String lang) {
-        if(auth != null) {
-            Member loginMember = memberService.getLoginByMemberId(auth.getName());
-            if(loginMember != null) {
-                CodeResult previousCode = dockerService.getPreviousCode(loginMember, lang);
-                return ResponseEntity.ok(previousCode);
-            }
+        if (auth == null) {
+            throw new LoginException("로그인이 필요한 서비스입니다.");
         }
-        throw new LoginException("로그인이 필요한 서비스입니다.");
+
+        Member loginMember = memberService.getLoginByMemberId(auth.getName());
+
+        if (loginMember == null) {
+            throw new LoginException("로그인이 필요한 서비스입니다.");
+        }
+
+        CodeResult previousCode = dockerService.getPreviousCode(loginMember, lang);
+        return ResponseEntity.ok(previousCode);
+        // 조건문이나 괄호가 중첩되는것은 가독성이 좋지않다.
     }
 
     // 실제 코드를 돌리는 함수입니다.
     @PostMapping("/run")
-    public ResponseEntity<CodeResult> runContainer(Authentication auth, @RequestBody Source source) {
-        if (auth != null) {
+    public ResponseEntity<CodeResult> runContainer(Authentication auth,
+        @RequestBody SourceRequestDto sourceRequestDto) {
+        if (auth != null) { // TODO 시간남으면
             Member loginMember = memberService.getLoginByMemberId(auth.getName());
             if (loginMember != null) {
                 List<Docker> docker = loginMember.getDocker();
-                if(docker.isEmpty()) {//없다면 만든다. 있다면 재활용
-                    CodeResult result = dockerService.createDockerImageAndRun(source, loginMember);
+                if (docker.isEmpty()) {//없다면 만든다. 있다면 재활용
+                    var command = SourceCommand.builder().sourceId(sourceRequestDto.getId()).source(sourceRequestDto.getSource()).build();
+                    CodeResult result = dockerService.createDockerImageAndRun(sourceRequestDto, loginMember);
                     return ResponseEntity.ok(result);
                 } else {//재활용
                     boolean check = false;
                     Docker index = null;
-                    for(Docker container : docker) {
-                        if(Objects.equals(container.getLangType(), source.getLanguageType())) {
+                    for (Docker container : docker) {
+                        if (Objects.equals(container.getLangType(), sourceRequestDto.getLanguageType())) {
                             check = true;
                             index = container;
                             break;
                         }
                     }
 
-                    if(check) {//찾은 컨테이너에서 코드를 실행합니다.
-                        CodeResult result = dockerService.runCode(source, index.getContainerId());
+                    if (check) {//찾은 컨테이너에서 코드를 실행합니다.
+                        CodeResult result = dockerService.runCode(sourceRequestDto, index.getContainerId());
                         return ResponseEntity.ok(result);
                     } else {// 해당 타입 컨테이너가 없으므로 새로 생성
-                        CodeResult result = dockerService.createDockerImageAndRun(source, loginMember);
+                        CodeResult result = dockerService.createDockerImageAndRun(sourceRequestDto,
+                            loginMember);
                         return ResponseEntity.ok(result);
                     }
                 }
             }
         }
+
+        // controller(view) -> service(domain logic) <- repository(data persistence)
+        // 유저이름을 중간에 마스킹 해달라
+        // 의존성: 변하는것이 변하지않는것에 의존한다.
+        // 의존성이 없을수는없고, 반드시 가져야하지만 양방향 의존성은 거의 좋지않다.
+        // Mapstruct
+        // @mapping(soruce="lType", target="languageType")
+        // interface convert(SourceRequestDto: dto): SourceCommand
+        // var command = mapper.convert(dto)
+
+
+
+        return "someObject";
+
+
+
+        // 코드 작성에 들이는 시간 2 1
+        // 코드 읽는데 들이는 시간 8 9
+        // 괄호가 중첩 ( if-else => early return )
+//        early-return
+//        if( auth != null ) {
+//            return null;
+//        }else {
+//            return "someObject";
+//        }
+//
+//        if( auth != null ) {
+//            return null;
+//        }
+        // if-
         throw new WrongLangTypeException("잘못된 입력입니다.");
     }
 
     @PostMapping("/java")
-    public ResponseEntity<CodeResult> createJavaContainer(@RequestBody Source source) {
-        log.info("source={}", source.getSource());
-        log.info("language={}", source.getLanguageType());
+    public ResponseEntity<CodeResult> createJavaContainer(@RequestBody SourceRequestDto sourceRequestDto) {
+        log.info("source={}", sourceRequestDto.getSource());
+        log.info("language={}", sourceRequestDto.getLanguageType());
         Docker dockerImage = dockerService.createDockerImage("java");
         String containerId = dockerImage.getContainerId();
-        CodeResult codeResult = dockerService.runAsJava(containerId, source);
+        CodeResult codeResult = dockerService.runAsJava(containerId, sourceRequestDto);
 
         return ResponseEntity.ok(codeResult);
     }
 
     @PostMapping("/python")
-    public ResponseEntity<CodeResult> createPythonContainer(@RequestBody Source source) {
+    public ResponseEntity<CodeResult> createPythonContainer(@RequestBody SourceRequestDto sourceRequestDto) {
         Docker dockerImage = dockerService.createDockerImage("python");
         String containerId = dockerImage.getContainerId();
-        CodeResult codeResult = dockerService.runAsPython(containerId, source);
+        CodeResult codeResult = dockerService.runAsPython(containerId, sourceRequestDto);
 
         return ResponseEntity.ok(codeResult);
     }
 
     /**
-     * 도커 연결 테스트용 코드입니다.
-     * 이 부분을 호출하고, 오류가 발생한다면 도커와 연결이 이루어지지 않았습니다.
+     * 도커 연결 테스트용 코드입니다. 이 부분을 호출하고, 오류가 발생한다면 도커와 연결이 이루어지지 않았습니다.
      */
     @GetMapping("/test")
     public String test() {
         dockerService.test();
         return "test";
     }
-    
+
     @GetMapping("/list")
     public List<Image> imageList() {
         return dockerService.imageList();

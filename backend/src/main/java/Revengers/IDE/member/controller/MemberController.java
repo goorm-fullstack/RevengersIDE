@@ -46,7 +46,7 @@ public class MemberController {
         if (auth != null) {
             Member loginMember = memberService.getLoginByMemberId(auth.getName());
             if (loginMember != null) {
-                memberName = loginMember.getMemberName() + "(" + loginMember.getMemberId() + ")";
+                loginMember.getTempName();
             }
         }
         System.out.println(memberName);
