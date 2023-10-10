@@ -1,7 +1,7 @@
 package Revengers.IDE.Member;
 
 import Revengers.IDE.member.controller.MemberController;
-import Revengers.IDE.member.dto.request.SignUpRequest;
+import Revengers.IDE.member.dto.request.MemberRequest;
 
 import Revengers.IDE.member.model.Member;
 import Revengers.IDE.member.repository.MemberRepository;
@@ -31,7 +31,7 @@ public class MemberTest {
 
     @Test
     public void memberTest() {
-        SignUpRequest signup = SignUpRequest.builder()
+        MemberRequest signup = MemberRequest.builder()
                 .memberId("testid")
                 .password("testpw")
                 .memberName("테스트")
