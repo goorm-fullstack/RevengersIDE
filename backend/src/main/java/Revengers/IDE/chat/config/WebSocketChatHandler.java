@@ -34,16 +34,22 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         SecurityContext securityContext = (SecurityContext) attributes.get("SPRING_SECURITY_CONTEXT"); // Spring Security context를 가져옴
 
         String username;
-        if (securityContext != null) {
-            Authentication auth = securityContext.getAuthentication();
-            if (auth != null && auth.isAuthenticated()) {
-                username = auth.getName();
+        if (session.getAttributes().containsKey("username")) {
+            username = (String) session.getAttributes().get("username");
+        } else {
+            if (securityContext != null) {
+                Authentication auth = securityContext.getAuthentication();
+                if (auth != null && auth.isAuthenticated()) {
+                    username = auth.getName();
+                } else {
+                    username = UUID.randomUUID().toString().substring(0, 8);
+                }
             } else {
                 username = UUID.randomUUID().toString().substring(0, 8);
             }
-        } else {
-            username = UUID.randomUUID().toString().substring(0, 8);
+            session.getAttributes().put("username", username);
         }
+
         System.out.println("call this 2");
         String payload = message.getPayload();
         ChatDTO chatMessage = mapper.readValue(payload, ChatDTO.class);
@@ -64,14 +70,15 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         String username;
         if (securityContext != null) {
             Authentication auth = securityContext.getAuthentication();
-            if (auth != null && auth.isAuthenticated()) {
-                username = auth.getName();
+            if (session.getAttributes().containsKey("username")) {
+                username = (String) session.getAttributes().get("username");
             } else {
                 username = UUID.randomUUID().toString().substring(0, 8);
             }
         } else {
             username = UUID.randomUUID().toString().substring(0, 8);
         }
-        room.removeSession(session, username+EXIT_MESSAGE, service);//세션 정리
+        log.info("Is session open: {}", session.isOpen());
+        room.removeSession(session, username+EXIT_MESSAGE, service); //세션 정리
     }
 }

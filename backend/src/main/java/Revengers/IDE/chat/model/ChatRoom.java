@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Data
@@ -64,13 +65,25 @@ public class ChatRoom {
     }
 
     public void removeSession(WebSocketSession session, String message, ChatService service) {
-        sessions.remove(session);
+        log.info("Entering removeSession method");
+        Iterator<WebSocketSession> iterator = sessions.iterator();
+        while (iterator.hasNext()) {
+            WebSocketSession currentSession = iterator.next();
+            if (currentSession.equals(session)) {
+                iterator.remove();
+                log.info("Session removed successfully");
+            }
+        }
         for (WebSocketSession webSocketSession : sessions) {
+            log.info("Preparing to send exited message");
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setRoomId(roomId);
             chatMessage.setSender("Notice");
             chatMessage.setMessage(message);
             service.sendExitedMessage(webSocketSession, chatMessage);
+            log.info("Exited message sent successfully");
         }
+        log.info("Exiting removeSession method");
     }
+
 }
