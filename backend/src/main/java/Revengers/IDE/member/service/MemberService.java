@@ -155,6 +155,7 @@ public class MemberService {
         return memberRepository.findByCreateMemberDateBetween(yesterdayStartOfDay, yesterdayEndOfDay);
     }
 
+    //회원 정보 수정(비밀번호, 이메일 변경)
     public Member updateMember(String memberId, String newPassword, String email) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
@@ -165,10 +166,15 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    //memberId로 회원 정보 찾기
     public Member findByMemberId(String memberId){
         Optional<Member> member = memberRepository.findByMemberId(memberId);
 
         return member.orElse(null);
     }
 
+    //회원 정보 삭제
+    public void deleteById(String memberId){
+        memberRepository.deleteByMemberId(memberId);
+    }
 }

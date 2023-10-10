@@ -172,6 +172,7 @@ public class MemberController {
         return ResponseEntity.ok(newMember);
     }
 
+    //오늘 가입한 인원
     @GetMapping("/todayMember")
     public ResponseEntity<List<Member>> getTodayMembers() {
 
@@ -180,6 +181,7 @@ public class MemberController {
         return ResponseEntity.ok(todayMembers);
     }
 
+    //어제 가입한 인원
     @GetMapping("/yesterdayMember")
     public ResponseEntity<List<Member>> getYesterdayMembers() {
 
@@ -188,6 +190,7 @@ public class MemberController {
         return ResponseEntity.ok(todayMembers);
     }
 
+    //회원 정보(이메일, 비밀번호) 수정
     @PostMapping("/updateMember")
     public ResponseEntity<Object> updateMember(@RequestBody Map<String, String> requestBody) {
         String memberId = requestBody.get("memberId");
@@ -199,11 +202,18 @@ public class MemberController {
         return ResponseEntity.ok(newMember);
     }
 
+    //memberId로 회원 정보 조회
     @PostMapping("/findById")
     public ResponseEntity<Member> findById(@RequestBody Map<String, String> requestBody){
         String memberId = requestBody.get("memberId");
         Member member = memberService.findByMemberId(memberId);
 
         return ResponseEntity.ok(member);
+    }
+
+    //회원 정보 삭제
+    @DeleteMapping("/deleteId/{memberId}")
+    public void deleteMember(@PathVariable String memberId) {
+        memberService.deleteById(memberId);
     }
 }
