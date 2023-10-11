@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // 로컬 스토리지에서 초기 상태를 가져옴
-  const initialLoginState = localStorage.getItem('isLoggedIn') === 'false';
+  const initialLoginState = localStorage.getItem('isLoggedIn') === 'true';
 
   const [isLoggedIn, setLoggedIn] = useState(initialLoginState);
 
