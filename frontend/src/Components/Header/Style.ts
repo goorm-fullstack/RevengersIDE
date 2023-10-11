@@ -78,7 +78,7 @@ export const Header = styled.header`
     }
 
     @media (max-width:600px){
-      .member{
+      .member a{
         display: none;
       }
     }
