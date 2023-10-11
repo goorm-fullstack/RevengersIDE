@@ -87,7 +87,9 @@ const Chat = () => {
 
     // Cleanup 함수: 컴포넌트가 언마운트될 때 실행
     return () => {
-      ws.current?.close();
+      if(wsConnected){
+        ws.current?.close();
+      }
     };
   }, []); // 빈 배열을 dependency로 설정
 
