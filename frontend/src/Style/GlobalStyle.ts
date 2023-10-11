@@ -101,4 +101,6 @@ input[type="checkbox"] {
   }
 }
 
+iframe#webpack-dev-server-client-overlay{display:none!important}
+
 `;

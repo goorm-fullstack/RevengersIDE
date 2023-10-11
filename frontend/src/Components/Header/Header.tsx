@@ -53,7 +53,9 @@ const Header = () => {
           </div>
         ) : (
           <div className="member">
-            <Link to="/myaccount">{logMemberName}</Link> 님
+            <span>
+              <Link to="/myaccount">{logMemberName}</Link> 님
+            </span>
             <LogoutBtn />
           </div>
         )}

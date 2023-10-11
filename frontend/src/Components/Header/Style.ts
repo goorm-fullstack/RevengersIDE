@@ -78,7 +78,7 @@ export const Header = styled.header`
     }
 
     @media (max-width:600px){
-      .member a{
+      .member span{
         display: none;
       }
     }
@@ -97,6 +97,12 @@ export const Header = styled.header`
           background: ${(props) => props.theme.borderColor};
           display: inline-block;
           margin: 0 12px;
+        }
+
+        @media (max-width:600px){
+          &::before{
+            display: none;
+          }
         }
       }
     }
