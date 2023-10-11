@@ -167,21 +167,16 @@ BACKEND
   │ │     │ ├─config
   │ │     │ ├─controller
   │ │     │ ├─dto
-  │ │     │ │ ├─request
-  │ │     │ │ └─response
   │ │     │ ├─exception
   │ │     │ ├─model
   │ │     │ ├─repository
   │ │     │ └─service
-  │ │     │   └─callback
   │ │     ├─global
   │ │     │ └─config
   │ │     ├─member
   │ │     │ ├─config
   │ │     │ ├─controller
   │ │     │ ├─dto
-  │ │     │ │ ├─request
-  │ │     │ │ └─response
   │ │     │ ├─exception
   │ │     │ ├─model
   │ │     │ ├─repository
