@@ -79,10 +79,10 @@ const Chat = () => {
       console.log('채팅(웹소켓) 연결 해제합니다.');
       setWsConnected(false);
       ws.current = null;
-      setTimeout(() => {
-        console.log('재연결 시도...');
-        connectWebSoket();
-      }, 3000);
+      // setTimeout(() => {
+      //   console.log('재연결 시도...');
+      //   connectWebSoket();
+      // }, 3000);
     };
   };
 
