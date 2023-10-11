@@ -99,7 +99,7 @@ const Chat = () => {
   }, [messages]);
 
   const sendMessage = () => {
-    if (wsConnected && ws.current) {
+    if (wsConnected && ws.current && ws.current.readyState === WebSocket.OPEN) {
       const message: Message = {
         type: 'TALK',
         sender: username,
