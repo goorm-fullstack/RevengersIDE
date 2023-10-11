@@ -109,70 +109,85 @@
 
 <table style="width: 100% !important;">
 <tr>
-<th>Front-End</th>
-<th>Back-End</th>
+<th align="center">
+<img width="441" height="1">
+<p>Front-End</p>
+</th>
+<th align="center">
+<img width="441" height="1">
+<p>Back-End</p>
+</th>
 </tr>
 <tr>
 <td valign="top">
-FRONTEND<br />
-├─node_modules<br />
-├─public<br />
-└─src<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─Admin<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─AdminMember<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─AdminSidebar<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─Assets<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─Components<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─Chat<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─Footer<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─Header<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─Logo<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─Container<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─Home<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─Member<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─Style<br />
-&nbsp;&nbsp;&nbsp;&nbsp;└─Utils<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─api
+```
+FRONTEND
+├─node_modules
+├─public
+└─src
+    ├─Admin
+    │  ├─AdminMember
+    │  └─AdminSidebar
+    ├─Assets
+    ├─Components
+    │  ├─Chat
+    │  ├─Footer
+    │  ├─Header
+    │  └─Logo
+    ├─Container
+    │  ├─Home
+    │  └─Member
+    ├─Style
+    └─Utils
+        └─api
+```
 </td>
 <td>
-BACKEND<br />
-├─build<br />
-├─gradle<br />
-├─out<br />
-└─src<br />
-&nbsp;&nbsp;&nbsp;&nbsp;├─main<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ ├─generated<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ ├─java<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ └─Revengers<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ └─IDE<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;├─chat<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;├─config<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;├─docker<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─controller<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─dto<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─exception<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ └─callback<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;├─global<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ └─config<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;├─member<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─controller<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─dto<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─exception<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;└─source<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│ └─resources<br />
-&nbsp;&nbsp;&nbsp;&nbsp;└─test
+```
+├─build
+├─gradle
+├─out
+└─src
+    ├─main
+    │  ├─generated
+    │  ├─java
+    │  │  └─Revengers
+    │  │      └─IDE
+    │  │          ├─chat
+    │  │          │  ├─config
+    │  │          │  ├─model
+    │  │          │  ├─repository
+    │  │          │  └─service
+    │  │          ├─config
+    │  │          ├─docker
+    │  │          │  ├─config
+    │  │          │  ├─controller
+    │  │          │  ├─dto
+    │  │          │  │  ├─request
+    │  │          │  │  └─response
+    │  │          │  ├─exception
+    │  │          │  ├─model
+    │  │          │  ├─repository
+    │  │          │  └─service
+    │  │          │      └─callback
+    │  │          ├─global
+    │  │          │  └─config
+    │  │          ├─member
+    │  │          │  ├─config
+    │  │          │  ├─controller
+    │  │          │  ├─dto
+    │  │          │  │  ├─request
+    │  │          │  │  └─response
+    │  │          │  ├─exception
+    │  │          │  ├─model
+    │  │          │  ├─repository
+    │  │          │  └─service
+    │  │          └─source
+    │  │              ├─model
+    │  │              └─type
+    │  └─resources
+    └─test
+```
 </td>
 </tr>
 </table>
