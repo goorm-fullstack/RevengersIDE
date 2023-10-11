@@ -22,14 +22,14 @@ const Header = () => {
       if (response.status === 200) {
         if (response.data === '') {
           // 세션 쿠키 없음
-          setLogState(true);
+          setLogState(false);
           setLoggedIn(false);
           localStorage.setItem('isLoggedIn', 'false');
         } else {
           // 세션 쿠키 있음
           // console.log('헤더:' + response.data);
           setLogMemberName(response.data);
-          setLogState(false);
+          setLogState(true);
           setLoggedIn(true);
           localStorage.setItem('isLoggedIn', 'true');
         }
@@ -37,7 +37,7 @@ const Header = () => {
     })
     .catch((error) => {
       console.log(error.data);
-      setLogState(true);
+      setLogState(false);
     });
 
   return (
