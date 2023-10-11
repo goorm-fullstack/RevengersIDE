@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Instance from '../Utils/api/axiosInstance';
 import { useAuth } from '../Utils/api/AuthContext';
+import axios from 'axios';
 
 const LogoutBtn = () => {
   const [, removeCookie] = useCookies(['JSESSIONID']); // 로그인 쿠키

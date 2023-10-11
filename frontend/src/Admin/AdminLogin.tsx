@@ -5,6 +5,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useForm } from 'react-hook-form';
 import Instance from '../Utils/api/axiosInstance';
+import axios from 'axios';
 
 const AdminLogin = () => {
 
