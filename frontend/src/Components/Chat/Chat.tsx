@@ -50,13 +50,15 @@ const Chat = () => {
     ws.current.onopen = () => {
       console.log('채팅(웹소켓)에 연결합니다.');
       setWsConnected(true);
-      ws.current?.send(
-        JSON.stringify({
-          type: 'ENTER',
-          sender: username,
-          message: '입장',
-        })
-      );
+      if(wsConnected){
+        ws.current?.send(
+          JSON.stringify({
+            type: 'ENTER',
+            sender: username,
+            message: '입장',
+          })
+        );
+      }
       
       console.log('웹소켓 상태:', ws.current?.readyState);
     };
