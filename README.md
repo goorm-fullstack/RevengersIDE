@@ -119,20 +119,20 @@ FRONTEND<br />
 ├─public<br />
 └─src<br />
 &nbsp;&nbsp;&nbsp;&nbsp;├─Admin<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─AdminMember<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└─AdminSidebar<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─AdminMember<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─AdminSidebar<br />
 &nbsp;&nbsp;&nbsp;&nbsp;├─Assets<br />
 &nbsp;&nbsp;&nbsp;&nbsp;├─Components<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─Chat<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─Footer<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─Header<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└─Logo<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─Chat<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─Footer<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─Header<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─Logo<br />
 &nbsp;&nbsp;&nbsp;&nbsp;├─Container<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─Home<br />
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└─Member<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─Home<br />
+&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─Member<br />
 &nbsp;&nbsp;&nbsp;&nbsp;├─Style<br />
 &nbsp;&nbsp;&nbsp;&nbsp;└─Utils<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─api
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─api
 </td>
 <td>
 BACKEND<br />
