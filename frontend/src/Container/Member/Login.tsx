@@ -6,7 +6,7 @@ import Logo from '../../Components/Logo/Logo';
 import Instance from '../../Utils/api/axiosInstance';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import {useAuth} from "../../Utils/api/AuthContext";
+import { useAuth } from '../../Utils/api/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Login = () => {
     formState: { isSubmitting },
   } = useForm();
 
-  const [cookies, setCookie] = useCookies(['JSESSIONID']);
+  const [, setCookie] = useCookies(['JSESSIONID']);
 
   const onSubmit = (data: any) => {
     Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
