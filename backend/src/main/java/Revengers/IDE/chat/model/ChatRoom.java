@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Data
@@ -33,6 +34,14 @@ public class ChatRoom {
                 message.setMessage(message.getSender() + " 님이 입장하셨습니다");
                 message.setSender("Notice");
                 sendMessage(message, service);
+
+                // 세션 수 보내기
+                ChatDTO sessionInfo = new ChatDTO();
+                sessionInfo.setType(ChatDTO.MessageType.SESSION_COUNT);
+                log.info("현재 세션 수(handleAction): " + sessions.size());
+                sessionInfo.setMessage("현재 세션 수: " + sessions.size());
+                sessionInfo.setSender("System");
+                sendMessage(sessionInfo, service);
 
             } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
                 message.setMessage(message.getMessage());
@@ -64,13 +73,25 @@ public class ChatRoom {
     }
 
     public void removeSession(WebSocketSession session, String message, ChatService service) {
-        sessions.remove(session);
+        log.info("Entering removeSession method");
+        Iterator<WebSocketSession> iterator = sessions.iterator();
+        while (iterator.hasNext()) {
+            WebSocketSession currentSession = iterator.next();
+            if (currentSession.equals(session)) {
+                iterator.remove();
+                log.info("Session removed successfully");
+            }
+        }
         for (WebSocketSession webSocketSession : sessions) {
+            log.info("Preparing to send exited message");
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setRoomId(roomId);
             chatMessage.setSender("Notice");
             chatMessage.setMessage(message);
             service.sendExitedMessage(webSocketSession, chatMessage);
+            log.info("Exited message sent successfully");
         }
+        log.info("Exiting removeSession method");
     }
+
 }

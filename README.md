@@ -9,7 +9,7 @@
 
 <br>
 
-[**💻 Web IDE 바로가기**](https://ide.p-e.kr/)
+[**💻 Web IDE 바로가기**](http://ec2-3-34-230-219.ap-northeast-2.compute.amazonaws.com:3000/)
 
 <br>
 
@@ -29,6 +29,7 @@
     - 아이디 찾기, 비밀번호 재설정 구현
   - Docker를 사용한 코드 편집기 기능 구현
   - 실시간 그룹 채팅 및 채팅 메시지 검색, 삭제 기능 구현
+- **회고 발표:** [WEB IDE 개발 회고 발표 자료](https://github.com/goorm-fullstack/RevengersIDE/issues/4)
 
 <br>
 
@@ -100,15 +101,96 @@
 
 ## ✍🏻 Architecture
 
-이미지 첨부 예정
+![ide아키텍처](https://github.com/goorm-fullstack/RevengersIDE/assets/121299334/ff5c674b-cfec-4a5c-b6e5-95854e6727ec)
 
 <br>
 
 ## 📁 Repository 구조
 
+<table style="width: 100% !important;">
+<tr>
+<th align="center">
+<img width="441" height="1">
+<p>Front-End</p>
+</th>
+<th align="center">
+<img width="441" height="1">
+<p>Back-End</p>
+</th>
+</tr>
+<tr>
+<td valign="top">
+
 ```
-RevengersIDE
+FRONTEND
+├─node_modules
+├─public
+└─src
+  ├─Admin
+  │ ├─AdminMember
+  │ └─AdminSidebar
+  ├─Assets
+  ├─Components
+  │ ├─Chat
+  │ ├─Footer
+  │ ├─Header
+  │ └─Logo
+  ├─Container
+  │ ├─Home
+  │ └─Member
+  ├─Style
+  └─Utils
+    └─api
 ```
+
+</td>
+<td>
+
+```
+BACKEND
+├─build
+├─gradle
+├─out
+└─src
+  ├─main
+  │ ├─generated
+  │ ├─java
+  │ │ └─Revengers
+  │ │   └─IDE
+  │ │     ├─chat
+  │ │     │ ├─config
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     ├─config
+  │ │     ├─docker
+  │ │     │ ├─config
+  │ │     │ ├─controller
+  │ │     │ ├─dto
+  │ │     │ ├─exception
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     ├─global
+  │ │     │ └─config
+  │ │     ├─member
+  │ │     │ ├─config
+  │ │     │ ├─controller
+  │ │     │ ├─dto
+  │ │     │ ├─exception
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     └─source
+  │ │       ├─model
+  │ │       └─type
+  │ └─resources
+  └─test
+```
+
+</td>
+</tr>
+</table>
 
 <br>
 
