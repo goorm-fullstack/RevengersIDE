@@ -7,11 +7,13 @@ import { ThemeContext, ThemeContextProps } from '../../Container/Home/Home';
 import Instance from '../../Utils/api/axiosInstance';
 import axios from 'axios';
 import LogoutBtn from '../LogoutBtn';
+import { useAuth } from '../../Utils/api/AuthContext';
 
 const Header = () => {
   const { toggleTheme, isLight } = useContext(ThemeContext); // 테마 전환: App.tsx에서 가져온 값
   let [isLoggedIn, setLogState] = useState(false); // 로그인 유무 체크
   let [logMemberName, setLogMemberName] = useState(); // 회원명(아이디)
+  const {setLoggedIn} = useAuth();
 
   // 회원 이름(아이디) 가져오기
   axios.get('/ideApi/api/member/', { withCredentials: true })
@@ -21,11 +23,15 @@ const Header = () => {
         if (response.data === '') {
           // 세션 쿠키 없음
           setLogState(true);
+          setLoggedIn(false);
+          localStorage.setItem('isLoggedIn', 'false');
         } else {
           // 세션 쿠키 있음
           // console.log('헤더:' + response.data);
           setLogMemberName(response.data);
           setLogState(false);
+          setLoggedIn(true);
+          localStorage.setItem('isLoggedIn', 'true');
         }
       }
     })
