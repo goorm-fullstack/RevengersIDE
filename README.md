@@ -110,11 +110,11 @@
 <table style="width: 100% !important;">
 <tr>
 <th align="center">
-<img width="441" height="1">
+<img width="415" height="1">
 <p>Front-End</p>
 </th>
 <th align="center">
-<img width="441" height="1">
+<img width="415" height="1">
 <p>Back-End</p>
 </th>
 </tr>
@@ -196,7 +196,7 @@ BACKEND
 
 ## 💾 ERD
 
-이미지 첨부 예정
+![erd](https://github.com/goorm-fullstack/RevengersIDE/assets/121299334/bfe77267-5d4a-408f-a7ac-b45f72237d94)
 
 <br>
 
