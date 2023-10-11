@@ -101,7 +101,7 @@ const Chat = () => {
     if (wsConnected && ws.current) {
       const message: Message = {
         type: 'TALK',
-        sender: user,
+        sender: user ? user : username,
         message: inputMessage,
       };
       ws.current.send(JSON.stringify(message));
