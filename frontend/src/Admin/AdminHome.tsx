@@ -25,7 +25,7 @@ const AdminHome = () => {
   };
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/todayMember`)
+    axios.get(`/ideApi/api/member/todayMember`)
       .then((response) => {
         setTodayMemberCount(response.data.length);
       })
@@ -35,7 +35,7 @@ const AdminHome = () => {
   }, []);
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/yesterdayMember`)
+    axios.get(`/ideApi/api/member/yesterdayMember`)
       .then((response) => {
         setYesterdayMemberCount(response.data.length);
       })
@@ -45,7 +45,7 @@ const AdminHome = () => {
   }, []);
 
   useEffect(() => {
-    Instance.get(`/ideApi/api/member/all`)
+    axios.get(`/ideApi/api/member/all`)
       .then((response) => {
         setAllMemberCount(response.data.length);
         setAllMember(response.data);

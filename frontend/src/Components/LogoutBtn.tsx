@@ -10,7 +10,7 @@ const LogoutBtn = () => {
 
   // 로그아웃
   const Logout = () => {
-    Instance.post('/ideApi/api/member/logout')
+    axios.post('/ideApi/api/member/logout')
       .then((response) => {
         if (response.status === 200) {
           console.log('React: 로그아웃 성공');

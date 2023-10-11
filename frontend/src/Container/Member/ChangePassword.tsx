@@ -36,7 +36,7 @@ const ChangePassword = () => {
       newPassword: data.newPassword,
     };
 
-    Instance.post('/ideApi/api/member/changePassword', formData, {
+    axios.post('/ideApi/api/member/changePassword', formData, {
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => {

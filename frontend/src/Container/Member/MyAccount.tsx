@@ -27,7 +27,7 @@ const MyAccount = () => {
 
   useEffect(() => {
     // 회원 정보 가져오기
-    Instance.get('/ideApi/api/member/myaccount', { withCredentials: true })
+    axios.get('/ideApi/api/member/myaccount', { withCredentials: true })
       .then((response) => {
         // console.log(response);
         if (response.status === 200) {
@@ -51,7 +51,7 @@ const MyAccount = () => {
 
   // 회원 정보 수정
   const onSubmit = (data: any) => {
-    Instance.post('/ideApi/api/member/myaccount', data, { headers: { 'Content-Type': 'application/json' } })
+    axios.post('/ideApi/api/member/myaccount', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         if (response.status === 200) {
           alert('회원 정보가 수정되었습니다.');
@@ -67,7 +67,7 @@ const MyAccount = () => {
   // 회원 탈퇴
   const deleteAccount = () => {
     if (window.confirm('정말 회원을 탈퇴하시겠습니까?')) {
-      Instance.delete(`/ideApi/api/member/deleteId/${memberInfo.memberId}`)
+      axios.delete(`/ideApi/api/member/deleteId/${memberInfo.memberId}`)
         .then((response) => {
           alert('회원이 정상적으로 탈퇴되었습니다.');
           navigate('/');
