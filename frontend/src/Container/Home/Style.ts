@@ -49,7 +49,7 @@ export const Home = styled.div`
 
     select {
       color: ${(props) => props.theme.textColor};
-      background: ${(props) => props.theme.bgPanel};
+      background-color: ${(props) => props.theme.bgPanel};
       border: 0;
     }
   }
