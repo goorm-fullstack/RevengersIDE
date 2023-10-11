@@ -107,9 +107,61 @@
 
 ## 📁 Repository 구조
 
-```
-RevengersIDE
-```
+<table>
+<tr>
+<th>Front-End</th>
+<th>Back-End</th>
+</tr>
+<tr>
+<td>
+<blockquote>
+FRONTEND
+</blockquote>
+</td>
+<td>
+<blockquote>
+BACKEND<br />
+├─build<br />
+├─gradle<br />
+├─out<br />
+└─src<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─main<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─generated<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─java<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ └─Revengers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ └─IDE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─chat<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─config<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─docker<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─controller<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─dto<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─exception<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─callback<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─global<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─config<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─member<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─config<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─controller<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─dto<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─exception<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─model<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ├─repository<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─service<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─source<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─resources<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─test
+</blockquote>
+</td>
+</tr>
+</table>
 
 <br>
 
