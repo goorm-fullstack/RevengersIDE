@@ -101,6 +101,9 @@ input[type="checkbox"] {
   }
 }
 
-iframe#webpack-dev-server-client-overlay{display:none!important}
+iframe#webpack-dev-server-client-overlay{
+	display: none !important;
+	-webkit-display: none !important;
+}
 
 `;
