@@ -47,16 +47,16 @@ const Header = () => {
       </div>
       <div className="right">
         {isLoggedIn ? (
-          <div className="guest">
-            <Link to="/login">로그인</Link>
-            <Link to="/signup">회원가입</Link>
-          </div>
-        ) : (
           <div className="member">
             <span>
               <Link to="/myaccount">{logMemberName}</Link> 님
             </span>
             <LogoutBtn />
+          </div>
+        ) : (
+          <div className="guest">
+            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
           </div>
         )}
       </div>
