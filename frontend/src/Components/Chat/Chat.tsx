@@ -10,7 +10,7 @@ interface Message {
 }
 
 const Chat = () => {
-  const wsURL = 'wss://3.34.230.219/ideApi/ws/chat';
+  const wsURL = 'ws://3.34.230.219/ideApi/ws/chat';
   const ws = useRef<WebSocket | null>(null);
   const [wsConnected, setWsConnected] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -57,6 +57,7 @@ const Chat = () => {
             message: '입장',
           })
       );
+      
       console.log('웹소켓 상태:', ws.current?.readyState);
     };
     ws.current.onmessage = (message) => {
