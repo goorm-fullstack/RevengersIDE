@@ -196,7 +196,7 @@ BACKEND
 
 ## 💾 ERD
 
-이미지 첨부 예정
+![erd](https://github.com/goorm-fullstack/RevengersIDE/assets/121299334/bfe77267-5d4a-408f-a7ac-b45f72237d94)
 
 <br>
 
