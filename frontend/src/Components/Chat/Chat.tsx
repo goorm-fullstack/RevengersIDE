@@ -93,7 +93,7 @@ const Chat = () => {
         ws.current?.close();
       }
     };
-  }, []); // 빈 배열을 dependency로 설정
+  }, [wsConnected]); // 빈 배열을 dependency로 설정
 
   // 스크롤
   useEffect(() => {
