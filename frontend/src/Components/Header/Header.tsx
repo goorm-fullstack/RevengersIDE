@@ -9,7 +9,7 @@ import LogoutBtn from '../LogoutBtn';
 
 const Header = () => {
   const { toggleTheme, isLight } = useContext(ThemeContext); // 테마 전환: App.tsx에서 가져온 값
-  let [isLoggedIn, setLogState] = useState(true); // 로그인 유무 체크
+  let [isLoggedIn, setLogState] = useState(false); // 로그인 유무 체크
   let [logMemberName, setLogMemberName] = useState(); // 회원명(아이디)
 
   // 회원 이름(아이디) 가져오기
