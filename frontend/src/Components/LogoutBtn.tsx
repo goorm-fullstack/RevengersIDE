@@ -23,7 +23,7 @@ const LogoutBtn = () => {
     removeCookie('JSESSIONID', localStorage['jsessionid'], { path: '/ideApi' });
     setLoggedIn(false);
     localStorage.setItem('isLoggedIn', 'false');
-    // window.location.href = '/';
+    window.location.reload();
   };
 
   return (
