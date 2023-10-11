@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalStyle } from './Style/GlobalStyle';
 import * as dayjs from 'dayjs';
@@ -21,6 +21,10 @@ dayjs.locale('ko');
 
 function App() {
   const [logMemberName, setLogMemberName] = useState(null);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, [])
 
   return (
       <AuthProvider>
