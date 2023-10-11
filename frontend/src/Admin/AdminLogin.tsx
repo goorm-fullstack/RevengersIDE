@@ -53,6 +53,7 @@ const AdminLogin = () => {
         <div>
           <div>
             <button className="delBtn" onClick={goHome}>사용자 홈 바로가기</button>
+            <p style={{color: "gray", marginTop:"10px", fontSize:"15px"}}>테스트 아이디 : admin / 테스트 비밀번호 : password1!</p>
           </div>
         </div>
       </div>
