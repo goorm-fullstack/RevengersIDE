@@ -14,7 +14,7 @@ const Header = () => {
   let [logMemberName, setLogMemberName] = useState(); // 회원명(아이디)
 
   // 회원 이름(아이디) 가져오기
-  Instance.get('/ideApi/api/member/', { withCredentials: true })
+  axios.get('/ideApi/api/member/', { withCredentials: true })
     .then((response) => {
       // console.log(response);
       if (response.status === 200) {
