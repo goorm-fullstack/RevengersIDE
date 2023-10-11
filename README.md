@@ -110,11 +110,11 @@
 <table style="width: 100% !important;">
 <tr>
 <th align="center">
-<img width="415" height="1">
+<img width="384" height="1">
 <p>Front-End</p>
 </th>
 <th align="center">
-<img width="415" height="1">
+<img width="384" height="1">
 <p>Back-End</p>
 </th>
 </tr>
