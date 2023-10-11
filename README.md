@@ -107,9 +107,90 @@
 
 ## 📁 Repository 구조
 
+<table style="width: 100% !important;">
+<tr>
+<th align="center">
+<img width="441" height="1">
+<p>Front-End</p>
+</th>
+<th align="center">
+<img width="441" height="1">
+<p>Back-End</p>
+</th>
+</tr>
+<tr>
+<td valign="top">
+
 ```
-RevengersIDE
+FRONTEND
+├─node_modules
+├─public
+└─src
+  ├─Admin
+  │ ├─AdminMember
+  │ └─AdminSidebar
+  ├─Assets
+  ├─Components
+  │ ├─Chat
+  │ ├─Footer
+  │ ├─Header
+  │ └─Logo
+  ├─Container
+  │ ├─Home
+  │ └─Member
+  ├─Style
+  └─Utils
+    └─api
 ```
+
+</td>
+<td>
+
+```
+BACKEND
+├─build
+├─gradle
+├─out
+└─src
+  ├─main
+  │ ├─generated
+  │ ├─java
+  │ │ └─Revengers
+  │ │   └─IDE
+  │ │     ├─chat
+  │ │     │ ├─config
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     ├─config
+  │ │     ├─docker
+  │ │     │ ├─config
+  │ │     │ ├─controller
+  │ │     │ ├─dto
+  │ │     │ ├─exception
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     ├─global
+  │ │     │ └─config
+  │ │     ├─member
+  │ │     │ ├─config
+  │ │     │ ├─controller
+  │ │     │ ├─dto
+  │ │     │ ├─exception
+  │ │     │ ├─model
+  │ │     │ ├─repository
+  │ │     │ └─service
+  │ │     └─source
+  │ │       ├─model
+  │ │       └─type
+  │ └─resources
+  └─test
+```
+
+</td>
+</tr>
+</table>
 
 <br>
 
