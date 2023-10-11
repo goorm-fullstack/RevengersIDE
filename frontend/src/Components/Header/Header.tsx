@@ -46,7 +46,7 @@ const Header = () => {
         </div>
       </div>
       <div className="right">
-        {isLoggedIn ? (
+        {isLoggedIn && isLoggedIn === true ? (
           <div className="member">
             <span>
               <Link to="/myaccount">{logMemberName}</Link> 님
