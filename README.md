@@ -107,7 +107,7 @@
 
 ## 📁 Repository 구조
 
-<table width="100%">
+<table width="100% !important">
 <tr>
 <th>Front-End</th>
 <th>Back-End</th>
