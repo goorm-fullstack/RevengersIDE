@@ -32,6 +32,7 @@ const Header = () => {
           setLogState(true);
           setLoggedIn(true);
           localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('userName', response.data);
         }
       }
     })
