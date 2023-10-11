@@ -35,6 +35,14 @@ public class ChatRoom {
                 message.setSender("Notice");
                 sendMessage(message, service);
 
+                // 세션 수 보내기
+                ChatDTO sessionInfo = new ChatDTO();
+                sessionInfo.setType(ChatDTO.MessageType.SESSION_COUNT);
+                log.info("현재 세션 수(handleAction): " + sessions.size());
+                sessionInfo.setMessage("현재 세션 수: " + sessions.size());
+                sessionInfo.setSender("System");
+                sendMessage(sessionInfo, service);
+
             } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
                 message.setMessage(message.getMessage());
                 sendMessage(message, service);

@@ -19,6 +19,7 @@ const Chat = () => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null); // 스크롤을 최신채팅으로
   const messageRefs = useRef<{ [key: number]: HTMLLIElement | null }>({}); //
   const [highlightText, setHighlightText] = useState<string | null>(null);
+  const [sessionCount, setSessionCount] = useState(0);
 
   // 엔터 입력 시 전송, 쉬프트+엔터 시 다음 줄
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -60,6 +61,13 @@ const Chat = () => {
     };
     ws.current.onmessage = (message) => {
       const parsedMessage = JSON.parse(message.data);
+      if (parsedMessage.type === "SESSION_COUNT") {
+        const countString = parsedMessage.message.match(/\d+/);
+        const count = countString ? parseInt(countString[0], 10) : 0; // 숫자로 추출 및 변환
+        setSessionCount(count); // 상태 업데이트
+        return;
+      }
+
       if (parsedMessage.sender === 'SERVER' && parsedMessage.type === 'ENTER') {
         setUsername(parsedMessage.message);
         return;
@@ -108,7 +116,7 @@ const Chat = () => {
     <S.Chat>
       <h3>
         <p>
-          Chats <span>{messages.length}</span>
+          Chats <span>{sessionCount}</span>
         </p>
         <button type="button" onClick={toggleSearch} data-isactive={searchwrap} className="searchbtn">
           <svg id="Layer_1" version="1.1" viewBox="0 0 50 50">
