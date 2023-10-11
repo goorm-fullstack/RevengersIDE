@@ -79,6 +79,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             username = UUID.randomUUID().toString().substring(0, 8);
         }
         log.info("Is session open: {}", session.isOpen());
-//        room.removeSession(session, username+EXIT_MESSAGE, service); //세션 정리
+        room.removeSession(session, username+EXIT_MESSAGE, service); //세션 정리
     }
 }
