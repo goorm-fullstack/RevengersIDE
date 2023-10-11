@@ -119,7 +119,6 @@ FRONTEND
 </blockquote>
 </td>
 <td>
-<blockquote>
 BACKEND<br />
 ├─build<br />
 ├─gradle<br />
@@ -158,7 +157,6 @@ BACKEND<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─source<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ └─resources<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─test
-</blockquote>
 </td>
 </tr>
 </table>
