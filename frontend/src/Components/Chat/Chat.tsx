@@ -20,8 +20,6 @@ const Chat = () => {
   const messageRefs = useRef<{ [key: number]: HTMLLIElement | null }>({}); //
   const [highlightText, setHighlightText] = useState<string | null>(null);
   const [sessionCount, setSessionCount] = useState(0);
-  const user = localStorage.getItem('userName');
-  console.log(user);
 
   // 엔터 입력 시 전송, 쉬프트+엔터 시 다음 줄
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -55,7 +53,7 @@ const Chat = () => {
       ws.current?.send(
         JSON.stringify({
           type: 'ENTER',
-          sender: user,
+          sender: username,
           message: '입장',
         })
       );
@@ -102,7 +100,7 @@ const Chat = () => {
     if (wsConnected && ws.current) {
       const message: Message = {
         type: 'TALK',
-        sender: user ? user : username,
+        sender: username,
         message: inputMessage,
       };
       ws.current.send(JSON.stringify(message));
