@@ -77,6 +77,12 @@ export const Header = styled.header`
       }
     }
 
+    @media (max-width:600px){
+      .member{
+        display: none;
+      }
+    }
+
     .member {
       // 로그인한 경우
       button {
