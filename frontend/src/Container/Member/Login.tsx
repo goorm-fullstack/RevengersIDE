@@ -20,7 +20,7 @@ const Login = () => {
   const [cookies, setCookie] = useCookies(['JSESSIONID']);
 
   const onSubmit = (data: any) => {
-    axios.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+    Instance.post('/ideApi/api/member/login', data, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then((response) => {
         if (response.status === 200) {
           console.log('React: 로그인 성공');

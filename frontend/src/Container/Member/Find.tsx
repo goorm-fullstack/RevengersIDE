@@ -31,7 +31,7 @@ const Find = () => {
   };
 
   const findId = (data: any) => {
-    axios.post('/ideApi/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/ideApi/api/member/findId', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         console.log(data);
         const userId = response.data.memberId;
@@ -43,7 +43,7 @@ const Find = () => {
   };
 
   const findPassword = (data: any) => {
-    axios.post('/ideApi/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
+    Instance.post('/ideApi/api/member/findPassword', data, { headers: { 'Content-Type': 'application/json' } })
       .then((response) => {
         if (response.data.memberId) {
           navigate('/changepassword', { state: { memberId: response.data.memberId } });

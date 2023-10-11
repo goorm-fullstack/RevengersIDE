@@ -15,7 +15,7 @@ const AdminMember = () => {
   }
 
   useEffect(() => {
-    axios.get(`/ideApi/api/member/all`)
+    Instance.get(`/ideApi/api/member/all`)
         .then((response) => {
           setAllMember(response.data);
         })

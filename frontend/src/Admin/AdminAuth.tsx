@@ -7,7 +7,7 @@ const AdminAuth = () => {
   const navigate = useNavigate();
 
   // 회원 역할 가져오기
-  axios.get('/ideApi/api/member/auth', { withCredentials: true })
+  Instance.get('/ideApi/api/member/auth', { withCredentials: true })
     .then((response) => {
       // console.log(response);
       if (response.status === 200) {

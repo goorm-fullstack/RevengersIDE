@@ -16,7 +16,7 @@ const AdminDetail = () => {
     const formData = {
       memberId : memberId,
     }
-    axios.post(`/ideApi/api/member/findById`, formData, {
+    Instance.post(`/ideApi/api/member/findById`, formData, {
       headers: {'Content-Type': 'application/json'},
     })
         .then((response) => {
@@ -60,7 +60,7 @@ const AdminDetail = () => {
       email: data.newEmail,
     };
 
-    axios.post(`/ideApi/api/member/updateMember`, formData, {
+    Instance.post(`/ideApi/api/member/updateMember`, formData, {
       headers: {'Content-Type': 'application/json'},
     })
         .then((response) => {
@@ -87,7 +87,7 @@ const AdminDetail = () => {
 
   const deleteAccount = () => {
     if(window.confirm("정말 회원을 탈퇴하시겠습니까?")){
-      axios.delete(`/ideApi/api/member/deleteId/${memberId}`)
+      Instance.delete(`/ideApi/api/member/deleteId/${memberId}`)
           .then((response) => {
             alert('회원이 정상적으로 탈퇴되었습니다.');
             navigate(-1);
