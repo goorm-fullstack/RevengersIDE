@@ -9,7 +9,7 @@
 
 <br>
 
-[**💻 Web IDE 바로가기**](http://ec2-3-34-230-219.ap-northeast-2.compute.amazonaws.com:3000/)
+[**💻 Web IDE 바로가기**](http://ec2-43-201-51-79.ap-northeast-2.compute.amazonaws.com:3000/)
 
 <br>
 
